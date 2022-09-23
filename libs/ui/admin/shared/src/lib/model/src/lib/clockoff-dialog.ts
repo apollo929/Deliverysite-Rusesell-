@@ -4,6 +4,10 @@ export interface ClockOffDialogConfig {
     id: number;
     address: string;
     activity: any;
+    assigner?: {
+      id: number,
+      name: string,
+    };
   };
 }
 export const CLOCKOFF_DIALOG_CONFIG = new InjectionToken<ClockOffDialogConfig>(

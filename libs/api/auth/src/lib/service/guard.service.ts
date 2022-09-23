@@ -27,7 +27,7 @@ export class GuardService {
     private clockOffRepository: Repository<ClockOff>,
     @InjectRepository(Role)
     private roleRepository: Repository<Role>,
-  ) {}
+  ) { }
 
   async canGetJob(ctx: any, args: any): Promise<boolean> {
     const ability = defineAbilityFor(ctx);

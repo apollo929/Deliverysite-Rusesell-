@@ -22,7 +22,7 @@ export class AuthResolver {
     private usersRepository: Repository<User>,
     private userService: UserService,
     private authService: AuthService,
-  ) {}
+  ) { }
 
   @Mutation()
   @AuthCallback((guardService, ctx, args) =>

@@ -1,0 +1,380 @@
+2022-08-07 10:43:57 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 10:43:57"} 
+2022-08-07 10:43:57 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 10:43:57"} 
+2022-08-07 10:43:57 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 10:43:57"} 
+2022-08-07 10:51:39 error: {"message":"req#login requires a callback function","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 10:51:39"} 
+2022-08-07 10:58:23 error: {"message":"req#login requires a callback function","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 10:58:23"} 
+2022-08-07 10:58:27 error: {"message":"req#login requires a callback function","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 10:58:27"} 
+2022-08-07 10:58:51 error: {"message":"req#login requires a callback function","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 10:58:51"} 
+2022-08-07 11:03:29 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 11:03:29"} 
+2022-08-07 11:03:29 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 11:03:29"} 
+2022-08-07 11:03:29 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 11:03:29"} 
+2022-08-07 11:03:43 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 11:03:43"} 
+2022-08-07 11:04:48 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 11:04:48"} 
+2022-08-07 11:04:48 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 11:04:48"} 
+2022-08-07 11:04:48 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 11:04:48"} 
+2022-08-07 11:05:38 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 11:05:38"} 
+2022-08-07 11:05:38 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 11:05:38"} 
+2022-08-07 11:05:38 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 11:05:38"} 
+2022-08-07 11:06:03 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 11:06:03"} 
+2022-08-07 11:06:03 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 11:06:03"} 
+2022-08-07 11:06:03 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 11:06:03"} 
+2022-08-07 11:06:21 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 11:06:21"} 
+2022-08-07 11:06:38 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 11:06:38"} 
+2022-08-07 11:07:25 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 11:07:25"} 
+2022-08-07 11:07:25 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 11:07:25"} 
+2022-08-07 11:07:25 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 11:07:25"} 
+2022-08-07 11:08:27 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 11:08:27"} 
+2022-08-07 11:08:27 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 11:08:27"} 
+2022-08-07 11:08:27 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 11:08:27"} 
+2022-08-07 11:08:37 error: {"message":"request.logIn is not a function","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 11:08:37"} 
+2022-08-07 11:11:13 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 11:11:13"} 
+2022-08-07 11:11:13 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 11:11:13"} 
+2022-08-07 11:11:13 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 11:11:13"} 
+2022-08-07 11:11:36 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 11:11:36"} 
+2022-08-07 11:12:59 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 11:12:59"} 
+2022-08-07 11:12:59 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 11:12:59"} 
+2022-08-07 11:12:59 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 11:12:59"} 
+2022-08-07 11:13:25 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 11:13:25"} 
+2022-08-07 11:13:59 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 11:13:59"} 
+2022-08-07 11:13:59 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 11:13:59"} 
+2022-08-07 11:13:59 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 11:13:59"} 
+2022-08-07 11:14:12 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 11:14:12"} 
+2022-08-07 11:14:55 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 11:14:55"} 
+2022-08-07 11:14:55 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 11:14:55"} 
+2022-08-07 11:14:55 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 11:14:55"} 
+2022-08-07 11:15:03 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 11:15:03"} 
+2022-08-07 11:15:33 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 11:15:33"} 
+2022-08-07 11:15:33 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 11:15:33"} 
+2022-08-07 11:15:33 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 11:15:33"} 
+2022-08-07 11:15:48 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 11:15:48"} 
+2022-08-07 11:15:48 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 11:15:48"} 
+2022-08-07 11:15:48 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 11:15:48"} 
+2022-08-07 11:16:09 error: {"message":"Cannot read property 'name' of null","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 11:16:09"} 
+2022-08-07 11:16:33 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 11:16:33"} 
+2022-08-07 11:16:33 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 11:16:33"} 
+2022-08-07 11:16:33 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 11:16:33"} 
+2022-08-07 11:26:41 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 11:26:41"} 
+2022-08-07 11:26:41 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 11:26:41"} 
+2022-08-07 11:26:41 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 11:26:41"} 
+2022-08-07 11:26:52 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 11:26:52"} 
+2022-08-07 11:27:09 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 11:27:09"} 
+2022-08-07 11:27:09 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 11:27:09"} 
+2022-08-07 11:27:09 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 11:27:09"} 
+2022-08-07 11:27:39 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 11:27:39"} 
+2022-08-07 11:27:39 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 11:27:39"} 
+2022-08-07 11:27:39 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 11:27:39"} 
+2022-08-07 11:27:51 error: {"message":"Cannot read property 'emailVerified' of undefined","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 11:27:51"} 
+2022-08-07 11:28:21 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 11:28:21"} 
+2022-08-07 11:28:21 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 11:28:21"} 
+2022-08-07 11:28:21 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 11:28:21"} 
+2022-08-07 11:40:08 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 11:40:08"} 
+2022-08-07 11:40:08 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 11:40:08"} 
+2022-08-07 11:40:08 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 11:40:08"} 
+2022-08-07 11:43:08 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 11:43:08"} 
+2022-08-07 11:43:08 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 11:43:08"} 
+2022-08-07 11:43:08 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 11:43:08"} 
+2022-08-07 11:43:57 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 11:43:57"} 
+2022-08-07 11:43:57 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 11:43:57"} 
+2022-08-07 11:43:57 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 11:43:57"} 
+2022-08-07 11:46:21 error: {"message":"User with such email already exists.","locations":[{"line":2,"column":3}],"path":["register"],"extensions":{"code":"BAD_USER_INPUT"},"level":"error","timestamp":"2022-08-07 11:46:21"} 
+2022-08-07 11:50:37 error: {"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","locations":[{"line":2,"column":3}],"path":["updateUser"],"extensions":{"code":"INTERNAL_SERVER_ERROR","exception":{"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","length":253,"name":"QueryFailedError","severity":"ERROR","code":"23502","detail":"Failing row contains (4, null, 2022-08-07 11:50:37.123112, 2022-08-07 11:50:37.123112).","schema":"public","table":"company","column":"name","file":"execmain.c","line":"1889","routine":"ExecConstraints","query":"INSERT INTO \"company\"(\"name\", \"createdAt\", \"updatedAt\") VALUES (DEFAULT, DEFAULT, DEFAULT) RETURNING \"id\", \"createdAt\", \"updatedAt\"","parameters":[]}},"level":"error","timestamp":"2022-08-07 11:50:37"} 
+2022-08-07 12:04:30 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 12:04:30"} 
+2022-08-07 12:04:30 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 12:04:30"} 
+2022-08-07 12:04:30 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 12:04:30"} 
+2022-08-07 12:11:02 error: {"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","locations":[{"line":2,"column":3}],"path":["updateUser"],"extensions":{"code":"INTERNAL_SERVER_ERROR","exception":{"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","length":253,"name":"QueryFailedError","severity":"ERROR","code":"23502","detail":"Failing row contains (5, null, 2022-08-07 12:11:02.209495, 2022-08-07 12:11:02.209495).","schema":"public","table":"company","column":"name","file":"execmain.c","line":"1889","routine":"ExecConstraints","query":"INSERT INTO \"company\"(\"name\", \"createdAt\", \"updatedAt\") VALUES (DEFAULT, DEFAULT, DEFAULT) RETURNING \"id\", \"createdAt\", \"updatedAt\"","parameters":[]}},"level":"error","timestamp":"2022-08-07 12:11:02"} 
+2022-08-07 12:38:56 error: {"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","locations":[{"line":2,"column":3}],"path":["updateUser"],"extensions":{"code":"INTERNAL_SERVER_ERROR","exception":{"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","length":253,"name":"QueryFailedError","severity":"ERROR","code":"23502","detail":"Failing row contains (6, null, 2022-08-07 12:38:56.098024, 2022-08-07 12:38:56.098024).","schema":"public","table":"company","column":"name","file":"execmain.c","line":"1889","routine":"ExecConstraints","query":"INSERT INTO \"company\"(\"name\", \"createdAt\", \"updatedAt\") VALUES (DEFAULT, DEFAULT, DEFAULT) RETURNING \"id\", \"createdAt\", \"updatedAt\"","parameters":[]}},"level":"error","timestamp":"2022-08-07 12:38:56"} 
+2022-08-07 12:50:55 error: {"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","locations":[{"line":2,"column":3}],"path":["updateUser"],"extensions":{"code":"INTERNAL_SERVER_ERROR","exception":{"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","length":253,"name":"QueryFailedError","severity":"ERROR","code":"23502","detail":"Failing row contains (7, null, 2022-08-07 12:50:55.971976, 2022-08-07 12:50:55.971976).","schema":"public","table":"company","column":"name","file":"execmain.c","line":"1889","routine":"ExecConstraints","query":"INSERT INTO \"company\"(\"name\", \"createdAt\", \"updatedAt\") VALUES (DEFAULT, DEFAULT, DEFAULT) RETURNING \"id\", \"createdAt\", \"updatedAt\"","parameters":[]}},"level":"error","timestamp":"2022-08-07 12:50:55"} 
+2022-08-07 12:56:55 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 12:56:55"} 
+2022-08-07 12:56:55 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 12:56:55"} 
+2022-08-07 12:56:55 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 12:56:55"} 
+2022-08-07 12:58:00 error: {"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","locations":[{"line":2,"column":3}],"path":["updateUser"],"extensions":{"code":"INTERNAL_SERVER_ERROR","exception":{"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","length":253,"name":"QueryFailedError","severity":"ERROR","code":"23502","detail":"Failing row contains (8, null, 2022-08-07 12:58:00.507574, 2022-08-07 12:58:00.507574).","schema":"public","table":"company","column":"name","file":"execmain.c","line":"1889","routine":"ExecConstraints","query":"INSERT INTO \"company\"(\"name\", \"createdAt\", \"updatedAt\") VALUES (DEFAULT, DEFAULT, DEFAULT) RETURNING \"id\", \"createdAt\", \"updatedAt\"","parameters":[]}},"level":"error","timestamp":"2022-08-07 12:58:00"} 
+2022-08-07 12:58:36 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 12:58:36"} 
+2022-08-07 12:58:36 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 12:58:36"} 
+2022-08-07 12:58:36 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 12:58:36"} 
+2022-08-07 12:58:55 error: {"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","locations":[{"line":2,"column":3}],"path":["updateUser"],"extensions":{"code":"INTERNAL_SERVER_ERROR","exception":{"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","length":253,"name":"QueryFailedError","severity":"ERROR","code":"23502","detail":"Failing row contains (9, null, 2022-08-07 12:58:54.944966, 2022-08-07 12:58:54.944966).","schema":"public","table":"company","column":"name","file":"execmain.c","line":"1889","routine":"ExecConstraints","query":"INSERT INTO \"company\"(\"name\", \"createdAt\", \"updatedAt\") VALUES (DEFAULT, DEFAULT, DEFAULT) RETURNING \"id\", \"createdAt\", \"updatedAt\"","parameters":[]}},"level":"error","timestamp":"2022-08-07 12:58:55"} 
+2022-08-07 13:00:11 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 13:00:11"} 
+2022-08-07 13:00:12 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 13:00:12"} 
+2022-08-07 13:00:12 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 13:00:12"} 
+2022-08-07 13:00:26 error: {"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","locations":[{"line":2,"column":3}],"path":["updateUser"],"extensions":{"code":"INTERNAL_SERVER_ERROR","exception":{"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","length":254,"name":"QueryFailedError","severity":"ERROR","code":"23502","detail":"Failing row contains (10, null, 2022-08-07 13:00:26.603953, 2022-08-07 13:00:26.603953).","schema":"public","table":"company","column":"name","file":"execmain.c","line":"1889","routine":"ExecConstraints","query":"INSERT INTO \"company\"(\"name\", \"createdAt\", \"updatedAt\") VALUES (DEFAULT, DEFAULT, DEFAULT) RETURNING \"id\", \"createdAt\", \"updatedAt\"","parameters":[]}},"level":"error","timestamp":"2022-08-07 13:00:26"} 
+2022-08-07 13:00:49 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 13:00:49"} 
+2022-08-07 13:00:49 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 13:00:49"} 
+2022-08-07 13:00:49 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 13:00:49"} 
+2022-08-07 13:03:37 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 13:03:37"} 
+2022-08-07 13:03:37 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 13:03:37"} 
+2022-08-07 13:03:37 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 13:03:37"} 
+2022-08-07 13:03:45 error: {"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","locations":[{"line":2,"column":3}],"path":["updateUser"],"extensions":{"code":"INTERNAL_SERVER_ERROR","exception":{"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","length":254,"name":"QueryFailedError","severity":"ERROR","code":"23502","detail":"Failing row contains (11, null, 2022-08-07 13:03:45.810662, 2022-08-07 13:03:45.810662).","schema":"public","table":"company","column":"name","file":"execmain.c","line":"1889","routine":"ExecConstraints","query":"INSERT INTO \"company\"(\"name\", \"createdAt\", \"updatedAt\") VALUES (DEFAULT, DEFAULT, DEFAULT) RETURNING \"id\", \"createdAt\", \"updatedAt\"","parameters":[]}},"level":"error","timestamp":"2022-08-07 13:03:45"} 
+2022-08-07 13:04:45 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 13:04:45"} 
+2022-08-07 13:04:45 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 13:04:45"} 
+2022-08-07 13:04:45 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 13:04:45"} 
+2022-08-07 13:07:16 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 13:07:16"} 
+2022-08-07 13:07:16 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 13:07:16"} 
+2022-08-07 13:07:16 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 13:07:16"} 
+2022-08-07 13:07:31 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 13:07:31"} 
+2022-08-07 13:07:31 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 13:07:31"} 
+2022-08-07 13:07:31 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 13:07:31"} 
+2022-08-07 13:07:47 error: {"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","locations":[{"line":2,"column":3}],"path":["updateUser"],"extensions":{"code":"INTERNAL_SERVER_ERROR","exception":{"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","length":254,"name":"QueryFailedError","severity":"ERROR","code":"23502","detail":"Failing row contains (12, null, 2022-08-07 13:07:47.449323, 2022-08-07 13:07:47.449323).","schema":"public","table":"company","column":"name","file":"execmain.c","line":"1889","routine":"ExecConstraints","query":"INSERT INTO \"company\"(\"name\", \"createdAt\", \"updatedAt\") VALUES (DEFAULT, DEFAULT, DEFAULT) RETURNING \"id\", \"createdAt\", \"updatedAt\"","parameters":[]}},"level":"error","timestamp":"2022-08-07 13:07:47"} 
+2022-08-07 13:09:06 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 13:09:06"} 
+2022-08-07 13:09:06 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 13:09:06"} 
+2022-08-07 13:09:06 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 13:09:06"} 
+2022-08-07 13:11:11 error: {"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","locations":[{"line":2,"column":3}],"path":["updateUser"],"extensions":{"code":"INTERNAL_SERVER_ERROR","exception":{"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","length":252,"name":"QueryFailedError","severity":"ERROR","code":"23502","detail":"Failing row contains (13, null, 2022-08-07 13:11:11.44152, 2022-08-07 13:11:11.44152).","schema":"public","table":"company","column":"name","file":"execmain.c","line":"1889","routine":"ExecConstraints","query":"INSERT INTO \"company\"(\"name\", \"createdAt\", \"updatedAt\") VALUES (DEFAULT, DEFAULT, DEFAULT) RETURNING \"id\", \"createdAt\", \"updatedAt\"","parameters":[]}},"level":"error","timestamp":"2022-08-07 13:11:11"} 
+2022-08-07 13:14:04 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 13:14:04"} 
+2022-08-07 13:14:04 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 13:14:04"} 
+2022-08-07 13:14:04 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 13:14:04"} 
+2022-08-07 13:14:11 error: {"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","locations":[{"line":2,"column":3}],"path":["updateUser"],"extensions":{"code":"INTERNAL_SERVER_ERROR","exception":{"message":"null value in column \"name\" of relation \"company\" violates not-null constraint","length":254,"name":"QueryFailedError","severity":"ERROR","code":"23502","detail":"Failing row contains (14, null, 2022-08-07 13:14:10.950141, 2022-08-07 13:14:10.950141).","schema":"public","table":"company","column":"name","file":"execmain.c","line":"1889","routine":"ExecConstraints","query":"INSERT INTO \"company\"(\"name\", \"createdAt\", \"updatedAt\") VALUES (DEFAULT, DEFAULT, DEFAULT) RETURNING \"id\", \"createdAt\", \"updatedAt\"","parameters":[]}},"level":"error","timestamp":"2022-08-07 13:14:11"} 
+2022-08-07 13:14:26 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 13:14:26"} 
+2022-08-07 13:14:26 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 13:14:26"} 
+2022-08-07 13:14:26 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 13:14:26"} 
+2022-08-07 13:15:55 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 13:15:55"} 
+2022-08-07 13:15:55 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 13:15:55"} 
+2022-08-07 13:15:55 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 13:15:55"} 
+2022-08-07 13:16:08 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 13:16:08"} 
+2022-08-07 13:16:08 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 13:16:08"} 
+2022-08-07 13:16:08 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 13:16:08"} 
+2022-08-07 13:20:13 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 13:20:13"} 
+2022-08-07 13:20:13 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 13:20:13"} 
+2022-08-07 13:20:13 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 13:20:13"} 
+2022-08-07 14:58:54 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 14:58:54"} 
+2022-08-07 14:58:54 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 14:58:54"} 
+2022-08-07 14:58:54 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 14:58:54"} 
+2022-08-07 15:09:48 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 15:09:48"} 
+2022-08-07 15:09:48 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 15:09:48"} 
+2022-08-07 15:09:48 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 15:09:48"} 
+2022-08-07 15:47:07 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 15:47:07"} 
+2022-08-07 15:47:07 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 15:47:07"} 
+2022-08-07 15:47:07 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 15:47:07"} 
+2022-08-07 15:49:06 error: {"message":"column job.creatorId does not exist","locations":[{"line":2,"column":3}],"path":["jobs"],"extensions":{"code":"INTERNAL_SERVER_ERROR","exception":{"message":"column job.creatorId does not exist","length":112,"name":"QueryFailedError","severity":"ERROR","code":"42703","position":"478","file":"parse_relation.c","line":"3599","routine":"errorMissingColumn","query":"SELECT \"job\".\"id\" AS \"job_id\", \"job\".\"address\" AS \"job_address\", \"job\".\"notes\" AS \"job_notes\", \"job\".\"priority\" AS \"job_priority\", \"job\".\"stage\" AS \"job_stage\", \"job\".\"lat\" AS \"job_lat\", \"job\".\"lng\" AS \"job_lng\", \"job\".\"status\" AS \"job_status\", \"job\".\"poFile\" AS \"job_poFile\", \"job\".\"requestDate\" AS \"job_requestDate\", \"job\".\"reminderSent\" AS \"job_reminderSent\", \"job\".\"createdAt\" AS \"job_createdAt\", \"job\".\"updatedAt\" AS \"job_updatedAt\", \"job\".\"builderId\" AS \"job_builderId\", \"job\".\"creatorId\" AS \"job_creatorId\", \"equipment\".\"id\" AS \"equipment_id\", \"equipment\".\"name\" AS \"equipment_name\", \"equipment\".\"createdAt\" AS \"equipment_createdAt\", \"equipment\".\"updatedAt\" AS \"equipment_updatedAt\", \"builder\".\"id\" AS \"builder_id\", \"builder\".\"email\" AS \"builder_email\", \"builder\".\"name\" AS \"builder_name\", \"builder\".\"password\" AS \"builder_password\", \"builder\".\"emailVerified\" AS \"builder_emailVerified\", \"builder\".\"createdAt\" AS \"builder_createdAt\", \"builder\".\"updatedAt\" AS \"builder_updatedAt\", \"builder\".\"roleId\" AS \"builder_roleId\", \"builder\".\"companyId\" AS \"builder_companyId\", \"activity\".\"id\" AS \"activity_id\", \"activity\".\"type\" AS \"activity_type\", \"activity\".\"date\" AS \"activity_date\" FROM \"job\" \"job\" LEFT JOIN \"job_equipment\" \"job_equipment\" ON \"job_equipment\".\"jobId\"=\"job\".\"id\" LEFT JOIN \"equipment\" \"equipment\" ON \"equipment\".\"id\"=\"job_equipment\".\"equipmentId\"  LEFT JOIN \"user\" \"builder\" ON \"builder\".\"id\"=\"job\".\"builderId\"  LEFT JOIN \"job_activity\" \"job_activity\" ON \"job_activity\".\"jobId\"=\"job\".\"id\" LEFT JOIN \"activity\" \"activity\" ON \"activity\".\"id\"=\"job_activity\".\"activityId\" WHERE \"job\".\"id\" IN (SELECT \"job\".\"id\" AS \"job_id\" FROM \"job\" \"job\" WHERE \"job\".\"status\" IN ($1, $2, $3, $4, $5, $6) AND DATE(\"job\".\"requestDate\") >= DATE($7) AND DATE(\"job\".\"requestDate\") <= DATE($8)) ORDER BY \"job\".\"requestDate\" ASC","parameters":["completed","inProgress","cancelled","assigned","pending","unAssigned","2022-07-31T21:00:00.000Z","2022-08-31T20:59:59.059Z"]}},"level":"error","timestamp":"2022-08-07 15:49:06"} 
+2022-08-07 15:49:06 error: {"message":"column job.creatorId does not exist","locations":[{"line":2,"column":3}],"path":["jobs"],"extensions":{"code":"INTERNAL_SERVER_ERROR","exception":{"message":"column job.creatorId does not exist","length":112,"name":"QueryFailedError","severity":"ERROR","code":"42703","position":"576","file":"parse_relation.c","line":"3599","routine":"errorMissingColumn","query":"SELECT DISTINCT \"distinctAlias\".\"job_id\" as \"ids_job_id\", \"distinctAlias\".\"job_requestDate\" FROM (SELECT \"job\".\"id\" AS \"job_id\", \"job\".\"address\" AS \"job_address\", \"job\".\"notes\" AS \"job_notes\", \"job\".\"priority\" AS \"job_priority\", \"job\".\"stage\" AS \"job_stage\", \"job\".\"lat\" AS \"job_lat\", \"job\".\"lng\" AS \"job_lng\", \"job\".\"status\" AS \"job_status\", \"job\".\"poFile\" AS \"job_poFile\", \"job\".\"requestDate\" AS \"job_requestDate\", \"job\".\"reminderSent\" AS \"job_reminderSent\", \"job\".\"createdAt\" AS \"job_createdAt\", \"job\".\"updatedAt\" AS \"job_updatedAt\", \"job\".\"builderId\" AS \"job_builderId\", \"job\".\"creatorId\" AS \"job_creatorId\", \"equipment\".\"id\" AS \"equipment_id\", \"equipment\".\"name\" AS \"equipment_name\", \"equipment\".\"createdAt\" AS \"equipment_createdAt\", \"equipment\".\"updatedAt\" AS \"equipment_updatedAt\", \"builder\".\"id\" AS \"builder_id\", \"builder\".\"email\" AS \"builder_email\", \"builder\".\"name\" AS \"builder_name\", \"builder\".\"password\" AS \"builder_password\", \"builder\".\"emailVerified\" AS \"builder_emailVerified\", \"builder\".\"createdAt\" AS \"builder_createdAt\", \"builder\".\"updatedAt\" AS \"builder_updatedAt\", \"builder\".\"roleId\" AS \"builder_roleId\", \"builder\".\"companyId\" AS \"builder_companyId\", \"activity\".\"id\" AS \"activity_id\", \"activity\".\"type\" AS \"activity_type\", \"activity\".\"date\" AS \"activity_date\" FROM \"job\" \"job\" LEFT JOIN \"job_equipment\" \"job_equipment\" ON \"job_equipment\".\"jobId\"=\"job\".\"id\" LEFT JOIN \"equipment\" \"equipment\" ON \"equipment\".\"id\"=\"job_equipment\".\"equipmentId\"  LEFT JOIN \"user\" \"builder\" ON \"builder\".\"id\"=\"job\".\"builderId\"  LEFT JOIN \"job_activity\" \"job_activity\" ON \"job_activity\".\"jobId\"=\"job\".\"id\" LEFT JOIN \"activity\" \"activity\" ON \"activity\".\"id\"=\"job_activity\".\"activityId\" WHERE \"job\".\"id\" IN (SELECT \"job\".\"id\" AS \"job_id\" FROM \"job\" \"job\" WHERE \"job\".\"status\" IN ($1, $2, $3, $4))) \"distinctAlias\" ORDER BY \"distinctAlias\".\"job_requestDate\" DESC, \"job_id\" ASC LIMIT 9","parameters":["completed","inProgress","cancelled","assigned"]}},"level":"error","timestamp":"2022-08-07 15:49:06"} 
+2022-08-07 15:49:06 error: {"message":"column job.creatorId does not exist","locations":[{"line":2,"column":3}],"path":["jobs"],"extensions":{"code":"INTERNAL_SERVER_ERROR","exception":{"message":"column job.creatorId does not exist","length":112,"name":"QueryFailedError","severity":"ERROR","code":"42703","position":"576","file":"parse_relation.c","line":"3599","routine":"errorMissingColumn","query":"SELECT DISTINCT \"distinctAlias\".\"job_id\" as \"ids_job_id\", \"distinctAlias\".\"job_requestDate\" FROM (SELECT \"job\".\"id\" AS \"job_id\", \"job\".\"address\" AS \"job_address\", \"job\".\"notes\" AS \"job_notes\", \"job\".\"priority\" AS \"job_priority\", \"job\".\"stage\" AS \"job_stage\", \"job\".\"lat\" AS \"job_lat\", \"job\".\"lng\" AS \"job_lng\", \"job\".\"status\" AS \"job_status\", \"job\".\"poFile\" AS \"job_poFile\", \"job\".\"requestDate\" AS \"job_requestDate\", \"job\".\"reminderSent\" AS \"job_reminderSent\", \"job\".\"createdAt\" AS \"job_createdAt\", \"job\".\"updatedAt\" AS \"job_updatedAt\", \"job\".\"builderId\" AS \"job_builderId\", \"job\".\"creatorId\" AS \"job_creatorId\", \"equipment\".\"id\" AS \"equipment_id\", \"equipment\".\"name\" AS \"equipment_name\", \"equipment\".\"createdAt\" AS \"equipment_createdAt\", \"equipment\".\"updatedAt\" AS \"equipment_updatedAt\", \"builder\".\"id\" AS \"builder_id\", \"builder\".\"email\" AS \"builder_email\", \"builder\".\"name\" AS \"builder_name\", \"builder\".\"password\" AS \"builder_password\", \"builder\".\"emailVerified\" AS \"builder_emailVerified\", \"builder\".\"createdAt\" AS \"builder_createdAt\", \"builder\".\"updatedAt\" AS \"builder_updatedAt\", \"builder\".\"roleId\" AS \"builder_roleId\", \"builder\".\"companyId\" AS \"builder_companyId\", \"activity\".\"id\" AS \"activity_id\", \"activity\".\"type\" AS \"activity_type\", \"activity\".\"date\" AS \"activity_date\" FROM \"job\" \"job\" LEFT JOIN \"job_equipment\" \"job_equipment\" ON \"job_equipment\".\"jobId\"=\"job\".\"id\" LEFT JOIN \"equipment\" \"equipment\" ON \"equipment\".\"id\"=\"job_equipment\".\"equipmentId\"  LEFT JOIN \"user\" \"builder\" ON \"builder\".\"id\"=\"job\".\"builderId\"  LEFT JOIN \"job_activity\" \"job_activity\" ON \"job_activity\".\"jobId\"=\"job\".\"id\" LEFT JOIN \"activity\" \"activity\" ON \"activity\".\"id\"=\"job_activity\".\"activityId\" WHERE \"job\".\"id\" IN (SELECT \"job\".\"id\" AS \"job_id\" FROM \"job\" \"job\" WHERE \"job\".\"status\" IN ($1, $2))) \"distinctAlias\" ORDER BY \"distinctAlias\".\"job_requestDate\" DESC, \"job_id\" ASC LIMIT 9","parameters":["pending","unAssigned"]}},"level":"error","timestamp":"2022-08-07 15:49:06"} 
+2022-08-07 15:49:14 error: {"message":"column job.creatorId does not exist","locations":[{"line":2,"column":3}],"path":["job"],"extensions":{"code":"INTERNAL_SERVER_ERROR","exception":{"message":"column job.creatorId does not exist","length":112,"name":"QueryFailedError","severity":"ERROR","code":"42703","position":"478","file":"parse_relation.c","line":"3599","routine":"errorMissingColumn","query":"SELECT \"job\".\"id\" AS \"job_id\", \"job\".\"address\" AS \"job_address\", \"job\".\"notes\" AS \"job_notes\", \"job\".\"priority\" AS \"job_priority\", \"job\".\"stage\" AS \"job_stage\", \"job\".\"lat\" AS \"job_lat\", \"job\".\"lng\" AS \"job_lng\", \"job\".\"status\" AS \"job_status\", \"job\".\"poFile\" AS \"job_poFile\", \"job\".\"requestDate\" AS \"job_requestDate\", \"job\".\"reminderSent\" AS \"job_reminderSent\", \"job\".\"createdAt\" AS \"job_createdAt\", \"job\".\"updatedAt\" AS \"job_updatedAt\", \"job\".\"builderId\" AS \"job_builderId\", \"job\".\"creatorId\" AS \"job_creatorId\", \"builder\".\"id\" AS \"builder_id\", \"builder\".\"email\" AS \"builder_email\", \"builder\".\"name\" AS \"builder_name\", \"builder\".\"password\" AS \"builder_password\", \"builder\".\"emailVerified\" AS \"builder_emailVerified\", \"builder\".\"createdAt\" AS \"builder_createdAt\", \"builder\".\"updatedAt\" AS \"builder_updatedAt\", \"builder\".\"roleId\" AS \"builder_roleId\", \"builder\".\"companyId\" AS \"builder_companyId\" FROM \"job\" \"job\" INNER JOIN \"user\" \"builder\" ON \"builder\".\"id\"=\"job\".\"builderId\" WHERE \"job\".\"id\" = $1","parameters":[17]}},"level":"error","timestamp":"2022-08-07 15:49:14"} 
+2022-08-07 15:49:14 error: {"message":"column job.creatorId does not exist","locations":[{"line":2,"column":3}],"path":["job"],"extensions":{"code":"INTERNAL_SERVER_ERROR","exception":{"message":"column job.creatorId does not exist","length":112,"name":"QueryFailedError","severity":"ERROR","code":"42703","position":"478","file":"parse_relation.c","line":"3599","routine":"errorMissingColumn","query":"SELECT \"job\".\"id\" AS \"job_id\", \"job\".\"address\" AS \"job_address\", \"job\".\"notes\" AS \"job_notes\", \"job\".\"priority\" AS \"job_priority\", \"job\".\"stage\" AS \"job_stage\", \"job\".\"lat\" AS \"job_lat\", \"job\".\"lng\" AS \"job_lng\", \"job\".\"status\" AS \"job_status\", \"job\".\"poFile\" AS \"job_poFile\", \"job\".\"requestDate\" AS \"job_requestDate\", \"job\".\"reminderSent\" AS \"job_reminderSent\", \"job\".\"createdAt\" AS \"job_createdAt\", \"job\".\"updatedAt\" AS \"job_updatedAt\", \"job\".\"builderId\" AS \"job_builderId\", \"job\".\"creatorId\" AS \"job_creatorId\", \"builder\".\"id\" AS \"builder_id\", \"builder\".\"email\" AS \"builder_email\", \"builder\".\"name\" AS \"builder_name\", \"builder\".\"password\" AS \"builder_password\", \"builder\".\"emailVerified\" AS \"builder_emailVerified\", \"builder\".\"createdAt\" AS \"builder_createdAt\", \"builder\".\"updatedAt\" AS \"builder_updatedAt\", \"builder\".\"roleId\" AS \"builder_roleId\", \"builder\".\"companyId\" AS \"builder_companyId\" FROM \"job\" \"job\" INNER JOIN \"user\" \"builder\" ON \"builder\".\"id\"=\"job\".\"builderId\" WHERE \"job\".\"id\" = $1","parameters":[17]}},"level":"error","timestamp":"2022-08-07 15:49:14"} 
+2022-08-07 16:04:07 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 16:04:07"} 
+2022-08-07 16:04:07 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 16:04:07"} 
+2022-08-07 16:04:07 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 16:04:07"} 
+2022-08-07 16:05:34 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 16:05:34"} 
+2022-08-07 16:05:34 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 16:05:34"} 
+2022-08-07 16:05:34 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 16:05:34"} 
+2022-08-07 16:05:44 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 16:05:44"} 
+2022-08-07 16:05:44 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 16:05:44"} 
+2022-08-07 16:05:44 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 16:05:44"} 
+2022-08-07 16:05:51 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 16:05:51"} 
+2022-08-07 16:05:51 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 16:05:51"} 
+2022-08-07 16:05:51 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 16:05:51"} 
+2022-08-07 16:07:47 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 16:07:47"} 
+2022-08-07 16:07:47 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 16:07:47"} 
+2022-08-07 16:07:47 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 16:07:47"} 
+2022-08-07 16:08:50 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 16:08:50"} 
+2022-08-07 16:08:50 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 16:08:50"} 
+2022-08-07 16:08:50 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 16:08:50"} 
+2022-08-07 16:36:08 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 16:36:08"} 
+2022-08-07 16:36:08 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 16:36:08"} 
+2022-08-07 16:36:08 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 16:36:08"} 
+2022-08-07 16:57:08 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 16:57:08"} 
+2022-08-07 16:57:08 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 16:57:08"} 
+2022-08-07 16:57:08 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 16:57:08"} 
+2022-08-07 17:05:48 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 17:05:48"} 
+2022-08-07 17:05:48 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 17:05:48"} 
+2022-08-07 17:05:48 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 17:05:48"} 
+2022-08-07 17:05:54 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":28,"column":7}],"path":["jobs","items",29,"assigner"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 17:05:54"} 
+2022-08-07 17:05:54 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":28,"column":7}],"path":["jobs","items",7,"assigner"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 17:05:54"} 
+2022-08-07 17:14:28 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 17:14:28"} 
+2022-08-07 17:14:28 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 17:14:28"} 
+2022-08-07 17:14:28 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 17:14:28"} 
+2022-08-07 17:14:32 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":28,"column":7}],"path":["jobs","items",29,"assigner"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 17:14:32"} 
+2022-08-07 17:14:32 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":28,"column":7}],"path":["jobs","items",7,"assigner"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 17:14:32"} 
+2022-08-07 17:21:30 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 17:21:30"} 
+2022-08-07 17:21:30 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 17:21:30"} 
+2022-08-07 17:21:30 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 17:21:30"} 
+2022-08-07 17:21:34 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":28,"column":7}],"path":["jobs","items",29,"assigner"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 17:21:34"} 
+2022-08-07 17:21:35 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":28,"column":7}],"path":["jobs","items",7,"assigner"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 17:21:35"} 
+2022-08-07 17:34:46 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":28,"column":7}],"path":["jobs","items",29,"assigner"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 17:34:46"} 
+2022-08-07 17:34:47 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":28,"column":7}],"path":["jobs","items",7,"assigner"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 17:34:47"} 
+2022-08-07 17:36:10 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 17:36:10"} 
+2022-08-07 17:36:10 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 17:36:10"} 
+2022-08-07 17:36:10 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 17:36:10"} 
+2022-08-07 17:36:13 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":28,"column":7}],"path":["jobs","items",29,"assigner"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 17:36:13"} 
+2022-08-07 17:36:14 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":28,"column":7}],"path":["jobs","items",7,"assigner"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 17:36:14"} 
+2022-08-07 17:38:20 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":28,"column":7}],"path":["jobs","items",29,"assigner"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 17:38:20"} 
+2022-08-07 17:38:21 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":28,"column":7}],"path":["jobs","items",7,"assigner"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 17:38:21"} 
+2022-08-07 17:40:17 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 17:40:17"} 
+2022-08-07 17:40:17 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 17:40:17"} 
+2022-08-07 17:40:17 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 17:40:17"} 
+2022-08-07 17:40:19 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":28,"column":7}],"path":["jobs","items",29,"assigner"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 17:40:19"} 
+2022-08-07 17:40:20 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":28,"column":7}],"path":["jobs","items",7,"assigner"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 17:40:20"} 
+2022-08-07 17:40:51 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":28,"column":7}],"path":["jobs","items",29,"assigner"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 17:40:51"} 
+2022-08-07 17:40:51 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":28,"column":7}],"path":["jobs","items",7,"assigner"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 17:40:51"} 
+2022-08-07 17:41:21 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 17:41:21"} 
+2022-08-07 17:41:21 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 17:41:21"} 
+2022-08-07 17:41:21 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 17:41:21"} 
+2022-08-07 17:41:43 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 17:41:43"} 
+2022-08-07 17:41:43 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 17:41:43"} 
+2022-08-07 17:41:43 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 17:41:43"} 
+2022-08-07 17:41:47 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":28,"column":7}],"path":["jobs","items",29,"assigner"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 17:41:47"} 
+2022-08-07 17:41:47 error: {"message":"Cannot read property 'name' of undefined","locations":[{"line":28,"column":7}],"path":["jobs","items",7,"assigner"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-07 17:41:47"} 
+2022-08-07 17:52:38 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 17:52:38"} 
+2022-08-07 17:52:38 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 17:52:38"} 
+2022-08-07 17:52:38 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 17:52:38"} 
+2022-08-07 17:55:18 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 17:55:18"} 
+2022-08-07 17:55:18 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 17:55:18"} 
+2022-08-07 17:55:18 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 17:55:18"} 
+2022-08-07 17:55:31 info: {"message":"Application startup","level":"info","timestamp":"2022-08-07 17:55:31"} 
+2022-08-07 17:55:31 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-07 17:55:31"} 
+2022-08-07 17:55:31 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-07 17:55:31"} 
+2022-08-07 18:03:46 error: {"message":"Cannot assign or unassign to cancelled job.","locations":[{"line":2,"column":3}],"path":["assignToJob"],"extensions":{"code":"BAD_USER_INPUT"},"level":"error","timestamp":"2022-08-07 18:03:46"} 
+2022-08-08 05:04:46 info: {"message":"Application startup","level":"info","timestamp":"2022-08-08 05:04:46"} 
+2022-08-08 05:04:46 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-08 05:04:46"} 
+2022-08-08 05:04:46 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-08 05:04:46"} 
+2022-08-08 06:01:12 error: {"message":"Cannot assign more than 3 people.","locations":[{"line":2,"column":3}],"path":["assignToJob"],"extensions":{"code":"BAD_USER_INPUT"},"level":"error","timestamp":"2022-08-08 06:01:12"} 
+2022-08-08 06:12:39 info: {"message":"Application startup","level":"info","timestamp":"2022-08-08 06:12:39"} 
+2022-08-08 06:12:39 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-08 06:12:39"} 
+2022-08-08 06:12:39 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-08 06:12:39"} 
+2022-08-08 06:16:10 info: {"message":"Application startup","level":"info","timestamp":"2022-08-08 06:16:10"} 
+2022-08-08 06:16:10 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-08 06:16:10"} 
+2022-08-08 06:16:10 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-08 06:16:10"} 
+2022-08-08 06:21:42 error: {"message":"GraphQL introspection is not allowed by Apollo Server, but the query contained __schema or __type. To enable introspection, pass introspection: true to ApolloServer in production","locations":[{"line":3,"column":7}],"extensions":{"code":"GRAPHQL_VALIDATION_FAILED"},"level":"error","timestamp":"2022-08-08 06:21:42"} 
+2022-08-08 06:23:17 error: {"message":"Cannot read property 'id' of undefined","locations":[{"line":2,"column":5}],"path":["job"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-08 06:23:17"} 
+2022-08-08 06:25:34 info: {"message":"Application startup","level":"info","timestamp":"2022-08-08 06:25:34"} 
+2022-08-08 06:25:34 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-08 06:25:34"} 
+2022-08-08 06:25:34 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-08 06:25:34"} 
+2022-08-08 06:27:27 info: {"message":"Application startup","level":"info","timestamp":"2022-08-08 06:27:27"} 
+2022-08-08 06:27:27 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-08 06:27:27"} 
+2022-08-08 06:27:27 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-08 06:27:27"} 
+2022-08-08 06:28:00 info: {"message":"Application startup","level":"info","timestamp":"2022-08-08 06:28:00"} 
+2022-08-08 06:28:00 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-08 06:28:00"} 
+2022-08-08 06:28:00 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-08 06:28:00"} 
+2022-08-08 08:26:50 info: {"message":"Application startup","level":"info","timestamp":"2022-08-08 08:26:50"} 
+2022-08-08 08:26:50 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-08 08:26:50"} 
+2022-08-08 08:26:50 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-08 08:26:50"} 
+2022-08-11 15:29:42 info: {"message":"Application startup","level":"info","timestamp":"2022-08-11 15:29:42"} 
+2022-08-11 15:29:42 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-11 15:29:42"} 
+2022-08-11 15:29:42 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-11 15:29:42"} 
+2022-08-11 15:36:43 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":25,"column":7}],"path":["jobs","items",31,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-11 15:36:43"} 
+2022-08-11 15:38:13 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":25,"column":7}],"path":["jobs","items",31,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-11 15:38:13"} 
+2022-08-11 15:45:49 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":25,"column":7}],"path":["jobs","items",30,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-11 15:45:49"} 
+2022-08-11 15:47:55 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":25,"column":7}],"path":["jobs","items",31,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-11 15:47:55"} 
+2022-08-11 15:49:25 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":25,"column":7}],"path":["jobs","items",31,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-11 15:49:25"} 
+2022-08-11 15:51:07 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":25,"column":7}],"path":["jobs","items",18,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-11 15:51:07"} 
+2022-08-11 15:51:30 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":25,"column":7}],"path":["jobs","items",18,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-11 15:51:30"} 
+2022-08-11 15:55:03 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":25,"column":7}],"path":["jobs","items",18,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-11 15:55:03"} 
+2022-08-11 15:56:15 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":25,"column":7}],"path":["jobs","items",18,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-11 15:56:15"} 
+2022-08-11 15:56:47 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":25,"column":7}],"path":["jobs","items",18,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-11 15:56:47"} 
+2022-08-11 15:59:24 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":25,"column":7}],"path":["jobs","items",18,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-11 15:59:24"} 
+2022-08-11 16:04:27 info: {"message":"Application startup","level":"info","timestamp":"2022-08-11 16:04:27"} 
+2022-08-11 16:04:27 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-11 16:04:27"} 
+2022-08-11 16:04:27 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-11 16:04:27"} 
+2022-08-12 03:14:23 info: {"message":"Application startup","level":"info","timestamp":"2022-08-12 03:14:23"} 
+2022-08-12 03:14:23 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-12 03:14:23"} 
+2022-08-12 03:14:23 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-12 03:14:23"} 
+2022-08-12 05:03:16 error: {"message":"Clock off is impossible because clock in does not exist!","locations":[{"line":2,"column":3}],"path":["addClockOff"],"extensions":{"code":"BAD_USER_INPUT"},"level":"error","timestamp":"2022-08-12 05:03:16"} 
+2022-08-12 05:04:17 error: {"message":"Clock off is impossible because clock in does not exist!","locations":[{"line":2,"column":3}],"path":["addClockOff"],"extensions":{"code":"BAD_USER_INPUT"},"level":"error","timestamp":"2022-08-12 05:04:17"} 
+2022-08-12 05:06:30 error: {"message":"Clock off is impossible because clock in does not exist!","locations":[{"line":2,"column":3}],"path":["addClockOff"],"extensions":{"code":"BAD_USER_INPUT"},"level":"error","timestamp":"2022-08-12 05:06:30"} 
+2022-08-12 05:14:27 error: {"message":"Clock off is impossible because clock in does not exist!","locations":[{"line":2,"column":3}],"path":["addClockOff"],"extensions":{"code":"BAD_USER_INPUT"},"level":"error","timestamp":"2022-08-12 05:14:27"} 
+2022-08-16 03:31:40 info: {"message":"Application startup","level":"info","timestamp":"2022-08-16 03:31:40"} 
+2022-08-16 03:31:40 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-16 03:31:40"} 
+2022-08-16 03:31:40 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-16 03:31:40"} 
+2022-08-16 04:28:14 error: {"message":"Wrong credentials provided","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"BAD_USER_INPUT"},"level":"error","timestamp":"2022-08-16 04:28:14"} 
+2022-08-16 06:47:28 info: {"message":"Application startup","level":"info","timestamp":"2022-08-16 06:47:28"} 
+2022-08-16 06:47:28 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-16 06:47:28"} 
+2022-08-16 06:47:28 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-16 06:47:28"} 
+2022-08-16 06:56:49 info: {"message":"Application startup","level":"info","timestamp":"2022-08-16 06:56:49"} 
+2022-08-16 06:56:49 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-16 06:56:49"} 
+2022-08-16 06:56:49 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-16 06:56:49"} 
+2022-08-16 07:03:31 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":13,"column":9}],"path":["me","assignedJobs",0,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-16 07:03:31"} 
+2022-08-16 07:03:31 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":13,"column":9}],"path":["me","assignedJobs",0,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-16 07:03:31"} 
+2022-08-16 07:05:39 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":13,"column":9}],"path":["me","assignedJobs",0,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-16 07:05:39"} 
+2022-08-16 07:05:39 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":13,"column":9}],"path":["me","assignedJobs",0,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-16 07:05:39"} 
+2022-08-16 07:10:37 info: {"message":"Application startup","level":"info","timestamp":"2022-08-16 07:10:37"} 
+2022-08-16 07:10:37 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-16 07:10:37"} 
+2022-08-16 07:10:37 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-16 07:10:37"} 
+2022-08-16 07:10:51 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":13,"column":9}],"path":["me","assignedJobs",0,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-16 07:10:51"} 
+2022-08-16 07:10:51 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":13,"column":9}],"path":["me","assignedJobs",0,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-16 07:10:51"} 
+2022-08-16 08:03:20 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":13,"column":9}],"path":["me","assignedJobs",0,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-16 08:03:20"} 
+2022-08-16 08:03:20 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":13,"column":9}],"path":["me","assignedJobs",0,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-16 08:03:20"} 
+2022-08-16 08:07:58 info: {"message":"Application startup","level":"info","timestamp":"2022-08-16 08:07:58"} 
+2022-08-16 08:07:58 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-16 08:07:58"} 
+2022-08-16 08:07:58 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-16 08:07:58"} 
+2022-08-16 08:08:16 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":13,"column":9}],"path":["me","assignedJobs",0,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-16 08:08:16"} 
+2022-08-16 08:08:16 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":13,"column":9}],"path":["me","assignedJobs",0,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-16 08:08:16"} 
+2022-08-16 08:11:48 info: {"message":"Application startup","level":"info","timestamp":"2022-08-16 08:11:48"} 
+2022-08-16 08:11:48 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-16 08:11:48"} 
+2022-08-16 08:11:48 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-16 08:11:48"} 
+2022-08-16 08:12:01 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":13,"column":9}],"path":["me","assignedJobs",0,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-16 08:12:01"} 
+2022-08-16 08:12:01 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":13,"column":9}],"path":["me","assignedJobs",0,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-16 08:12:01"} 
+2022-08-16 08:13:49 info: {"message":"Application startup","level":"info","timestamp":"2022-08-16 08:13:49"} 
+2022-08-16 08:13:49 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-16 08:13:49"} 
+2022-08-16 08:13:49 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-16 08:13:49"} 
+2022-08-16 08:13:51 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":13,"column":9}],"path":["me","assignedJobs",0,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-16 08:13:51"} 
+2022-08-16 08:13:51 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":13,"column":9}],"path":["me","assignedJobs",0,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-16 08:13:51"} 
+2022-08-16 08:14:28 info: {"message":"Application startup","level":"info","timestamp":"2022-08-16 08:14:28"} 
+2022-08-16 08:14:29 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-16 08:14:29"} 
+2022-08-16 08:14:29 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-16 08:14:29"} 
+2022-08-16 08:14:36 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":13,"column":9}],"path":["me","assignedJobs",0,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-16 08:14:36"} 
+2022-08-16 08:14:36 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":13,"column":9}],"path":["me","assignedJobs",0,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-16 08:14:36"} 
+2022-08-16 08:17:06 info: {"message":"Application startup","level":"info","timestamp":"2022-08-16 08:17:06"} 
+2022-08-16 08:17:06 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-16 08:17:06"} 
+2022-08-16 08:17:06 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-16 08:17:06"} 
+2022-08-16 08:19:07 info: {"message":"Application startup","level":"info","timestamp":"2022-08-16 08:19:07"} 
+2022-08-16 08:19:07 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-16 08:19:07"} 
+2022-08-16 08:19:07 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-16 08:19:07"} 
+2022-08-16 08:20:06 info: {"message":"Application startup","level":"info","timestamp":"2022-08-16 08:20:06"} 
+2022-08-16 08:20:06 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-16 08:20:06"} 
+2022-08-16 08:20:06 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-16 08:20:06"} 
+2022-08-16 08:30:19 error: {"message":"Cannot return null for non-nullable field Job.builder.","locations":[{"line":13,"column":9}],"path":["me","assignedJobs",0,"builder"],"extensions":{"code":"INTERNAL_SERVER_ERROR"},"level":"error","timestamp":"2022-08-16 08:30:19"} 
+2022-08-16 08:31:25 info: {"message":"Application startup","level":"info","timestamp":"2022-08-16 08:31:25"} 
+2022-08-16 08:31:25 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-16 08:31:25"} 
+2022-08-16 08:31:25 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-16 08:31:25"} 
+2022-08-16 08:31:34 info: {"message":"Application startup","level":"info","timestamp":"2022-08-16 08:31:34"} 
+2022-08-16 08:31:34 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-16 08:31:34"} 
+2022-08-16 08:31:34 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-16 08:31:34"} 
+2022-08-16 08:31:53 error: {"message":"column \"builder\" does not exist","locations":[{"line":4,"column":7}],"path":["me","assignedJobs"],"extensions":{"code":"INTERNAL_SERVER_ERROR","exception":{"message":"column \"builder\" does not exist","length":168,"name":"QueryFailedError","severity":"ERROR","code":"42703","hint":"Perhaps you meant to reference the column \"job.builderId\".","position":"334","file":"parse_relation.c","line":"3599","routine":"errorMissingColumn","query":"SELECT \"job\".\"id\" AS \"job_id\", \"job\".\"address\" AS \"job_address\", \"job\".\"notes\" AS \"job_notes\", \"job\".\"priority\" AS \"job_priority\", \"job\".\"lat\" AS \"job_lat\", \"job\".\"lng\" AS \"job_lng\", \"job\".\"status\" AS \"job_status\", \"job\".\"requestDate\" AS \"job_requestDate\", \"equipment\".\"id\" AS \"equipment_id\", \"equipment\".\"name\" AS \"equipment_name\", builder FROM \"job\" \"job\" LEFT JOIN \"job_equipment\" \"job_equipment\" ON \"job_equipment\".\"jobId\"=\"job\".\"id\" LEFT JOIN \"equipment\" \"equipment\" ON \"equipment\".\"id\"=\"job_equipment\".\"equipmentId\"  INNER JOIN \"job_staff\" \"job_staff\" ON \"job_staff\".\"jobId\"=\"job\".\"id\" INNER JOIN \"user\" \"staff\" ON \"staff\".\"id\"=\"job_staff\".\"userId\" AND (\"staff\".\"id\" = $1) WHERE \"job\".\"requestDate\" < $2 AND \"job\".\"status\" != $3 ORDER BY \"job\".\"requestDate\" DESC","parameters":[150,"2022-08-16T08:00:00.000Z","cancelled"]}},"level":"error","timestamp":"2022-08-16 08:31:53"} 
+2022-08-16 08:32:46 info: {"message":"Application startup","level":"info","timestamp":"2022-08-16 08:32:46"} 
+2022-08-16 08:32:46 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-16 08:32:46"} 
+2022-08-16 08:32:46 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-16 08:32:46"} 
+2022-08-16 08:34:36 info: {"message":"Application startup","level":"info","timestamp":"2022-08-16 08:34:36"} 
+2022-08-16 08:34:36 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-16 08:34:36"} 
+2022-08-16 08:34:36 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-16 08:34:36"} 
+2022-08-16 09:56:27 info: {"message":"Application startup","level":"info","timestamp":"2022-08-16 09:56:27"} 
+2022-08-16 09:56:27 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-16 09:56:27"} 
+2022-08-16 09:56:27 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-16 09:56:27"} 
+2022-08-17 10:20:39 info: {"message":"Application startup","level":"info","timestamp":"2022-08-17 10:20:39"} 
+2022-08-17 10:20:39 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-17 10:20:39"} 
+2022-08-17 10:20:39 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-17 10:20:39"} 
+2022-08-17 11:30:50 info: {"message":"Application startup","level":"info","timestamp":"2022-08-17 11:30:50"} 
+2022-08-17 11:30:50 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-17 11:30:50"} 
+2022-08-17 11:30:50 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-17 11:30:50"} 
+2022-08-17 11:52:36 info: {"message":"Application startup","level":"info","timestamp":"2022-08-17 11:52:36"} 
+2022-08-17 11:52:36 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-17 11:52:36"} 
+2022-08-17 11:52:36 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-17 11:52:36"} 
+2022-08-17 11:55:46 error: {"message":"User with this email does not exist","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"BAD_USER_INPUT"},"level":"error","timestamp":"2022-08-17 11:55:46"} 
+2022-08-17 11:56:00 error: {"message":"Wrong credentials provided","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"BAD_USER_INPUT"},"level":"error","timestamp":"2022-08-17 11:56:00"} 
+2022-08-17 11:56:06 error: {"message":"Wrong credentials provided","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"BAD_USER_INPUT"},"level":"error","timestamp":"2022-08-17 11:56:06"} 
+2022-08-17 11:56:14 error: {"message":"Wrong credentials provided","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"BAD_USER_INPUT"},"level":"error","timestamp":"2022-08-17 11:56:14"} 
+2022-08-17 11:56:37 error: {"message":"Wrong credentials provided","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"BAD_USER_INPUT"},"level":"error","timestamp":"2022-08-17 11:56:37"} 
+2022-08-17 11:56:44 error: {"message":"Wrong credentials provided","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"BAD_USER_INPUT"},"level":"error","timestamp":"2022-08-17 11:56:44"} 
+2022-08-17 11:58:16 error: {"message":"Wrong credentials provided","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"BAD_USER_INPUT"},"level":"error","timestamp":"2022-08-17 11:58:16"} 
+2022-08-17 11:58:23 error: {"message":"Wrong credentials provided","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"BAD_USER_INPUT"},"level":"error","timestamp":"2022-08-17 11:58:23"} 
+2022-08-18 03:07:23 info: {"message":"Application startup","level":"info","timestamp":"2022-08-18 03:07:23"} 
+2022-08-18 03:07:23 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-18 03:07:23"} 
+2022-08-18 03:07:23 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-18 03:07:23"} 
+2022-08-18 04:05:29 info: {"message":"Application startup","level":"info","timestamp":"2022-08-18 04:05:29"} 
+2022-08-18 04:05:29 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-18 04:05:29"} 
+2022-08-18 04:05:29 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-18 04:05:29"} 
+2022-08-18 04:16:47 error: {"message":"User with this email does not exist","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"BAD_USER_INPUT"},"level":"error","timestamp":"2022-08-18 04:16:47"} 
+2022-08-18 08:21:16 info: {"message":"Application startup","level":"info","timestamp":"2022-08-18 08:21:16"} 
+2022-08-18 08:21:16 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-18 08:21:16"} 
+2022-08-18 08:21:16 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-18 08:21:16"} 
+2022-08-19 02:35:43 info: {"message":"Application startup","level":"info","timestamp":"2022-08-19 02:35:43"} 
+2022-08-19 02:35:43 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-19 02:35:43"} 
+2022-08-19 02:35:43 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-19 02:35:43"} 
+2022-08-29 03:00:39 info: {"message":"Application startup","level":"info","timestamp":"2022-08-29 03:00:39"} 
+2022-08-29 03:00:39 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-08-29 03:00:39"} 
+2022-08-29 03:00:39 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-08-29 03:00:39"} 
+2022-09-01 14:42:06 info: {"message":"Application startup","level":"info","timestamp":"2022-09-01 14:42:06"} 
+2022-09-01 14:42:06 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-09-01 14:42:06"} 
+2022-09-01 14:42:06 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-09-01 14:42:06"} 
+2022-09-01 15:33:06 info: {"message":"Application startup","level":"info","timestamp":"2022-09-01 15:33:06"} 
+2022-09-01 15:33:06 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-09-01 15:33:06"} 
+2022-09-01 15:33:07 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-09-01 15:33:07"} 
+2022-09-01 15:47:40 error: {"message":"User with this email does not exist","locations":[{"line":2,"column":3}],"path":["login"],"extensions":{"code":"BAD_USER_INPUT"},"level":"error","timestamp":"2022-09-01 15:47:40"} 
+2022-09-01 16:19:12 info: {"message":"Application startup","level":"info","timestamp":"2022-09-01 16:19:12"} 
+2022-09-01 16:19:12 info: {"message":"Timezone Australia/Melbourne","level":"info","timestamp":"2022-09-01 16:19:12"} 
+2022-09-01 16:19:12 info: {"message":"Timezone shift -180","level":"info","timestamp":"2022-09-01 16:19:12"} 

@@ -106,6 +106,14 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", Array)
 ], Job.prototype, "activity", void 0);
 tslib_1.__decorate([
+    typeorm_1.ManyToOne(() => user_entity_1.User, undefined, {
+        eager: true,
+        nullable: true,
+        onDelete: 'SET NULL',
+    }),
+    tslib_1.__metadata("design:type", user_entity_1.User)
+], Job.prototype, "assigner", void 0);
+tslib_1.__decorate([
     typeorm_1.CreateDateColumn(),
     tslib_1.__metadata("design:type", Date)
 ], Job.prototype, "createdAt", void 0);

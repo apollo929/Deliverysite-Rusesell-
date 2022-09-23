@@ -22,7 +22,13 @@ import {
   SettingsGQL,
   UpdateJobDateGQL,
   UpdateJobDateInput,
+  CreateJobInput,
+  UpdateJobGQL,
+  CancelJobGQL,
+  JobAssignerGQL,
+  JobStaffsGQL,
 } from '@dfobobcat/graphql-types';
+
 import {
   ClockOffDialogConfig,
   CLOCKOFF_DIALOG_CONFIG,
@@ -44,6 +50,7 @@ export class ClockoffDialogComponent implements OnInit {
 
   $clockOffs = new BehaviorSubject<ClockOffsQuery['job']['clockOffs']>([]);
   $clockIns = new BehaviorSubject<ClockInsQuery['job']['clockIns']>([]);
+  assigner = '';
   notes = '';
   jobData: any;
   minDate$ = new ReplaySubject<moment.Moment>(1);
@@ -52,6 +59,9 @@ export class ClockoffDialogComponent implements OnInit {
   showDatePicker = false;
   @ViewChild(DatepickerButtonComponent)
   datePickerButton!: DatepickerButtonComponent;
+  assignedStaff: string[] = [];
+  showNote = false;
+  extraNote: any = "";
 
   constructor(
     private clockOffsGQL: ClockOffsGQL,
@@ -62,16 +72,95 @@ export class ClockoffDialogComponent implements OnInit {
     @Inject(CLOCKOFF_DIALOG_CONFIG)
     public dialogData: ClockOffDialogConfig,
     private assignToJobGQL: AssignToJobGQL,
-  ) {}
+    private updateJobGQL: UpdateJobGQL,
+    private cancelJobGQL: CancelJobGQL,
+    private jobStaffGQL: JobStaffsGQL
+  ) { }
 
   ngOnInit(): void {
+
     this.getClockOffs();
     this.getClockIns();
+    this.getAssignedStaff();
     this.jobData = this.dialogData;
+    console.log(this.jobData);
     this.notes = this.jobData.job.notes;
     this.settingsGQL.fetch().subscribe((settings) => {
       this.minDate$.next(moment(settings.data.settings.minJobRequestDate));
     });
+  }
+
+  saveNoteInput(event: any) {
+    this.extraNote = event.detail.value;
+  }
+
+  async showNoteField() {
+    this.showNote = true;
+
+  }
+
+
+  cancelJob() {
+    console.log(this.jobData.job.id);
+    this.cancelJobGQL
+      .mutate({
+        input: parseFloat(this.jobData.job.id),
+      })
+      .subscribe(() => this.close.next());
+  }
+
+
+  addNote() {
+    let mergedNote = "";
+    console.log(this.jobData);
+    const job = this.jobData.job;
+    if (job.notes) {
+      mergedNote = job.notes + " | " + this.extraNote;
+    } else {
+      mergedNote = this.extraNote;
+    }
+    const jobId = job.id;
+    const input: CreateJobInput = {
+      address: job.address,
+      equipment: job.equipment?.map((item: any) => item.id),
+      lng: job.lng,
+      lat: job.lat,
+      requestDate: job.requestDate,
+      notes: mergedNote,
+      priority: job.priority ? undefined : '',
+    };
+    this.showNote = false;
+    this.notes = mergedNote;
+    this.updateJobGQL
+      .mutate(
+        {
+          input: { ...input, id: jobId },
+        },
+        {
+          context: {
+            useMultipart: true,
+          },
+        },
+      )
+      .subscribe((data) => {
+        this.updateRequestDate.next(true);          //When I add a note to a job, i have to REFRESH the whole page for the note to show, the show should show without refresh
+      });
+  }
+
+  getAssignedStaff() {
+    // this.$clockIns.subscribe(data => {
+    //   data.map(clockOff => {
+    //     if (!this.assignedStaff.includes(clockOff.staff.name)) {
+    //       this.assignedStaff.push(clockOff.staff.name);
+    //     }
+    //   })
+    // })
+    this.jobStaffGQL.fetch(({
+      id: this.dialogData.job.id
+    }))
+      .subscribe(result => {
+        this.assignedStaff = result.data.job.staff.map(s => s.name);
+      })
   }
 
   printReport() {
@@ -87,19 +176,19 @@ export class ClockoffDialogComponent implements OnInit {
     );
     printWindow?.document.write(
       "<h1 style = 'text-align:center;padding:10px;border-bottom:2px solid black;'>" +
-        'JOB HISTORY' +
-        '</h1>',
+      'JOB HISTORY' +
+      '</h1>',
     );
     printWindow?.document.write(
       "<div style = 'font-size:22px;font-weight:bold;'>" +
-        jobData.address +
-        '</div>',
+      jobData.address +
+      '</div>',
     );
     if (jobData.notes != '')
       printWindow?.document.write(
         "<div style = 'font-size:16px;font-weight:300;'>Notes: " +
-          jobData.notes +
-          '</div>',
+        jobData.notes +
+        '</div>',
       );
     printWindow?.document.write(
       "<div style = 'text-align:center;margin-top:50px;font-weight:bold;font-size:20px;'>Clocks Off</div>",
@@ -111,13 +200,13 @@ export class ClockoffDialogComponent implements OnInit {
       clock.forEach((clock2) => {
         printWindow?.document.write(
           "<tr><th style = 'border:1px solid black;'><div style = 'float:left'>" +
-            clock2.staff.name +
-            '</div></th>',
+          clock2.staff.name +
+          '</div></th>',
         );
         printWindow?.document.write(
           "<th style = 'border:1px solid black;'><div style = 'float:right'>" +
-            new Date(Number(clock2.clockOffTime)).toUTCString() +
-            '</div></th></tr>',
+          new Date(Number(clock2.clockOffTime)).toUTCString() +
+          '</div></th></tr>',
         );
       });
       printWindow?.document.write('</table>');
@@ -130,13 +219,13 @@ export class ClockoffDialogComponent implements OnInit {
       for (let activity of this.dialogData.job.activity) {
         printWindow?.document.write(
           "<tr><th style = 'border:1px solid black;'><div style = 'float:left'>" +
-            activity.type +
-            '</div></th>',
+          activity.type +
+          '</div></th>',
         );
         printWindow?.document.write(
           "<th style = 'border:1px solid black;'><div style = 'float:right'>" +
-            new Date(activity.date).toLocaleString() +
-            '</div></th></tr>',
+          new Date(activity.date).toLocaleString() +
+          '</div></th></tr>',
         );
       }
       printWindow?.document.write('</table>');

@@ -232,9 +232,18 @@ type Staff implements User & Node {
   todaysAssignedJob: Job
 }
 
+
+type Assigner implements User & Node {
+  id: Float!
+  name: String!
+  email: String!
+  role: Role!
+  company: Company
+}
 type Job implements Node {
   id: Float!
   builder: Builder!
+  assigner: Assigner
   address: String!
   lat: Float
   lng: Float
@@ -252,6 +261,7 @@ type Job implements Node {
   created: String
   activity: [Activity!]!
   adminSelectedBuilder: Float
+  staff: [Staff!]!
 }
 
 type JobEdge {

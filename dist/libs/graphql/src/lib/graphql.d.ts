@@ -1,6 +1,7 @@
 import * as Apollo from 'apollo-angular';
 import * as ApolloCore from '@apollo/client/core';
 export declare type Maybe<T> = T | undefined;
+export declare type InputMaybe<T> = T | undefined;
 export declare type Exact<T extends {
     [key: string]: unknown;
 }> = {
@@ -38,7 +39,7 @@ export declare type AddClockInRs = {
     id: Scalars['Float'];
 };
 export declare type AddClockOffInput = {
-    files?: Maybe<Array<Maybe<Scalars['Upload']>>>;
+    files?: InputMaybe<Array<InputMaybe<Scalars['Upload']>>>;
     jobId: Scalars['Float'];
     notes: Scalars['String'];
 };
@@ -56,6 +57,13 @@ export declare type AssignToJobInput = {
     jobId: Scalars['Float'];
     staffIds: Array<Scalars['Float']>;
 };
+export declare type Assigner = Node & User & {
+    company?: Maybe<Company>;
+    email: Scalars['String'];
+    id: Scalars['Float'];
+    name: Scalars['String'];
+    role: Role;
+};
 export declare type Builder = Node & User & {
     company?: Maybe<Company>;
     email: Scalars['String'];
@@ -65,8 +73,8 @@ export declare type Builder = Node & User & {
     role: Role;
 };
 export declare type BuilderJobRequestsArgs = {
-    search?: Maybe<Scalars['String']>;
-    status?: Maybe<JobStatus>;
+    search?: InputMaybe<Scalars['String']>;
+    status?: InputMaybe<JobStatus>;
 };
 export declare type ClockIn = Node & {
     clockInTime: Scalars['String'];
@@ -96,23 +104,18 @@ export declare type Company = {
 };
 export declare type CreateJobInput = {
     address: Scalars['String'];
-    adminSelectedBuilder?: Maybe<Scalars['Float']>;
-    created?: Maybe<Scalars['String']>;
+    adminSelectedBuilder?: InputMaybe<Scalars['Float']>;
+    created?: InputMaybe<Scalars['String']>;
     equipment: Array<Scalars['Float']>;
-    lat?: Maybe<Scalars['Float']>;
-    lng?: Maybe<Scalars['Float']>;
-    notes?: Maybe<Scalars['String']>;
-    poFile?: Maybe<Scalars['Upload']>;
-    priority?: Maybe<Scalars['String']>;
+    lat?: InputMaybe<Scalars['Float']>;
+    lng?: InputMaybe<Scalars['Float']>;
+    notes?: InputMaybe<Scalars['String']>;
+    poFile?: InputMaybe<Scalars['Upload']>;
+    priority?: InputMaybe<Scalars['String']>;
     requestDate: Scalars['Date'];
-    stage?: Maybe<Scalars['String']>;
-    time?: Maybe<Scalars['String']>;
-    type?: Maybe<Scalars['String']>;
-};
-export declare type UpdateJobDateInput = {
-    requestDate: Scalars['Date'];
-    updateField: Maybe<Scalars['String']>;
-    id: Scalars['Float'];
+    stage?: InputMaybe<Scalars['String']>;
+    time?: InputMaybe<Scalars['String']>;
+    type?: InputMaybe<Scalars['String']>;
 };
 export declare type Equipment = Node & {
     id: Scalars['Float'];
@@ -122,6 +125,7 @@ export declare type Job = Node & {
     activity: Array<Activity>;
     address: Scalars['String'];
     adminSelectedBuilder?: Maybe<Scalars['Float']>;
+    assigner?: Maybe<Assigner>;
     builder: Builder;
     clockIns: Array<ClockIn>;
     clockOffs: Array<ClockOff>;
@@ -134,6 +138,7 @@ export declare type Job = Node & {
     poFile?: Maybe<Scalars['String']>;
     priority?: Maybe<Scalars['String']>;
     requestDate: Scalars['Date'];
+    staff: Array<Staff>;
     stage?: Maybe<Scalars['String']>;
     status: JobStatus;
     time?: Maybe<Scalars['String']>;
@@ -158,11 +163,11 @@ export declare type JobPaginated = {
 };
 export declare enum JobStatus {
     Assigned = "assigned",
-    UnAssigned = "unAssigned",
     Cancelled = "cancelled",
     Completed = "completed",
     InProgress = "inProgress",
-    Pending = "pending"
+    Pending = "pending",
+    UnAssigned = "unAssigned"
 }
 export declare type JobsForDateReportItem = {
     address: Scalars['String'];
@@ -206,6 +211,7 @@ export declare type Mutation = {
     registerBuilder: Success;
     restorePassword: Success;
     tokenLogin: LoginRs;
+    unAssignToJob: Success;
     updateJob: Success;
     updateJobDate: Success;
     updateMyAccount: User;
@@ -252,13 +258,19 @@ export declare type MutationRestorePasswordArgs = {
 export declare type MutationTokenLoginArgs = {
     token: Scalars['String'];
 };
+export declare type MutationUnAssignToJobArgs = {
+    input: UnAssignToJobInput;
+};
 export declare type MutationUpdateJobArgs = {
     input: UpdateJobInput;
+};
+export declare type MutationUpdateJobDateArgs = {
+    input: UpdateJobDateInput;
 };
 export declare type MutationUpdateMyAccountArgs = {
     email: Scalars['String'];
     name: Scalars['String'];
-    password?: Maybe<Scalars['String']>;
+    password?: InputMaybe<Scalars['String']>;
 };
 export declare type MutationUpdateUserArgs = {
     input: UpdateUserInput;
@@ -276,8 +288,8 @@ export declare type PageInfo = {
     previousPage?: Maybe<Scalars['Int']>;
 };
 export declare type PaginationArgs = {
-    offset?: Maybe<Scalars['Int']>;
-    page?: Maybe<Scalars['Int']>;
+    offset?: InputMaybe<Scalars['Int']>;
+    page?: InputMaybe<Scalars['Int']>;
 };
 export declare type Query = {
     companies?: Maybe<Array<Company>>;
@@ -295,31 +307,31 @@ export declare type QueryJobArgs = {
     id: Scalars['Float'];
 };
 export declare type QueryJobsArgs = {
-    filteredDate?: Maybe<FilteredDateArgs>;
-    orderBy?: Maybe<Scalars['String']>;
-    pagination?: Maybe<PaginationArgs>;
-    search?: Maybe<Scalars['String']>;
-    staff?: Maybe<Array<Scalars['Int']>>;
-    status?: Maybe<Array<Maybe<JobStatus>>>;
+    filteredDate?: InputMaybe<FilteredDateArgs>;
+    orderBy?: InputMaybe<Scalars['String']>;
+    pagination?: InputMaybe<PaginationArgs>;
+    search?: InputMaybe<Scalars['String']>;
+    staff?: InputMaybe<Array<Scalars['Int']>>;
+    status?: InputMaybe<Array<InputMaybe<JobStatus>>>;
 };
 export declare type QueryUserArgs = {
     id: Scalars['Float'];
 };
 export declare type QueryUsersArgs = {
-    orderBy?: Maybe<Scalars['String']>;
-    paginate?: Maybe<Scalars['Boolean']>;
-    pagination?: Maybe<PaginationArgs>;
-    role?: Maybe<Scalars['String']>;
-    search?: Maybe<Scalars['String']>;
+    orderBy?: InputMaybe<Scalars['String']>;
+    paginate?: InputMaybe<Scalars['Boolean']>;
+    pagination?: InputMaybe<PaginationArgs>;
+    role?: InputMaybe<Scalars['String']>;
+    search?: InputMaybe<Scalars['String']>;
 };
 export declare type RegisterBuilderInput = {
-    company?: Maybe<Scalars['String']>;
+    company?: InputMaybe<Scalars['String']>;
     email: Scalars['String'];
     name: Scalars['String'];
     password: Scalars['String'];
 };
 export declare type RegisterUserInput = {
-    company?: Maybe<Scalars['String']>;
+    company?: InputMaybe<Scalars['String']>;
     email: Scalars['String'];
     name: Scalars['String'];
     password: Scalars['String'];
@@ -332,22 +344,22 @@ export declare type Report = {
 };
 export declare type ReportJobsForDateArgs = {
     date: Scalars['String'];
-    fullListg?: Maybe<Scalars['Boolean']>;
-    orderBy?: Maybe<Scalars['String']>;
-    pagination?: Maybe<PaginationArgs>;
-    search?: Maybe<Scalars['String']>;
+    fullListg?: InputMaybe<Scalars['Boolean']>;
+    orderBy?: InputMaybe<Scalars['String']>;
+    pagination?: InputMaybe<PaginationArgs>;
+    search?: InputMaybe<Scalars['String']>;
 };
 export declare type ReportJobsForDateFullListArgs = {
     date: Scalars['String'];
-    orderBy?: Maybe<Scalars['String']>;
-    search?: Maybe<Scalars['String']>;
+    orderBy?: InputMaybe<Scalars['String']>;
+    search?: InputMaybe<Scalars['String']>;
 };
 export declare type ReportTotalWorkedHoursArgs = {
-    endDate?: Maybe<Scalars['String']>;
-    orderBy?: Maybe<Scalars['String']>;
-    pagination?: Maybe<PaginationArgs>;
-    search?: Maybe<Scalars['String']>;
-    startDate?: Maybe<Scalars['String']>;
+    endDate?: InputMaybe<Scalars['String']>;
+    orderBy?: InputMaybe<Scalars['String']>;
+    pagination?: InputMaybe<PaginationArgs>;
+    search?: InputMaybe<Scalars['String']>;
+    startDate?: InputMaybe<Scalars['String']>;
 };
 export declare type Role = {
     id: Scalars['Float'];
@@ -373,8 +385,8 @@ export declare type Staff = Node & User & {
     todaysAssignedJob?: Maybe<Job>;
 };
 export declare type StaffAssignedJobsArgs = {
-    filter?: Maybe<JobFilter>;
-    search?: Maybe<Scalars['String']>;
+    filter?: InputMaybe<JobFilter>;
+    search?: InputMaybe<Scalars['String']>;
 };
 export declare type StaffHasClockedIntoJobArgs = {
     id: Scalars['Float'];
@@ -391,27 +403,35 @@ export declare type TotalWorkedHoursReportPaginated = {
     items: Array<TotalWorkedHoursReportItem>;
     pageInfo: PageInfo;
 };
+export declare type UnAssignToJobInput = {
+    jobId: Scalars['Float'];
+};
+export declare type UpdateJobDateInput = {
+    id: Scalars['Float'];
+    requestDate: Scalars['Date'];
+    updateField: Scalars['String'];
+};
 export declare type UpdateJobInput = {
     address: Scalars['String'];
-    adminSelectedBuilder?: Maybe<Scalars['Float']>;
-    created?: Maybe<Scalars['String']>;
+    adminSelectedBuilder?: InputMaybe<Scalars['Float']>;
+    created?: InputMaybe<Scalars['String']>;
     equipment: Array<Scalars['Float']>;
     id: Scalars['Float'];
-    lat?: Maybe<Scalars['Float']>;
-    lng?: Maybe<Scalars['Float']>;
-    notes?: Maybe<Scalars['String']>;
-    poFile?: Maybe<Scalars['Upload']>;
-    priority?: Maybe<Scalars['String']>;
+    lat?: InputMaybe<Scalars['Float']>;
+    lng?: InputMaybe<Scalars['Float']>;
+    notes?: InputMaybe<Scalars['String']>;
+    poFile?: InputMaybe<Scalars['Upload']>;
+    priority?: InputMaybe<Scalars['String']>;
     requestDate: Scalars['Date'];
-    stage?: Maybe<Scalars['String']>;
-    time?: Maybe<Scalars['String']>;
-    type?: Maybe<Scalars['String']>;
+    stage?: InputMaybe<Scalars['String']>;
+    time?: InputMaybe<Scalars['String']>;
+    type?: InputMaybe<Scalars['String']>;
 };
 export declare type UpdateUserInput = {
-    company?: Maybe<Scalars['String']>;
+    company?: InputMaybe<Scalars['String']>;
     email: Scalars['String'];
     name: Scalars['String'];
-    roleId?: Maybe<Scalars['Float']>;
+    roleId?: InputMaybe<Scalars['Float']>;
     userId: Scalars['Float'];
 };
 export declare type User = {
@@ -434,9 +454,9 @@ export declare type UserPaginated = {
     pageInfo: PageInfo;
 };
 export declare type FilteredDateArgs = {
-    calendarType?: Maybe<Scalars['String']>;
-    endDate?: Maybe<Scalars['Date']>;
-    startDate?: Maybe<Scalars['Date']>;
+    calendarType?: InputMaybe<Scalars['String']>;
+    endDate?: InputMaybe<Scalars['Date']>;
+    startDate?: InputMaybe<Scalars['Date']>;
 };
 export declare type RegisterBuilderMutationVariables = Exact<{
     input: RegisterBuilderInput;
@@ -556,6 +576,14 @@ export declare type AssignToJobMutation = {
         success: boolean;
     };
 };
+export declare type UnAssignToJobMutationVariables = Exact<{
+    input: UnAssignToJobInput;
+}>;
+export declare type UnAssignToJobMutation = {
+    unAssignToJob: {
+        success: boolean;
+    };
+};
 export declare type LogoutMutationVariables = Exact<{
     [key: string]: never;
 }>;
@@ -594,6 +622,10 @@ export declare type JobFragmentFragment = {
         id: number;
         name: string;
     }>;
+    assigner?: Maybe<{
+        id: number;
+        name: string;
+    }>;
 };
 export declare type HasClockedIntoJobQueryVariables = Exact<{
     id: Scalars['Float'];
@@ -619,6 +651,13 @@ export declare type MeQuery = {
         id: number;
         name: string;
         email: string;
+        role: {
+            name: RoleType;
+        };
+    } | {
+        id: number;
+        name: string;
+        email: string;
         jobRequests: Array<{
             id: number;
             address: string;
@@ -630,6 +669,10 @@ export declare type MeQuery = {
             notes?: Maybe<string>;
             priority?: Maybe<string>;
             equipment: Array<{
+                id: number;
+                name: string;
+            }>;
+            assigner?: Maybe<{
                 id: number;
                 name: string;
             }>;
@@ -655,6 +698,10 @@ export declare type MeQuery = {
                 id: number;
                 name: string;
             }>;
+            assigner?: Maybe<{
+                id: number;
+                name: string;
+            }>;
         }>;
         role: {
             name: RoleType;
@@ -677,6 +724,30 @@ export declare type JobQuery = {
         priority?: Maybe<string>;
         equipment: Array<{
             id: number;
+            name: string;
+        }>;
+        assigner?: Maybe<{
+            id: number;
+            name: string;
+        }>;
+    };
+};
+export declare type JobAssignerQueryVariables = Exact<{
+    id: Scalars['Float'];
+}>;
+export declare type JobAssignerQuery = {
+    job: {
+        assigner?: Maybe<{
+            name: string;
+        }>;
+    };
+};
+export declare type JobStaffsQueryVariables = Exact<{
+    id: Scalars['Float'];
+}>;
+export declare type JobStaffsQuery = {
+    job: {
+        staff: Array<{
             name: string;
         }>;
     };
@@ -742,6 +813,10 @@ export declare type MyJobRequestsQuery = {
                 id: number;
                 name: string;
             }>;
+            assigner?: Maybe<{
+                id: number;
+                name: string;
+            }>;
         }>;
     } | {};
 };
@@ -758,7 +833,11 @@ export declare type MyAssignedJobsQuery = {
             lng?: Maybe<number>;
             status: JobStatus;
             requestDate: any;
+            notes?: Maybe<string>;
             priority?: Maybe<string>;
+            builder: {
+                name: string;
+            };
             equipment: Array<{
                 id: number;
                 name: string;
@@ -778,6 +857,7 @@ export declare type TodaysAssignedJobQuery = {
             lng?: Maybe<number>;
             status: JobStatus;
             requestDate: any;
+            notes?: Maybe<string>;
             priority?: Maybe<string>;
             equipment: Array<{
                 id: number;
@@ -832,6 +912,10 @@ export declare type JobsQuery = {
             builder: {
                 name: string;
             };
+            assigner?: Maybe<{
+                id: number;
+                name: string;
+            }>;
             activity: Array<{
                 type: string;
                 date: any;
@@ -853,6 +937,17 @@ export declare type UsersQueryVariables = Exact<{
 export declare type UsersQuery = {
     users: {
         items: Array<{
+            id: number;
+            name: string;
+            email: string;
+            role: {
+                id: number;
+                name: RoleType;
+            };
+            company?: Maybe<{
+                name: string;
+            }>;
+        } | {
             id: number;
             name: string;
             email: string;
@@ -1008,6 +1103,16 @@ export declare type UserQuery = {
             id: number;
             name: RoleType;
         };
+    } | {
+        name: string;
+        email: string;
+        company?: Maybe<{
+            name: string;
+        }>;
+        role: {
+            id: number;
+            name: RoleType;
+        };
     };
 };
 export declare type VerifyEmailMutationVariables = Exact<{
@@ -1033,6 +1138,9 @@ export declare type UpdateMyAccountMutationVariables = Exact<{
 }>;
 export declare type UpdateMyAccountMutation = {
     updateMyAccount: {
+        name: string;
+        email: string;
+    } | {
         name: string;
         email: string;
     } | {
@@ -1089,13 +1197,13 @@ export declare class CreateJobGQL extends Apollo.Mutation<CreateJobMutation, Cre
     document: ApolloCore.DocumentNode;
     constructor(apollo: Apollo.Apollo);
 }
-export declare const UpdateJobDateDocument: ApolloCore.DocumentNode;
-export declare class UpdateJobDateGQL extends Apollo.Mutation<UpdateJobDateMutation, UpdateJobDateMutationVariables> {
+export declare const UpdateJobDocument: ApolloCore.DocumentNode;
+export declare class UpdateJobGQL extends Apollo.Mutation<UpdateJobMutation, UpdateJobMutationVariables> {
     document: ApolloCore.DocumentNode;
     constructor(apollo: Apollo.Apollo);
 }
-export declare const UpdateJobDocument: ApolloCore.DocumentNode;
-export declare class UpdateJobGQL extends Apollo.Mutation<UpdateJobMutation, UpdateJobMutationVariables> {
+export declare const UpdateJobDateDocument: ApolloCore.DocumentNode;
+export declare class UpdateJobDateGQL extends Apollo.Mutation<UpdateJobDateMutation, UpdateJobDateMutationVariables> {
     document: ApolloCore.DocumentNode;
     constructor(apollo: Apollo.Apollo);
 }
@@ -1106,6 +1214,11 @@ export declare class CancelJobGQL extends Apollo.Mutation<CancelJobMutation, Can
 }
 export declare const AssignToJobDocument: ApolloCore.DocumentNode;
 export declare class AssignToJobGQL extends Apollo.Mutation<AssignToJobMutation, AssignToJobMutationVariables> {
+    document: ApolloCore.DocumentNode;
+    constructor(apollo: Apollo.Apollo);
+}
+export declare const UnAssignToJobDocument: ApolloCore.DocumentNode;
+export declare class UnAssignToJobGQL extends Apollo.Mutation<UnAssignToJobMutation, UnAssignToJobMutationVariables> {
     document: ApolloCore.DocumentNode;
     constructor(apollo: Apollo.Apollo);
 }
@@ -1136,6 +1249,16 @@ export declare class MeGQL extends Apollo.Query<MeQuery, MeQueryVariables> {
 }
 export declare const JobDocument: ApolloCore.DocumentNode;
 export declare class JobGQL extends Apollo.Query<JobQuery, JobQueryVariables> {
+    document: ApolloCore.DocumentNode;
+    constructor(apollo: Apollo.Apollo);
+}
+export declare const JobAssignerDocument: ApolloCore.DocumentNode;
+export declare class JobAssignerGQL extends Apollo.Query<JobAssignerQuery, JobAssignerQueryVariables> {
+    document: ApolloCore.DocumentNode;
+    constructor(apollo: Apollo.Apollo);
+}
+export declare const JobStaffsDocument: ApolloCore.DocumentNode;
+export declare class JobStaffsGQL extends Apollo.Query<JobStaffsQuery, JobStaffsQueryVariables> {
     document: ApolloCore.DocumentNode;
     constructor(apollo: Apollo.Apollo);
 }
@@ -1250,12 +1373,15 @@ export declare class ApolloAngularSDK {
     private updateJobDateGql;
     private cancelJobGql;
     private assignToJobGql;
+    private unAssignToJobGql;
     private logoutGql;
     private updateUserGql;
     private deleteUserGql;
     private hasClockedIntoJobGql;
     private meGql;
     private jobGql;
+    private jobAssignerGql;
+    private jobStaffsGql;
     private clockOffsGql;
     private clockInsGql;
     private jobLocationGql;
@@ -1274,7 +1400,7 @@ export declare class ApolloAngularSDK {
     private verifyEmailGql;
     private settingsGql;
     private updateMyAccountGql;
-    constructor(registerBuilderGql: RegisterBuilderGQL, forgotPasswordGql: ForgotPasswordGQL, registerGql: RegisterGQL, restorePasswordGql: RestorePasswordGQL, loginGql: LoginGQL, tokenLoginGql: TokenLoginGQL, addClockInGql: AddClockInGQL, addClockOffGql: AddClockOffGQL, createJobGql: CreateJobGQL, updateJobGql: UpdateJobGQL, updateJobDateGql: UpdateJobDateGQL, cancelJobGql: CancelJobGQL, assignToJobGql: AssignToJobGQL, logoutGql: LogoutGQL, updateUserGql: UpdateUserGQL, deleteUserGql: DeleteUserGQL, hasClockedIntoJobGql: HasClockedIntoJobGQL, meGql: MeGQL, jobGql: JobGQL, clockOffsGql: ClockOffsGQL, clockInsGql: ClockInsGQL, jobLocationGql: JobLocationGQL, myJobRequestsGql: MyJobRequestsGQL, myAssignedJobsGql: MyAssignedJobsGQL, todaysAssignedJobGql: TodaysAssignedJobGQL, equipmentGql: EquipmentGQL, companiesGql: CompaniesGQL, jobsGql: JobsGQL, usersGql: UsersGQL, totalWorkedHoursGql: TotalWorkedHoursGQL, jobsForDateGql: JobsForDateGQL, jobsForDateFullListGql: JobsForDateFullListGQL, staffRolesGql: StaffRolesGQL, userGql: UserGQL, verifyEmailGql: VerifyEmailGQL, settingsGql: SettingsGQL, updateMyAccountGql: UpdateMyAccountGQL);
+    constructor(registerBuilderGql: RegisterBuilderGQL, forgotPasswordGql: ForgotPasswordGQL, registerGql: RegisterGQL, restorePasswordGql: RestorePasswordGQL, loginGql: LoginGQL, tokenLoginGql: TokenLoginGQL, addClockInGql: AddClockInGQL, addClockOffGql: AddClockOffGQL, createJobGql: CreateJobGQL, updateJobGql: UpdateJobGQL, updateJobDateGql: UpdateJobDateGQL, cancelJobGql: CancelJobGQL, assignToJobGql: AssignToJobGQL, unAssignToJobGql: UnAssignToJobGQL, logoutGql: LogoutGQL, updateUserGql: UpdateUserGQL, deleteUserGql: DeleteUserGQL, hasClockedIntoJobGql: HasClockedIntoJobGQL, meGql: MeGQL, jobGql: JobGQL, jobAssignerGql: JobAssignerGQL, jobStaffsGql: JobStaffsGQL, clockOffsGql: ClockOffsGQL, clockInsGql: ClockInsGQL, jobLocationGql: JobLocationGQL, myJobRequestsGql: MyJobRequestsGQL, myAssignedJobsGql: MyAssignedJobsGQL, todaysAssignedJobGql: TodaysAssignedJobGQL, equipmentGql: EquipmentGQL, companiesGql: CompaniesGQL, jobsGql: JobsGQL, usersGql: UsersGQL, totalWorkedHoursGql: TotalWorkedHoursGQL, jobsForDateGql: JobsForDateGQL, jobsForDateFullListGql: JobsForDateFullListGQL, staffRolesGql: StaffRolesGQL, userGql: UserGQL, verifyEmailGql: VerifyEmailGQL, settingsGql: SettingsGQL, updateMyAccountGql: UpdateMyAccountGQL);
     registerBuilder(variables: RegisterBuilderMutationVariables, options?: MutationOptionsAlone<RegisterBuilderMutation, RegisterBuilderMutationVariables>): import("rxjs").Observable<ApolloCore.FetchResult<RegisterBuilderMutation, Record<string, any>, Record<string, any>>>;
     forgotPassword(variables: ForgotPasswordMutationVariables, options?: MutationOptionsAlone<ForgotPasswordMutation, ForgotPasswordMutationVariables>): import("rxjs").Observable<ApolloCore.FetchResult<ForgotPasswordMutation, Record<string, any>, Record<string, any>>>;
     register(variables: RegisterMutationVariables, options?: MutationOptionsAlone<RegisterMutation, RegisterMutationVariables>): import("rxjs").Observable<ApolloCore.FetchResult<RegisterMutation, Record<string, any>, Record<string, any>>>;
@@ -1288,6 +1414,7 @@ export declare class ApolloAngularSDK {
     updateJobDate(variables: UpdateJobDateMutationVariables, options?: MutationOptionsAlone<UpdateJobDateMutation, UpdateJobDateMutationVariables>): import("rxjs").Observable<ApolloCore.FetchResult<UpdateJobDateMutation, Record<string, any>, Record<string, any>>>;
     cancelJob(variables: CancelJobMutationVariables, options?: MutationOptionsAlone<CancelJobMutation, CancelJobMutationVariables>): import("rxjs").Observable<ApolloCore.FetchResult<CancelJobMutation, Record<string, any>, Record<string, any>>>;
     assignToJob(variables: AssignToJobMutationVariables, options?: MutationOptionsAlone<AssignToJobMutation, AssignToJobMutationVariables>): import("rxjs").Observable<ApolloCore.FetchResult<AssignToJobMutation, Record<string, any>, Record<string, any>>>;
+    unAssignToJob(variables: UnAssignToJobMutationVariables, options?: MutationOptionsAlone<UnAssignToJobMutation, UnAssignToJobMutationVariables>): import("rxjs").Observable<ApolloCore.FetchResult<UnAssignToJobMutation, Record<string, any>, Record<string, any>>>;
     logout(variables?: LogoutMutationVariables, options?: MutationOptionsAlone<LogoutMutation, LogoutMutationVariables>): import("rxjs").Observable<ApolloCore.FetchResult<LogoutMutation, Record<string, any>, Record<string, any>>>;
     updateUser(variables: UpdateUserMutationVariables, options?: MutationOptionsAlone<UpdateUserMutation, UpdateUserMutationVariables>): import("rxjs").Observable<ApolloCore.FetchResult<UpdateUserMutation, Record<string, any>, Record<string, any>>>;
     deleteUser(variables: DeleteUserMutationVariables, options?: MutationOptionsAlone<DeleteUserMutation, DeleteUserMutationVariables>): import("rxjs").Observable<ApolloCore.FetchResult<DeleteUserMutation, Record<string, any>, Record<string, any>>>;
@@ -1302,6 +1429,14 @@ export declare class ApolloAngularSDK {
     }>>;
     job(variables: JobQueryVariables, options?: QueryOptionsAlone<JobQueryVariables>): import("rxjs").Observable<ApolloCore.ApolloQueryResult<JobQuery>>;
     jobWatch(variables: JobQueryVariables, options?: WatchQueryOptionsAlone<JobQueryVariables>): Apollo.QueryRef<JobQuery, Exact<{
+        id: number;
+    }>>;
+    jobAssigner(variables: JobAssignerQueryVariables, options?: QueryOptionsAlone<JobAssignerQueryVariables>): import("rxjs").Observable<ApolloCore.ApolloQueryResult<JobAssignerQuery>>;
+    jobAssignerWatch(variables: JobAssignerQueryVariables, options?: WatchQueryOptionsAlone<JobAssignerQueryVariables>): Apollo.QueryRef<JobAssignerQuery, Exact<{
+        id: number;
+    }>>;
+    jobStaffs(variables: JobStaffsQueryVariables, options?: QueryOptionsAlone<JobStaffsQueryVariables>): import("rxjs").Observable<ApolloCore.ApolloQueryResult<JobStaffsQuery>>;
+    jobStaffsWatch(variables: JobStaffsQueryVariables, options?: WatchQueryOptionsAlone<JobStaffsQueryVariables>): Apollo.QueryRef<JobStaffsQuery, Exact<{
         id: number;
     }>>;
     clockOffs(variables: ClockOffsQueryVariables, options?: QueryOptionsAlone<ClockOffsQueryVariables>): import("rxjs").Observable<ApolloCore.ApolloQueryResult<ClockOffsQuery>>;

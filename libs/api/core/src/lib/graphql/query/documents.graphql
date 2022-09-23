@@ -77,11 +77,13 @@ mutation AssignToJob($input: AssignToJobInput!) {
     success
   }
 }
-mutation AssignToJob($input: UnAssignToJobInput!) {
+
+mutation UnAssignToJob($input: UnAssignToJobInput!) {
   unAssignToJob(input: $input) {
     success
   }
 }
+
 mutation Logout {
   logout {
     success
@@ -111,6 +113,10 @@ fragment JobFragment on Job {
   notes
   priority
   equipment {
+    id
+    name
+  }
+  assigner{
     id
     name
   }
@@ -151,7 +157,20 @@ query Job($id: Float!) {
     ...JobFragment
   }
 }
-
+query JobAssigner($id: Float!) {
+  job(id: $id){
+    assigner{
+      name
+    }
+  }
+}
+query JobStaffs($id: Float!) {
+  job(id: $id){
+    staff{
+      name
+    }
+  }
+}
 query ClockOffs($id: Float!) {
   job(id: $id) {
     clockOffs {
@@ -206,7 +225,11 @@ query MyAssignedJobs($filter: JobFilter, $search: String) {
         lng
         status
         requestDate
+        notes
         priority
+        builder {
+          name
+        }
         equipment {
           id
           name
@@ -225,6 +248,7 @@ query TodaysAssignedJob {
         lng
         status
         requestDate
+        notes
         priority
         equipment {
           id
@@ -281,6 +305,10 @@ query Jobs(
       priority
       notes
       builder {
+        name
+      }
+      assigner{
+        id
         name
       }
       activity {

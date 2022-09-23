@@ -1,55 +1,35 @@
 <div class="select-wrapper">
-    <div
-        class="form-control"
-        (click)="toggleOptions()"
-        [class.input-error]="hasError"
-    >
-        <ion-item class="form-input" lines="none">
-            <ion-label>{{ label }}</ion-label>
-            <ion-input
-                [attr.readonly]="readonly"
-                [type]="'input'"
-                [formControl]="control"
-                [placeholder]="placeholder"
-            ></ion-input>
-            <ion-icon
-                class="error-icon"
-                src="/assets/icon/alert.svg"
-            ></ion-icon>
-            <ng-container *ngIf="!hasError">
-                <div *ngIf="optionsActive" class="options-active-icon">
-                    <ion-icon
-                        class=""
-                        src="/assets/icon/select-up.svg"
-                    ></ion-icon>
-                </div>
-                <div *ngIf="!optionsActive" class="options-active-icon">
-                    <ion-icon src="/assets/icon/select-down.svg"></ion-icon>
-                </div>
-            </ng-container>
-        </ion-item>
-        <bc-form-error [name]="label" [control]="control"></bc-form-error>
-    </div>
+  <div class="form-control" (click)="toggleOptions()" [class.input-error]="hasError">
+    <ion-item class="form-input" lines="none">
+      <ion-label>{{ label }}</ion-label>
+      <ion-input [attr.readonly]="readonly" [type]="'input'" [formControl]="control" [placeholder]="placeholder">
+      </ion-input>
+      <ion-icon class="error-icon" src="/assets/icon/alert.svg"></ion-icon>
+      <ng-container *ngIf="!hasError">
+        <div *ngIf="optionsActive" class="options-active-icon">
+          <ion-icon class="" src="/assets/icon/select-up.svg"></ion-icon>
+        </div>
+        <div *ngIf="!optionsActive" class="options-active-icon">
+          <ion-icon src="/assets/icon/select-down.svg"></ion-icon>
+        </div>
+      </ng-container>
+    </ion-item>
+    <bc-form-error [name]="label" [control]="control"></bc-form-error>
+  </div>
 
-    <div class="options-wrapper" #selectOptions>
-        <ul class="options" *ngIf="multiple">
-            <li *ngFor="let item of optionsControls">
-                <bc-checkbox
-                    (change)="selectChanged()"
-                    ngDefaultControl
-                    [formControl]="item[2]"
-                    [value]="item[0]"
-                    [label]="item[1]"
-                ></bc-checkbox>
-            </li>
-        </ul>
-        <ul class="options" *ngIf="!multiple">
-            <li
-                (click)="singleSelect(+item[0])"
-                *ngFor="let item of optionsControls"
-            >
-                <span>{{ item[1] }}</span>
-            </li>
-        </ul>
-    </div>
+  <div class="options-wrapper" #selectOptions>
+    <ul class="options" *ngIf="multiple">
+      <ion-searchbar (ionChange)="searchForItem($event)" #searchBar></ion-searchbar>
+      <li *ngFor="let item of optionsToShow">
+        <bc-checkbox (change)="selectChanged()" ngDefaultControl [formControl]="item[2]" [value]="item[0]"
+          [label]="item[1]"></bc-checkbox>
+      </li>
+    </ul>
+    <ul class="options" *ngIf="!multiple" #searchBar>
+      <ion-searchbar (ionChange)="searchForItem($event)"></ion-searchbar>
+      <li (click)="singleSelect(+item[0])" *ngFor="let item of optionsToShow">
+        <span>{{ item[1] }}</span>
+      </li>
+    </ul>
+  </div>
 </div>

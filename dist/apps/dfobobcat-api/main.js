@@ -354,12 +354,15 @@ let AdminService = class AdminService {
             const { userId, roleId, company: companyName } = args, updateData = tslib_1.__rest(args, ["userId", "roleId", "company"]);
             const user = yield tool_1.findIdOrThrow(this.usersRepository, userId);
             let company = yield this.companyRepository.findOne({ name: companyName });
-            if (!company) {
+            //fixing the bug
+            if (!company && companyName) {
                 company = yield this.companyService.addCompany({
                     name: companyName,
                 });
             }
-            updateData.company = company;
+            if (company) {
+                updateData.company = company;
+            }
             let role;
             if (roleId) {
                 role = yield tool_1.findIdOrThrow(this.roleRepository, roleId);
@@ -652,10 +655,7 @@ let LogInWithCredentialsGuard = class LogInWithCredentialsGuard extends passport
             if (!gqlContext.user.emailVerified) {
                 throw new exception_1.UserError('Please verify your email');
             }
-            gqlContext.login(gqlContext.user, (err) => {
-                if (err)
-                    throw err;
-            });
+            gqlContext.login(gqlContext.user);
             return true;
         });
     }
@@ -1110,6 +1110,7 @@ const rolePermissions = {
         can(const_1.Claim.GetAllUsers);
         can(const_1.Claim.Authenticated);
         can(const_1.Claim.CancelAllJobs);
+        can(const_1.Claim.CancelOwnJob);
         can(const_1.Claim.UpdateOwnAccount);
         can(const_1.Claim.DeleteAllUsers);
         can(const_1.Claim.GetCompanies);
@@ -2185,7 +2186,7 @@ exports.UserSubscriber = UserSubscriber;
 
 "use strict";
 
-var _a, _b, _c, _d, _e;
+var _a, _b, _c, _d, _e, _f;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Job = void 0;
 const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
@@ -2293,16 +2294,24 @@ tslib_1.__decorate([
     tslib_1.__metadata("design:type", Array)
 ], Job.prototype, "activity", void 0);
 tslib_1.__decorate([
+    typeorm_1.ManyToOne(() => user_entity_1.User, undefined, {
+        eager: true,
+        nullable: true,
+        onDelete: 'SET NULL',
+    }),
+    tslib_1.__metadata("design:type", typeof (_c = typeof user_entity_1.User !== "undefined" && user_entity_1.User) === "function" ? _c : Object)
+], Job.prototype, "assigner", void 0);
+tslib_1.__decorate([
     typeorm_1.CreateDateColumn(),
-    tslib_1.__metadata("design:type", typeof (_c = typeof Date !== "undefined" && Date) === "function" ? _c : Object)
+    tslib_1.__metadata("design:type", typeof (_d = typeof Date !== "undefined" && Date) === "function" ? _d : Object)
 ], Job.prototype, "createdAt", void 0);
 tslib_1.__decorate([
     typeorm_1.UpdateDateColumn(),
-    tslib_1.__metadata("design:type", typeof (_d = typeof Date !== "undefined" && Date) === "function" ? _d : Object)
+    tslib_1.__metadata("design:type", typeof (_e = typeof Date !== "undefined" && Date) === "function" ? _e : Object)
 ], Job.prototype, "updatedAt", void 0);
 Job = tslib_1.__decorate([
     typeorm_1.Entity(),
-    tslib_1.__metadata("design:paramtypes", [typeof (_e = typeof typeorm_1.DeepPartial !== "undefined" && typeorm_1.DeepPartial) === "function" ? _e : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_f = typeof typeorm_1.DeepPartial !== "undefined" && typeorm_1.DeepPartial) === "function" ? _f : Object])
 ], Job);
 exports.Job = Job;
 
@@ -2589,9 +2598,9 @@ let GraphqlService = class GraphqlService {
                 resolvers: {
                     Upload: apollo_server_express_1.GraphQLUpload,
                 },
-                // uploads: {
-                //   maxFieldSize: 524288000,
-                // },
+                uploads: {
+                    maxFieldSize: 524288000,
+                },
                 path: '/graphql',
                 cors: {
                     origin: this.configService.get('ALLOWED_ORIGINS').split(','),
@@ -3997,6 +4006,8 @@ let JobService = class JobService {
                 .createQueryBuilder('job')
                 .leftJoinAndSelect('job.equipment', 'equipment')
                 .leftJoinAndSelect('job.builder', 'builder')
+                .leftJoinAndSelect('job.assigner', 'assigner')
+                .leftJoinAndSelect('job.staff', 'staff')
                 .where('job.id = :jobId', { jobId })
                 .orderBy()
                 .getOneOrFail();
@@ -4048,6 +4059,7 @@ let JobService = class JobService {
                 .setParameters(queryIds.getParameters())
                 .leftJoinAndSelect('job.equipment', 'equipment')
                 .leftJoinAndSelect('job.builder', 'builder')
+                .leftJoinAndSelect('job.assigner', 'assigner')
                 .leftJoinAndSelect('job.activity', 'activity');
             const totalClone = query.clone();
             const total = yield totalClone.getCount();
@@ -4162,7 +4174,7 @@ let JobService = class JobService {
     }
     updateJob(ctx, args) {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            const { address, lat, lng, id, priority } = args;
+            const { address, lat, lng, id, notes, priority } = args;
             const requestDate = new Date(args.requestDate);
             let isReschedule = false;
             const user = ctx.getUser();
@@ -4228,7 +4240,8 @@ let JobService = class JobService {
             updatedActivity.push({ type: 'updated', date: new Date().toISOString() });
             job = Object.assign(Object.assign({}, job), { address,
                 lat,
-                lng, requestDate: new Date(requestDate), equipment, reminderSent: false, staff: isReschedule ? [] : job.staff, status: isReschedule ? graphql_types_1.JobStatus.Pending : job.status, activity: updatedActivity, priority });
+                lng, requestDate: new Date(requestDate), equipment, reminderSent: false, staff: isReschedule ? [] : job.staff, status: isReschedule ? graphql_types_1.JobStatus.Pending : job.status, activity: updatedActivity, notes,
+                priority });
             yield this.jobsRepository.save(job);
             if (isReschedule) {
                 const oldRequestDate = this.tzService.convertToTZ(oldJobData.requestDate);
@@ -4356,11 +4369,11 @@ let JobService = class JobService {
             job.status =
                 action === 'assign' ? graphql_types_1.JobStatus.Assigned : graphql_types_1.JobStatus.UnAssigned;
             job.staff = action === 'assign' ? staffUsers : [];
+            job.assigner = ctx.getUser();
             if (action === 'assign')
                 job.activity.push({ type: graphql_types_1.JobStatus.Assigned, date: new Date() });
             else
                 job.activity.push({ type: graphql_types_1.JobStatus.UnAssigned, date: new Date() });
-            console.log('job job==========', job);
             yield this.jobsRepository.save(job);
             const requestDate = this.tzService.convertToTZ(job.requestDate);
             const jobInfo = `${requestDate} - ${job.address}`;
@@ -4542,6 +4555,7 @@ let StaffJobService = class StaffJobService {
                     break;
                 }
             }
+            // console.log(jobs);
             return jobs;
         });
     }
@@ -4551,6 +4565,7 @@ let StaffJobService = class StaffJobService {
             const query = this.jobsRepository
                 .createQueryBuilder('job')
                 .leftJoinAndSelect('job.equipment', 'equipment')
+                .leftJoinAndSelect('job.builder', 'builder') //Bug fixing : Add builder Name
                 .innerJoin('job.staff', 'staff', 'staff.id = :staffId', { staffId })
                 .where('DATE(job.requestDate) >= DATE(:now)', {
                 now,
@@ -4578,12 +4593,15 @@ let StaffJobService = class StaffJobService {
                 'job.lat',
                 'job.lng',
                 'job.status',
+                'job.notes',
                 'job.priority',
                 'job.requestDate',
+                'builder',
                 'equipment.name',
                 'equipment.id',
             ])
-                .orderBy('job.requestDate', 'DESC');
+                .orderBy('job.requestDate', 'DESC'); //Bug fixing : Add builder Name
+            // console.log('==============================');
             return query.getMany();
         });
     }
@@ -4599,6 +4617,7 @@ let StaffJobService = class StaffJobService {
             const query = this.jobsRepository
                 .createQueryBuilder('job')
                 .leftJoinAndSelect('job.equipment', 'equipment')
+                .leftJoinAndSelect('job.builder', 'builder')
                 .innerJoin('job.staff', 'staff', 'staff.id = :staffId', { staffId });
             if (jobIdsWithClockOffs.length) {
                 query
@@ -4630,9 +4649,11 @@ let StaffJobService = class StaffJobService {
                 'job.address',
                 'job.lat',
                 'job.lng',
+                'job.notes',
                 'job.priority',
                 'job.status',
                 'job.requestDate',
+                'builder',
                 'equipment.name',
                 'equipment.id',
             ])
@@ -4645,6 +4666,7 @@ let StaffJobService = class StaffJobService {
             const query = this.jobsRepository
                 .createQueryBuilder('job')
                 .leftJoinAndSelect('job.equipment', 'equipment')
+                .leftJoinAndSelect('job.builder', 'builder')
                 .innerJoin('job.staff', 'staff', 'staff.id = :staffId', { staffId })
                 .where('job.status = :status', { status: graphql_types_1.JobStatus.Cancelled });
             if (args.search &&
@@ -4660,9 +4682,11 @@ let StaffJobService = class StaffJobService {
                 'job.address',
                 'job.lat',
                 'job.lng',
+                'job.notes',
                 'job.priority',
                 'job.status',
                 'job.requestDate',
+                'builder',
                 'equipment.name',
                 'equipment.id',
             ])
@@ -5841,7 +5865,7 @@ let UserService = class UserService {
             const foundRole = yield this.roleRepository.findOneOrFail({
                 name: graphql_types_1.RoleType.Builder,
             });
-            const newUser = yield this.usersRepository.create(Object.assign(Object.assign({}, userFromData), { company }));
+            const newUser = yield this.usersRepository.create(Object.assign(Object.assign({}, userFromData), { company: company }));
             newUser.role = foundRole;
             yield this.usersRepository.save(newUser);
             const loginToken = tool_1.generateToken();
@@ -6050,10 +6074,10 @@ tslib_1.__exportStar(__webpack_require__(/*! ./lib/graphql */ "./libs/graphql/sr
 
 "use strict";
 
-var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12;
+var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MyJobRequestsGQL = exports.MyJobRequestsDocument = exports.JobLocationGQL = exports.JobLocationDocument = exports.ClockInsGQL = exports.ClockInsDocument = exports.ClockOffsGQL = exports.ClockOffsDocument = exports.JobGQL = exports.JobDocument = exports.MeGQL = exports.MeDocument = exports.HasClockedIntoJobGQL = exports.HasClockedIntoJobDocument = exports.DeleteUserGQL = exports.DeleteUserDocument = exports.UpdateUserGQL = exports.UpdateUserDocument = exports.LogoutGQL = exports.LogoutDocument = exports.AssignToJobGQL = exports.AssignToJobDocument = exports.CancelJobGQL = exports.CancelJobDocument = exports.UpdateJobGQL = exports.UpdateJobDocument = exports.UpdateJobDateGQL = exports.UpdateJobDateDocument = exports.CreateJobGQL = exports.CreateJobDocument = exports.AddClockOffGQL = exports.AddClockOffDocument = exports.AddClockInGQL = exports.AddClockInDocument = exports.TokenLoginGQL = exports.TokenLoginDocument = exports.LoginGQL = exports.LoginDocument = exports.RestorePasswordGQL = exports.RestorePasswordDocument = exports.RegisterGQL = exports.RegisterDocument = exports.ForgotPasswordGQL = exports.ForgotPasswordDocument = exports.RegisterBuilderGQL = exports.RegisterBuilderDocument = exports.JobFragmentFragmentDoc = exports.RoleType = exports.JobStatus = exports.JobFilter = void 0;
-exports.ApolloAngularSDK = exports.UpdateMyAccountGQL = exports.UpdateMyAccountDocument = exports.SettingsGQL = exports.SettingsDocument = exports.VerifyEmailGQL = exports.VerifyEmailDocument = exports.UserGQL = exports.UserDocument = exports.StaffRolesGQL = exports.StaffRolesDocument = exports.JobsForDateFullListGQL = exports.JobsForDateFullListDocument = exports.JobsForDateGQL = exports.JobsForDateDocument = exports.TotalWorkedHoursGQL = exports.TotalWorkedHoursDocument = exports.UsersGQL = exports.UsersDocument = exports.JobsGQL = exports.JobsDocument = exports.CompaniesGQL = exports.CompaniesDocument = exports.EquipmentGQL = exports.EquipmentDocument = exports.TodaysAssignedJobGQL = exports.TodaysAssignedJobDocument = exports.MyAssignedJobsGQL = exports.MyAssignedJobsDocument = void 0;
+exports.ClockOffsGQL = exports.ClockOffsDocument = exports.JobStaffsGQL = exports.JobStaffsDocument = exports.JobAssignerGQL = exports.JobAssignerDocument = exports.JobGQL = exports.JobDocument = exports.MeGQL = exports.MeDocument = exports.HasClockedIntoJobGQL = exports.HasClockedIntoJobDocument = exports.DeleteUserGQL = exports.DeleteUserDocument = exports.UpdateUserGQL = exports.UpdateUserDocument = exports.LogoutGQL = exports.LogoutDocument = exports.UnAssignToJobGQL = exports.UnAssignToJobDocument = exports.AssignToJobGQL = exports.AssignToJobDocument = exports.CancelJobGQL = exports.CancelJobDocument = exports.UpdateJobDateGQL = exports.UpdateJobDateDocument = exports.UpdateJobGQL = exports.UpdateJobDocument = exports.CreateJobGQL = exports.CreateJobDocument = exports.AddClockOffGQL = exports.AddClockOffDocument = exports.AddClockInGQL = exports.AddClockInDocument = exports.TokenLoginGQL = exports.TokenLoginDocument = exports.LoginGQL = exports.LoginDocument = exports.RestorePasswordGQL = exports.RestorePasswordDocument = exports.RegisterGQL = exports.RegisterDocument = exports.ForgotPasswordGQL = exports.ForgotPasswordDocument = exports.RegisterBuilderGQL = exports.RegisterBuilderDocument = exports.JobFragmentFragmentDoc = exports.RoleType = exports.JobStatus = exports.JobFilter = void 0;
+exports.ApolloAngularSDK = exports.UpdateMyAccountGQL = exports.UpdateMyAccountDocument = exports.SettingsGQL = exports.SettingsDocument = exports.VerifyEmailGQL = exports.VerifyEmailDocument = exports.UserGQL = exports.UserDocument = exports.StaffRolesGQL = exports.StaffRolesDocument = exports.JobsForDateFullListGQL = exports.JobsForDateFullListDocument = exports.JobsForDateGQL = exports.JobsForDateDocument = exports.TotalWorkedHoursGQL = exports.TotalWorkedHoursDocument = exports.UsersGQL = exports.UsersDocument = exports.JobsGQL = exports.JobsDocument = exports.CompaniesGQL = exports.CompaniesDocument = exports.EquipmentGQL = exports.EquipmentDocument = exports.TodaysAssignedJobGQL = exports.TodaysAssignedJobDocument = exports.MyAssignedJobsGQL = exports.MyAssignedJobsDocument = exports.MyJobRequestsGQL = exports.MyJobRequestsDocument = exports.JobLocationGQL = exports.JobLocationDocument = exports.ClockInsGQL = exports.ClockInsDocument = void 0;
 const tslib_1 = __webpack_require__(/*! tslib */ "tslib");
 const apollo_angular_1 = __webpack_require__(/*! apollo-angular */ "apollo-angular");
 const core_1 = __webpack_require__(/*! @angular/core */ "@angular/core");
@@ -6067,11 +6091,11 @@ var JobFilter;
 var JobStatus;
 (function (JobStatus) {
     JobStatus["Assigned"] = "assigned";
-    JobStatus["UnAssigned"] = "unAssigned";
     JobStatus["Cancelled"] = "cancelled";
     JobStatus["Completed"] = "completed";
     JobStatus["InProgress"] = "inProgress";
     JobStatus["Pending"] = "pending";
+    JobStatus["UnAssigned"] = "unAssigned";
 })(JobStatus = exports.JobStatus || (exports.JobStatus = {}));
 var RoleType;
 (function (RoleType) {
@@ -6081,29 +6105,33 @@ var RoleType;
     RoleType["Operator"] = "operator";
 })(RoleType = exports.RoleType || (exports.RoleType = {}));
 exports.JobFragmentFragmentDoc = apollo_angular_1.gql `
-  fragment JobFragment on Job {
+    fragment JobFragment on Job {
+  id
+  address
+  lat
+  lng
+  status
+  requestDate
+  poFile
+  notes
+  priority
+  equipment {
     id
-    address
-    lat
-    lng
-    status
-    requestDate
-    poFile
-    notes
-    priority
-    equipment {
-      id
-      name
-    }
+    name
   }
-`;
+  assigner {
+    id
+    name
+  }
+}
+    `;
 exports.RegisterBuilderDocument = apollo_angular_1.gql `
-  mutation RegisterBuilder($input: RegisterBuilderInput!) {
-    registerBuilder(input: $input) {
-      success
-    }
+    mutation RegisterBuilder($input: RegisterBuilderInput!) {
+  registerBuilder(input: $input) {
+    success
   }
-`;
+}
+    `;
 let RegisterBuilderGQL = class RegisterBuilderGQL extends Apollo.Mutation {
     constructor(apollo) {
         super(apollo);
@@ -6112,18 +6140,18 @@ let RegisterBuilderGQL = class RegisterBuilderGQL extends Apollo.Mutation {
 };
 RegisterBuilderGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
     tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _a : Object])
 ], RegisterBuilderGQL);
 exports.RegisterBuilderGQL = RegisterBuilderGQL;
 exports.ForgotPasswordDocument = apollo_angular_1.gql `
-  mutation ForgotPassword($email: String!) {
-    forgotPassword(email: $email) {
-      success
-    }
+    mutation ForgotPassword($email: String!) {
+  forgotPassword(email: $email) {
+    success
   }
-`;
+}
+    `;
 let ForgotPasswordGQL = class ForgotPasswordGQL extends Apollo.Mutation {
     constructor(apollo) {
         super(apollo);
@@ -6132,18 +6160,18 @@ let ForgotPasswordGQL = class ForgotPasswordGQL extends Apollo.Mutation {
 };
 ForgotPasswordGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
     tslib_1.__metadata("design:paramtypes", [typeof (_b = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _b : Object])
 ], ForgotPasswordGQL);
 exports.ForgotPasswordGQL = ForgotPasswordGQL;
 exports.RegisterDocument = apollo_angular_1.gql `
-  mutation Register($input: RegisterUserInput!) {
-    register(input: $input) {
-      success
-    }
+    mutation Register($input: RegisterUserInput!) {
+  register(input: $input) {
+    success
   }
-`;
+}
+    `;
 let RegisterGQL = class RegisterGQL extends Apollo.Mutation {
     constructor(apollo) {
         super(apollo);
@@ -6152,18 +6180,18 @@ let RegisterGQL = class RegisterGQL extends Apollo.Mutation {
 };
 RegisterGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
     tslib_1.__metadata("design:paramtypes", [typeof (_c = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _c : Object])
 ], RegisterGQL);
 exports.RegisterGQL = RegisterGQL;
 exports.RestorePasswordDocument = apollo_angular_1.gql `
-  mutation RestorePassword($newPassword: String!, $token: String!) {
-    restorePassword(newPassword: $newPassword, token: $token) {
-      success
-    }
+    mutation RestorePassword($newPassword: String!, $token: String!) {
+  restorePassword(newPassword: $newPassword, token: $token) {
+    success
   }
-`;
+}
+    `;
 let RestorePasswordGQL = class RestorePasswordGQL extends Apollo.Mutation {
     constructor(apollo) {
         super(apollo);
@@ -6172,22 +6200,22 @@ let RestorePasswordGQL = class RestorePasswordGQL extends Apollo.Mutation {
 };
 RestorePasswordGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
     tslib_1.__metadata("design:paramtypes", [typeof (_d = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _d : Object])
 ], RestorePasswordGQL);
 exports.RestorePasswordGQL = RestorePasswordGQL;
 exports.LoginDocument = apollo_angular_1.gql `
-  mutation Login($input: LoginInput!) {
-    login(input: $input) {
-      role {
-        name
-      }
-      email
+    mutation Login($input: LoginInput!) {
+  login(input: $input) {
+    role {
       name
     }
+    email
+    name
   }
-`;
+}
+    `;
 let LoginGQL = class LoginGQL extends Apollo.Mutation {
     constructor(apollo) {
         super(apollo);
@@ -6196,22 +6224,22 @@ let LoginGQL = class LoginGQL extends Apollo.Mutation {
 };
 LoginGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
     tslib_1.__metadata("design:paramtypes", [typeof (_e = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _e : Object])
 ], LoginGQL);
 exports.LoginGQL = LoginGQL;
 exports.TokenLoginDocument = apollo_angular_1.gql `
-  mutation TokenLogin($token: String!) {
-    tokenLogin(token: $token) {
-      role {
-        name
-      }
-      email
+    mutation TokenLogin($token: String!) {
+  tokenLogin(token: $token) {
+    role {
       name
     }
+    email
+    name
   }
-`;
+}
+    `;
 let TokenLoginGQL = class TokenLoginGQL extends Apollo.Mutation {
     constructor(apollo) {
         super(apollo);
@@ -6220,23 +6248,23 @@ let TokenLoginGQL = class TokenLoginGQL extends Apollo.Mutation {
 };
 TokenLoginGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
     tslib_1.__metadata("design:paramtypes", [typeof (_f = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _f : Object])
 ], TokenLoginGQL);
 exports.TokenLoginGQL = TokenLoginGQL;
 exports.AddClockInDocument = apollo_angular_1.gql `
-  mutation AddClockIn($input: AddClockInInput!) {
-    addClockIn(input: $input) {
+    mutation AddClockIn($input: AddClockInInput!) {
+  addClockIn(input: $input) {
+    id
+    equipment {
       id
-      equipment {
-        id
-        name
-      }
-      address
+      name
     }
+    address
   }
-`;
+}
+    `;
 let AddClockInGQL = class AddClockInGQL extends Apollo.Mutation {
     constructor(apollo) {
         super(apollo);
@@ -6245,18 +6273,18 @@ let AddClockInGQL = class AddClockInGQL extends Apollo.Mutation {
 };
 AddClockInGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
     tslib_1.__metadata("design:paramtypes", [typeof (_g = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _g : Object])
 ], AddClockInGQL);
 exports.AddClockInGQL = AddClockInGQL;
 exports.AddClockOffDocument = apollo_angular_1.gql `
-  mutation AddClockOff($input: AddClockOffInput!) {
-    addClockOff(input: $input) {
-      success
-    }
+    mutation AddClockOff($input: AddClockOffInput!) {
+  addClockOff(input: $input) {
+    success
   }
-`;
+}
+    `;
 let AddClockOffGQL = class AddClockOffGQL extends Apollo.Mutation {
     constructor(apollo) {
         super(apollo);
@@ -6265,18 +6293,18 @@ let AddClockOffGQL = class AddClockOffGQL extends Apollo.Mutation {
 };
 AddClockOffGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
     tslib_1.__metadata("design:paramtypes", [typeof (_h = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _h : Object])
 ], AddClockOffGQL);
 exports.AddClockOffGQL = AddClockOffGQL;
 exports.CreateJobDocument = apollo_angular_1.gql `
-  mutation CreateJob($input: CreateJobInput!) {
-    createJob(input: $input) {
-      success
-    }
+    mutation CreateJob($input: CreateJobInput!) {
+  createJob(input: $input) {
+    success
   }
-`;
+}
+    `;
 let CreateJobGQL = class CreateJobGQL extends Apollo.Mutation {
     constructor(apollo) {
         super(apollo);
@@ -6285,38 +6313,18 @@ let CreateJobGQL = class CreateJobGQL extends Apollo.Mutation {
 };
 CreateJobGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
     tslib_1.__metadata("design:paramtypes", [typeof (_j = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _j : Object])
 ], CreateJobGQL);
 exports.CreateJobGQL = CreateJobGQL;
-exports.UpdateJobDateDocument = apollo_angular_1.gql `
-  mutation UpdateJobDate($input: UpdateJobDateInput!) {
-    updateJobDate(input: $input) {
-      success
-    }
-  }
-`;
-let UpdateJobDateGQL = class UpdateJobDateGQL extends Apollo.Mutation {
-    constructor(apollo) {
-        super(apollo);
-        this.document = exports.UpdateJobDateDocument;
-    }
-};
-UpdateJobDateGQL = tslib_1.__decorate([
-    core_1.Injectable({
-        providedIn: 'root',
-    }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_k = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _k : Object])
-], UpdateJobDateGQL);
-exports.UpdateJobDateGQL = UpdateJobDateGQL;
 exports.UpdateJobDocument = apollo_angular_1.gql `
-  mutation UpdateJob($input: UpdateJobInput!) {
-    updateJob(input: $input) {
-      success
-    }
+    mutation UpdateJob($input: UpdateJobInput!) {
+  updateJob(input: $input) {
+    success
   }
-`;
+}
+    `;
 let UpdateJobGQL = class UpdateJobGQL extends Apollo.Mutation {
     constructor(apollo) {
         super(apollo);
@@ -6325,18 +6333,38 @@ let UpdateJobGQL = class UpdateJobGQL extends Apollo.Mutation {
 };
 UpdateJobGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_l = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _l : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_k = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _k : Object])
 ], UpdateJobGQL);
 exports.UpdateJobGQL = UpdateJobGQL;
-exports.CancelJobDocument = apollo_angular_1.gql `
-  mutation CancelJob($input: Float!) {
-    cancelJob(jobId: $input) {
-      success
-    }
+exports.UpdateJobDateDocument = apollo_angular_1.gql `
+    mutation UpdateJobDate($input: UpdateJobDateInput!) {
+  updateJobDate(input: $input) {
+    success
   }
-`;
+}
+    `;
+let UpdateJobDateGQL = class UpdateJobDateGQL extends Apollo.Mutation {
+    constructor(apollo) {
+        super(apollo);
+        this.document = exports.UpdateJobDateDocument;
+    }
+};
+UpdateJobDateGQL = tslib_1.__decorate([
+    core_1.Injectable({
+        providedIn: 'root'
+    }),
+    tslib_1.__metadata("design:paramtypes", [typeof (_l = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _l : Object])
+], UpdateJobDateGQL);
+exports.UpdateJobDateGQL = UpdateJobDateGQL;
+exports.CancelJobDocument = apollo_angular_1.gql `
+    mutation CancelJob($input: Float!) {
+  cancelJob(jobId: $input) {
+    success
+  }
+}
+    `;
 let CancelJobGQL = class CancelJobGQL extends Apollo.Mutation {
     constructor(apollo) {
         super(apollo);
@@ -6345,18 +6373,18 @@ let CancelJobGQL = class CancelJobGQL extends Apollo.Mutation {
 };
 CancelJobGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
     tslib_1.__metadata("design:paramtypes", [typeof (_m = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _m : Object])
 ], CancelJobGQL);
 exports.CancelJobGQL = CancelJobGQL;
 exports.AssignToJobDocument = apollo_angular_1.gql `
-  mutation AssignToJob($input: AssignToJobInput!) {
-    assignToJob(input: $input) {
-      success
-    }
+    mutation AssignToJob($input: AssignToJobInput!) {
+  assignToJob(input: $input) {
+    success
   }
-`;
+}
+    `;
 let AssignToJobGQL = class AssignToJobGQL extends Apollo.Mutation {
     constructor(apollo) {
         super(apollo);
@@ -6365,18 +6393,38 @@ let AssignToJobGQL = class AssignToJobGQL extends Apollo.Mutation {
 };
 AssignToJobGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
     tslib_1.__metadata("design:paramtypes", [typeof (_o = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _o : Object])
 ], AssignToJobGQL);
 exports.AssignToJobGQL = AssignToJobGQL;
-exports.LogoutDocument = apollo_angular_1.gql `
-  mutation Logout {
-    logout {
-      success
-    }
+exports.UnAssignToJobDocument = apollo_angular_1.gql `
+    mutation UnAssignToJob($input: UnAssignToJobInput!) {
+  unAssignToJob(input: $input) {
+    success
   }
-`;
+}
+    `;
+let UnAssignToJobGQL = class UnAssignToJobGQL extends Apollo.Mutation {
+    constructor(apollo) {
+        super(apollo);
+        this.document = exports.UnAssignToJobDocument;
+    }
+};
+UnAssignToJobGQL = tslib_1.__decorate([
+    core_1.Injectable({
+        providedIn: 'root'
+    }),
+    tslib_1.__metadata("design:paramtypes", [typeof (_p = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _p : Object])
+], UnAssignToJobGQL);
+exports.UnAssignToJobGQL = UnAssignToJobGQL;
+exports.LogoutDocument = apollo_angular_1.gql `
+    mutation Logout {
+  logout {
+    success
+  }
+}
+    `;
 let LogoutGQL = class LogoutGQL extends Apollo.Mutation {
     constructor(apollo) {
         super(apollo);
@@ -6385,18 +6433,18 @@ let LogoutGQL = class LogoutGQL extends Apollo.Mutation {
 };
 LogoutGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_p = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _p : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_q = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _q : Object])
 ], LogoutGQL);
 exports.LogoutGQL = LogoutGQL;
 exports.UpdateUserDocument = apollo_angular_1.gql `
-  mutation UpdateUser($input: UpdateUserInput!) {
-    updateUser(input: $input) {
-      success
-    }
+    mutation UpdateUser($input: UpdateUserInput!) {
+  updateUser(input: $input) {
+    success
   }
-`;
+}
+    `;
 let UpdateUserGQL = class UpdateUserGQL extends Apollo.Mutation {
     constructor(apollo) {
         super(apollo);
@@ -6405,18 +6453,18 @@ let UpdateUserGQL = class UpdateUserGQL extends Apollo.Mutation {
 };
 UpdateUserGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_q = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _q : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_r = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _r : Object])
 ], UpdateUserGQL);
 exports.UpdateUserGQL = UpdateUserGQL;
 exports.DeleteUserDocument = apollo_angular_1.gql `
-  mutation DeleteUser($input: Float!) {
-    deleteUser(userId: $input) {
-      success
-    }
+    mutation DeleteUser($input: Float!) {
+  deleteUser(userId: $input) {
+    success
   }
-`;
+}
+    `;
 let DeleteUserGQL = class DeleteUserGQL extends Apollo.Mutation {
     constructor(apollo) {
         super(apollo);
@@ -6425,20 +6473,20 @@ let DeleteUserGQL = class DeleteUserGQL extends Apollo.Mutation {
 };
 DeleteUserGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_r = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _r : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_s = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _s : Object])
 ], DeleteUserGQL);
 exports.DeleteUserGQL = DeleteUserGQL;
 exports.HasClockedIntoJobDocument = apollo_angular_1.gql `
-  query HasClockedIntoJob($id: Float!) {
-    me {
-      ... on Staff {
-        hasClockedIntoJob(id: $id)
-      }
+    query HasClockedIntoJob($id: Float!) {
+  me {
+    ... on Staff {
+      hasClockedIntoJob(id: $id)
     }
   }
-`;
+}
+    `;
 let HasClockedIntoJobGQL = class HasClockedIntoJobGQL extends Apollo.Query {
     constructor(apollo) {
         super(apollo);
@@ -6447,34 +6495,33 @@ let HasClockedIntoJobGQL = class HasClockedIntoJobGQL extends Apollo.Query {
 };
 HasClockedIntoJobGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_s = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _s : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_t = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _t : Object])
 ], HasClockedIntoJobGQL);
 exports.HasClockedIntoJobGQL = HasClockedIntoJobGQL;
 exports.MeDocument = apollo_angular_1.gql `
-  query Me($status: JobStatus, $filter: JobFilter) {
-    me {
-      id
+    query Me($status: JobStatus, $filter: JobFilter) {
+  me {
+    id
+    name
+    email
+    role {
       name
-      email
-      role {
-        name
+    }
+    ... on Builder {
+      jobRequests(status: $status) {
+        ...JobFragment
       }
-      ... on Builder {
-        jobRequests(status: $status) {
-          ...JobFragment
-        }
-      }
-      ... on Staff {
-        assignedJobs(filter: $filter) {
-          ...JobFragment
-        }
+    }
+    ... on Staff {
+      assignedJobs(filter: $filter) {
+        ...JobFragment
       }
     }
   }
-  ${exports.JobFragmentFragmentDoc}
-`;
+}
+    ${exports.JobFragmentFragmentDoc}`;
 let MeGQL = class MeGQL extends Apollo.Query {
     constructor(apollo) {
         super(apollo);
@@ -6483,19 +6530,18 @@ let MeGQL = class MeGQL extends Apollo.Query {
 };
 MeGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_t = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _t : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_u = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _u : Object])
 ], MeGQL);
 exports.MeGQL = MeGQL;
 exports.JobDocument = apollo_angular_1.gql `
-  query Job($id: Float!) {
-    job(id: $id) {
-      ...JobFragment
-    }
+    query Job($id: Float!) {
+  job(id: $id) {
+    ...JobFragment
   }
-  ${exports.JobFragmentFragmentDoc}
-`;
+}
+    ${exports.JobFragmentFragmentDoc}`;
 let JobGQL = class JobGQL extends Apollo.Query {
     constructor(apollo) {
         super(apollo);
@@ -6504,26 +6550,70 @@ let JobGQL = class JobGQL extends Apollo.Query {
 };
 JobGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_u = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _u : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_v = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _v : Object])
 ], JobGQL);
 exports.JobGQL = JobGQL;
-exports.ClockOffsDocument = apollo_angular_1.gql `
-  query ClockOffs($id: Float!) {
-    job(id: $id) {
-      clockOffs {
-        id
-        clockOffTime
-        notes
-        staff {
-          name
-        }
-        images
-      }
+exports.JobAssignerDocument = apollo_angular_1.gql `
+    query JobAssigner($id: Float!) {
+  job(id: $id) {
+    assigner {
+      name
     }
   }
-`;
+}
+    `;
+let JobAssignerGQL = class JobAssignerGQL extends Apollo.Query {
+    constructor(apollo) {
+        super(apollo);
+        this.document = exports.JobAssignerDocument;
+    }
+};
+JobAssignerGQL = tslib_1.__decorate([
+    core_1.Injectable({
+        providedIn: 'root'
+    }),
+    tslib_1.__metadata("design:paramtypes", [typeof (_w = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _w : Object])
+], JobAssignerGQL);
+exports.JobAssignerGQL = JobAssignerGQL;
+exports.JobStaffsDocument = apollo_angular_1.gql `
+    query JobStaffs($id: Float!) {
+  job(id: $id) {
+    staff {
+      name
+    }
+  }
+}
+    `;
+let JobStaffsGQL = class JobStaffsGQL extends Apollo.Query {
+    constructor(apollo) {
+        super(apollo);
+        this.document = exports.JobStaffsDocument;
+    }
+};
+JobStaffsGQL = tslib_1.__decorate([
+    core_1.Injectable({
+        providedIn: 'root'
+    }),
+    tslib_1.__metadata("design:paramtypes", [typeof (_x = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _x : Object])
+], JobStaffsGQL);
+exports.JobStaffsGQL = JobStaffsGQL;
+exports.ClockOffsDocument = apollo_angular_1.gql `
+    query ClockOffs($id: Float!) {
+  job(id: $id) {
+    clockOffs {
+      id
+      clockOffTime
+      notes
+      staff {
+        name
+      }
+      images
+    }
+  }
+}
+    `;
 let ClockOffsGQL = class ClockOffsGQL extends Apollo.Query {
     constructor(apollo) {
         super(apollo);
@@ -6532,25 +6622,25 @@ let ClockOffsGQL = class ClockOffsGQL extends Apollo.Query {
 };
 ClockOffsGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_v = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _v : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_y = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _y : Object])
 ], ClockOffsGQL);
 exports.ClockOffsGQL = ClockOffsGQL;
 exports.ClockInsDocument = apollo_angular_1.gql `
-  query ClockIns($id: Float!) {
-    job(id: $id) {
-      clockIns {
-        id
-        clockInTime
-        staff {
-          name
-        }
-        images
+    query ClockIns($id: Float!) {
+  job(id: $id) {
+    clockIns {
+      id
+      clockInTime
+      staff {
+        name
       }
+      images
     }
   }
-`;
+}
+    `;
 let ClockInsGQL = class ClockInsGQL extends Apollo.Query {
     constructor(apollo) {
         super(apollo);
@@ -6559,20 +6649,20 @@ let ClockInsGQL = class ClockInsGQL extends Apollo.Query {
 };
 ClockInsGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_w = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _w : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_z = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _z : Object])
 ], ClockInsGQL);
 exports.ClockInsGQL = ClockInsGQL;
 exports.JobLocationDocument = apollo_angular_1.gql `
-  query JobLocation($id: Float!) {
-    job(id: $id) {
-      address
-      lat
-      lng
-    }
+    query JobLocation($id: Float!) {
+  job(id: $id) {
+    address
+    lat
+    lng
   }
-`;
+}
+    `;
 let JobLocationGQL = class JobLocationGQL extends Apollo.Query {
     constructor(apollo) {
         super(apollo);
@@ -6581,23 +6671,22 @@ let JobLocationGQL = class JobLocationGQL extends Apollo.Query {
 };
 JobLocationGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_x = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _x : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_0 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _0 : Object])
 ], JobLocationGQL);
 exports.JobLocationGQL = JobLocationGQL;
 exports.MyJobRequestsDocument = apollo_angular_1.gql `
-  query MyJobRequests($status: JobStatus, $search: String) {
-    me {
-      ... on Builder {
-        jobRequests(status: $status, search: $search) {
-          ...JobFragment
-        }
+    query MyJobRequests($status: JobStatus, $search: String) {
+  me {
+    ... on Builder {
+      jobRequests(status: $status, search: $search) {
+        ...JobFragment
       }
     }
   }
-  ${exports.JobFragmentFragmentDoc}
-`;
+}
+    ${exports.JobFragmentFragmentDoc}`;
 let MyJobRequestsGQL = class MyJobRequestsGQL extends Apollo.Query {
     constructor(apollo) {
         super(apollo);
@@ -6606,159 +6695,26 @@ let MyJobRequestsGQL = class MyJobRequestsGQL extends Apollo.Query {
 };
 MyJobRequestsGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_y = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _y : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_1 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _1 : Object])
 ], MyJobRequestsGQL);
 exports.MyJobRequestsGQL = MyJobRequestsGQL;
 exports.MyAssignedJobsDocument = apollo_angular_1.gql `
-  query MyAssignedJobs($filter: JobFilter, $search: String) {
-    me {
-      ... on Staff {
-        assignedJobs(filter: $filter, search: $search) {
-          id
-          address
-          lat
-          lng
-          status
-          requestDate
-          priority
-          equipment {
-            id
-            name
-          }
-        }
-      }
-    }
-  }
-`;
-let MyAssignedJobsGQL = class MyAssignedJobsGQL extends Apollo.Query {
-    constructor(apollo) {
-        super(apollo);
-        this.document = exports.MyAssignedJobsDocument;
-    }
-};
-MyAssignedJobsGQL = tslib_1.__decorate([
-    core_1.Injectable({
-        providedIn: 'root',
-    }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_z = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _z : Object])
-], MyAssignedJobsGQL);
-exports.MyAssignedJobsGQL = MyAssignedJobsGQL;
-exports.TodaysAssignedJobDocument = apollo_angular_1.gql `
-  query TodaysAssignedJob {
-    me {
-      ... on Staff {
-        todaysAssignedJob {
-          id
-          address
-          lat
-          lng
-          status
-          requestDate
-          priority
-          equipment {
-            id
-            name
-          }
-        }
-      }
-    }
-  }
-`;
-let TodaysAssignedJobGQL = class TodaysAssignedJobGQL extends Apollo.Query {
-    constructor(apollo) {
-        super(apollo);
-        this.document = exports.TodaysAssignedJobDocument;
-    }
-};
-TodaysAssignedJobGQL = tslib_1.__decorate([
-    core_1.Injectable({
-        providedIn: 'root',
-    }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_0 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _0 : Object])
-], TodaysAssignedJobGQL);
-exports.TodaysAssignedJobGQL = TodaysAssignedJobGQL;
-exports.EquipmentDocument = apollo_angular_1.gql `
-  query Equipment {
-    equipment {
-      id
-      name
-    }
-  }
-`;
-let EquipmentGQL = class EquipmentGQL extends Apollo.Query {
-    constructor(apollo) {
-        super(apollo);
-        this.document = exports.EquipmentDocument;
-    }
-};
-EquipmentGQL = tslib_1.__decorate([
-    core_1.Injectable({
-        providedIn: 'root',
-    }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_1 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _1 : Object])
-], EquipmentGQL);
-exports.EquipmentGQL = EquipmentGQL;
-exports.CompaniesDocument = apollo_angular_1.gql `
-  query Companies {
-    companies {
-      name
-      id
-    }
-  }
-`;
-let CompaniesGQL = class CompaniesGQL extends Apollo.Query {
-    constructor(apollo) {
-        super(apollo);
-        this.document = exports.CompaniesDocument;
-    }
-};
-CompaniesGQL = tslib_1.__decorate([
-    core_1.Injectable({
-        providedIn: 'root',
-    }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_2 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _2 : Object])
-], CompaniesGQL);
-exports.CompaniesGQL = CompaniesGQL;
-exports.JobsDocument = apollo_angular_1.gql `
-  query Jobs(
-    $status: [JobStatus]
-    $search: String
-    $pagination: PaginationArgs
-    $staff: [Int!]
-    $filteredDate: filteredDateArgs
-    $orderBy: String
-  ) {
-    jobs(
-      status: $status
-      search: $search
-      pagination: $pagination
-      filteredDate: $filteredDate
-      staff: $staff
-      orderBy: $orderBy
-    ) {
-      pageInfo {
-        nextPage
-        previousPage
-        hasNextPage
-        hasPreviousPage
-      }
-      items {
+    query MyAssignedJobs($filter: JobFilter, $search: String) {
+  me {
+    ... on Staff {
+      assignedJobs(filter: $filter, search: $search) {
         id
         address
         lat
         lng
         status
         requestDate
-        priority
         notes
+        priority
         builder {
           name
-        }
-        activity {
-          type
-          date
         }
         equipment {
           id
@@ -6767,7 +6723,142 @@ exports.JobsDocument = apollo_angular_1.gql `
       }
     }
   }
-`;
+}
+    `;
+let MyAssignedJobsGQL = class MyAssignedJobsGQL extends Apollo.Query {
+    constructor(apollo) {
+        super(apollo);
+        this.document = exports.MyAssignedJobsDocument;
+    }
+};
+MyAssignedJobsGQL = tslib_1.__decorate([
+    core_1.Injectable({
+        providedIn: 'root'
+    }),
+    tslib_1.__metadata("design:paramtypes", [typeof (_2 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _2 : Object])
+], MyAssignedJobsGQL);
+exports.MyAssignedJobsGQL = MyAssignedJobsGQL;
+exports.TodaysAssignedJobDocument = apollo_angular_1.gql `
+    query TodaysAssignedJob {
+  me {
+    ... on Staff {
+      todaysAssignedJob {
+        id
+        address
+        lat
+        lng
+        status
+        requestDate
+        notes
+        priority
+        equipment {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+    `;
+let TodaysAssignedJobGQL = class TodaysAssignedJobGQL extends Apollo.Query {
+    constructor(apollo) {
+        super(apollo);
+        this.document = exports.TodaysAssignedJobDocument;
+    }
+};
+TodaysAssignedJobGQL = tslib_1.__decorate([
+    core_1.Injectable({
+        providedIn: 'root'
+    }),
+    tslib_1.__metadata("design:paramtypes", [typeof (_3 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _3 : Object])
+], TodaysAssignedJobGQL);
+exports.TodaysAssignedJobGQL = TodaysAssignedJobGQL;
+exports.EquipmentDocument = apollo_angular_1.gql `
+    query Equipment {
+  equipment {
+    id
+    name
+  }
+}
+    `;
+let EquipmentGQL = class EquipmentGQL extends Apollo.Query {
+    constructor(apollo) {
+        super(apollo);
+        this.document = exports.EquipmentDocument;
+    }
+};
+EquipmentGQL = tslib_1.__decorate([
+    core_1.Injectable({
+        providedIn: 'root'
+    }),
+    tslib_1.__metadata("design:paramtypes", [typeof (_4 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _4 : Object])
+], EquipmentGQL);
+exports.EquipmentGQL = EquipmentGQL;
+exports.CompaniesDocument = apollo_angular_1.gql `
+    query Companies {
+  companies {
+    name
+    id
+  }
+}
+    `;
+let CompaniesGQL = class CompaniesGQL extends Apollo.Query {
+    constructor(apollo) {
+        super(apollo);
+        this.document = exports.CompaniesDocument;
+    }
+};
+CompaniesGQL = tslib_1.__decorate([
+    core_1.Injectable({
+        providedIn: 'root'
+    }),
+    tslib_1.__metadata("design:paramtypes", [typeof (_5 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _5 : Object])
+], CompaniesGQL);
+exports.CompaniesGQL = CompaniesGQL;
+exports.JobsDocument = apollo_angular_1.gql `
+    query Jobs($status: [JobStatus], $search: String, $pagination: PaginationArgs, $staff: [Int!], $filteredDate: filteredDateArgs, $orderBy: String) {
+  jobs(
+    status: $status
+    search: $search
+    pagination: $pagination
+    filteredDate: $filteredDate
+    staff: $staff
+    orderBy: $orderBy
+  ) {
+    pageInfo {
+      nextPage
+      previousPage
+      hasNextPage
+      hasPreviousPage
+    }
+    items {
+      id
+      address
+      lat
+      lng
+      status
+      requestDate
+      priority
+      notes
+      builder {
+        name
+      }
+      assigner {
+        id
+        name
+      }
+      activity {
+        type
+        date
+      }
+      equipment {
+        id
+        name
+      }
+    }
+  }
+}
+    `;
 let JobsGQL = class JobsGQL extends Apollo.Query {
     constructor(apollo) {
         super(apollo);
@@ -6776,47 +6867,41 @@ let JobsGQL = class JobsGQL extends Apollo.Query {
 };
 JobsGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_3 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _3 : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_6 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _6 : Object])
 ], JobsGQL);
 exports.JobsGQL = JobsGQL;
 exports.UsersDocument = apollo_angular_1.gql `
-  query Users(
-    $role: String
-    $search: String
-    $paginate: Boolean
-    $pagination: PaginationArgs
-    $orderBy: String
+    query Users($role: String, $search: String, $paginate: Boolean, $pagination: PaginationArgs, $orderBy: String) {
+  users(
+    role: $role
+    search: $search
+    paginate: $paginate
+    pagination: $pagination
+    orderBy: $orderBy
   ) {
-    users(
-      role: $role
-      search: $search
-      paginate: $paginate
-      pagination: $pagination
-      orderBy: $orderBy
-    ) {
-      items {
+    items {
+      id
+      name
+      email
+      role {
         id
         name
-        email
-        role {
-          id
-          name
-        }
-        company {
-          name
-        }
       }
-      pageInfo {
-        nextPage
-        previousPage
-        hasNextPage
-        hasPreviousPage
+      company {
+        name
       }
     }
+    pageInfo {
+      nextPage
+      previousPage
+      hasNextPage
+      hasPreviousPage
+    }
   }
-`;
+}
+    `;
 let UsersGQL = class UsersGQL extends Apollo.Query {
     constructor(apollo) {
         super(apollo);
@@ -6825,42 +6910,36 @@ let UsersGQL = class UsersGQL extends Apollo.Query {
 };
 UsersGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_4 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _4 : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_7 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _7 : Object])
 ], UsersGQL);
 exports.UsersGQL = UsersGQL;
 exports.TotalWorkedHoursDocument = apollo_angular_1.gql `
-  query TotalWorkedHours(
-    $startDate: String
-    $endDate: String
-    $search: String
-    $pagination: PaginationArgs
-    $orderBy: String
-  ) {
-    report {
-      totalWorkedHours(
-        startDate: $startDate
-        endDate: $endDate
-        search: $search
-        pagination: $pagination
-        orderBy: $orderBy
-      ) {
-        pageInfo {
-          nextPage
-          previousPage
-          hasNextPage
-          hasPreviousPage
-        }
-        items {
-          name
-          email
-          totalWorkedHours
-        }
+    query TotalWorkedHours($startDate: String, $endDate: String, $search: String, $pagination: PaginationArgs, $orderBy: String) {
+  report {
+    totalWorkedHours(
+      startDate: $startDate
+      endDate: $endDate
+      search: $search
+      pagination: $pagination
+      orderBy: $orderBy
+    ) {
+      pageInfo {
+        nextPage
+        previousPage
+        hasNextPage
+        hasPreviousPage
+      }
+      items {
+        name
+        email
+        totalWorkedHours
       }
     }
   }
-`;
+}
+    `;
 let TotalWorkedHoursGQL = class TotalWorkedHoursGQL extends Apollo.Query {
     constructor(apollo) {
         super(apollo);
@@ -6869,48 +6948,43 @@ let TotalWorkedHoursGQL = class TotalWorkedHoursGQL extends Apollo.Query {
 };
 TotalWorkedHoursGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_5 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _5 : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_8 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _8 : Object])
 ], TotalWorkedHoursGQL);
 exports.TotalWorkedHoursGQL = TotalWorkedHoursGQL;
 exports.JobsForDateDocument = apollo_angular_1.gql `
-  query JobsForDate(
-    $date: String!
-    $search: String
-    $pagination: PaginationArgs
-    $orderBy: String
-  ) {
-    report {
-      jobsForDate(
-        date: $date
-        search: $search
-        pagination: $pagination
-        orderBy: $orderBy
-      ) {
-        pageInfo {
-          nextPage
-          previousPage
-          hasNextPage
-          hasPreviousPage
+    query JobsForDate($date: String!, $search: String, $pagination: PaginationArgs, $orderBy: String) {
+  report {
+    jobsForDate(
+      date: $date
+      search: $search
+      pagination: $pagination
+      orderBy: $orderBy
+    ) {
+      pageInfo {
+        nextPage
+        previousPage
+        hasNextPage
+        hasPreviousPage
+      }
+      items {
+        id
+        staff {
+          name
         }
-        items {
-          id
-          staff {
-            name
-          }
-          builder {
-            name
-          }
-          address
-          equipment {
-            name
-          }
+        builder {
+          name
+        }
+        address
+        equipment {
+          name
         }
       }
     }
   }
-`;
+}
+    `;
 let JobsForDateGQL = class JobsForDateGQL extends Apollo.Query {
     constructor(apollo) {
         super(apollo);
@@ -6919,24 +6993,24 @@ let JobsForDateGQL = class JobsForDateGQL extends Apollo.Query {
 };
 JobsForDateGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_6 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _6 : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_9 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _9 : Object])
 ], JobsForDateGQL);
 exports.JobsForDateGQL = JobsForDateGQL;
 exports.JobsForDateFullListDocument = apollo_angular_1.gql `
-  query JobsForDateFullList($date: String!, $search: String, $orderBy: String) {
-    report {
-      jobsForDateFullList(date: $date, search: $search, orderBy: $orderBy) {
-        id
-        staff
-        builder
-        address
-        equipment
-      }
+    query JobsForDateFullList($date: String!, $search: String, $orderBy: String) {
+  report {
+    jobsForDateFullList(date: $date, search: $search, orderBy: $orderBy) {
+      id
+      staff
+      builder
+      address
+      equipment
     }
   }
-`;
+}
+    `;
 let JobsForDateFullListGQL = class JobsForDateFullListGQL extends Apollo.Query {
     constructor(apollo) {
         super(apollo);
@@ -6945,19 +7019,19 @@ let JobsForDateFullListGQL = class JobsForDateFullListGQL extends Apollo.Query {
 };
 JobsForDateFullListGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_7 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _7 : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_10 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _10 : Object])
 ], JobsForDateFullListGQL);
 exports.JobsForDateFullListGQL = JobsForDateFullListGQL;
 exports.StaffRolesDocument = apollo_angular_1.gql `
-  query StaffRoles {
-    staffRoles {
-      id
-      name
-    }
+    query StaffRoles {
+  staffRoles {
+    id
+    name
   }
-`;
+}
+    `;
 let StaffRolesGQL = class StaffRolesGQL extends Apollo.Query {
     constructor(apollo) {
         super(apollo);
@@ -6966,26 +7040,26 @@ let StaffRolesGQL = class StaffRolesGQL extends Apollo.Query {
 };
 StaffRolesGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_8 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _8 : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_11 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _11 : Object])
 ], StaffRolesGQL);
 exports.StaffRolesGQL = StaffRolesGQL;
 exports.UserDocument = apollo_angular_1.gql `
-  query User($id: Float!) {
-    user(id: $id) {
+    query User($id: Float!) {
+  user(id: $id) {
+    name
+    email
+    company {
       name
-      email
-      company {
-        name
-      }
-      role {
-        id
-        name
-      }
+    }
+    role {
+      id
+      name
     }
   }
-`;
+}
+    `;
 let UserGQL = class UserGQL extends Apollo.Query {
     constructor(apollo) {
         super(apollo);
@@ -6994,18 +7068,18 @@ let UserGQL = class UserGQL extends Apollo.Query {
 };
 UserGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_9 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _9 : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_12 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _12 : Object])
 ], UserGQL);
 exports.UserGQL = UserGQL;
 exports.VerifyEmailDocument = apollo_angular_1.gql `
-  mutation VerifyEmail($token: String!) {
-    verifyEmail(token: $token) {
-      success
-    }
+    mutation VerifyEmail($token: String!) {
+  verifyEmail(token: $token) {
+    success
   }
-`;
+}
+    `;
 let VerifyEmailGQL = class VerifyEmailGQL extends Apollo.Mutation {
     constructor(apollo) {
         super(apollo);
@@ -7014,18 +7088,18 @@ let VerifyEmailGQL = class VerifyEmailGQL extends Apollo.Mutation {
 };
 VerifyEmailGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_10 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _10 : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_13 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _13 : Object])
 ], VerifyEmailGQL);
 exports.VerifyEmailGQL = VerifyEmailGQL;
 exports.SettingsDocument = apollo_angular_1.gql `
-  query Settings {
-    settings {
-      minJobRequestDate
-    }
+    query Settings {
+  settings {
+    minJobRequestDate
   }
-`;
+}
+    `;
 let SettingsGQL = class SettingsGQL extends Apollo.Query {
     constructor(apollo) {
         super(apollo);
@@ -7034,19 +7108,19 @@ let SettingsGQL = class SettingsGQL extends Apollo.Query {
 };
 SettingsGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_11 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _11 : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_14 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _14 : Object])
 ], SettingsGQL);
 exports.SettingsGQL = SettingsGQL;
 exports.UpdateMyAccountDocument = apollo_angular_1.gql `
-  mutation UpdateMyAccount($name: String!, $email: String!, $password: String) {
-    updateMyAccount(name: $name, email: $email, password: $password) {
-      name
-      email
-    }
+    mutation UpdateMyAccount($name: String!, $email: String!, $password: String) {
+  updateMyAccount(name: $name, email: $email, password: $password) {
+    name
+    email
   }
-`;
+}
+    `;
 let UpdateMyAccountGQL = class UpdateMyAccountGQL extends Apollo.Mutation {
     constructor(apollo) {
         super(apollo);
@@ -7055,13 +7129,13 @@ let UpdateMyAccountGQL = class UpdateMyAccountGQL extends Apollo.Mutation {
 };
 UpdateMyAccountGQL = tslib_1.__decorate([
     core_1.Injectable({
-        providedIn: 'root',
+        providedIn: 'root'
     }),
-    tslib_1.__metadata("design:paramtypes", [typeof (_12 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _12 : Object])
+    tslib_1.__metadata("design:paramtypes", [typeof (_15 = typeof Apollo !== "undefined" && Apollo.Apollo) === "function" ? _15 : Object])
 ], UpdateMyAccountGQL);
 exports.UpdateMyAccountGQL = UpdateMyAccountGQL;
 let ApolloAngularSDK = class ApolloAngularSDK {
-    constructor(registerBuilderGql, forgotPasswordGql, registerGql, restorePasswordGql, loginGql, tokenLoginGql, addClockInGql, addClockOffGql, createJobGql, updateJobGql, updateJobDateGql, cancelJobGql, assignToJobGql, logoutGql, updateUserGql, deleteUserGql, hasClockedIntoJobGql, meGql, jobGql, clockOffsGql, clockInsGql, jobLocationGql, myJobRequestsGql, myAssignedJobsGql, todaysAssignedJobGql, equipmentGql, companiesGql, jobsGql, usersGql, totalWorkedHoursGql, jobsForDateGql, jobsForDateFullListGql, staffRolesGql, userGql, verifyEmailGql, settingsGql, updateMyAccountGql) {
+    constructor(registerBuilderGql, forgotPasswordGql, registerGql, restorePasswordGql, loginGql, tokenLoginGql, addClockInGql, addClockOffGql, createJobGql, updateJobGql, updateJobDateGql, cancelJobGql, assignToJobGql, unAssignToJobGql, logoutGql, updateUserGql, deleteUserGql, hasClockedIntoJobGql, meGql, jobGql, jobAssignerGql, jobStaffsGql, clockOffsGql, clockInsGql, jobLocationGql, myJobRequestsGql, myAssignedJobsGql, todaysAssignedJobGql, equipmentGql, companiesGql, jobsGql, usersGql, totalWorkedHoursGql, jobsForDateGql, jobsForDateFullListGql, staffRolesGql, userGql, verifyEmailGql, settingsGql, updateMyAccountGql) {
         this.registerBuilderGql = registerBuilderGql;
         this.forgotPasswordGql = forgotPasswordGql;
         this.registerGql = registerGql;
@@ -7075,12 +7149,15 @@ let ApolloAngularSDK = class ApolloAngularSDK {
         this.updateJobDateGql = updateJobDateGql;
         this.cancelJobGql = cancelJobGql;
         this.assignToJobGql = assignToJobGql;
+        this.unAssignToJobGql = unAssignToJobGql;
         this.logoutGql = logoutGql;
         this.updateUserGql = updateUserGql;
         this.deleteUserGql = deleteUserGql;
         this.hasClockedIntoJobGql = hasClockedIntoJobGql;
         this.meGql = meGql;
         this.jobGql = jobGql;
+        this.jobAssignerGql = jobAssignerGql;
+        this.jobStaffsGql = jobStaffsGql;
         this.clockOffsGql = clockOffsGql;
         this.clockInsGql = clockInsGql;
         this.jobLocationGql = jobLocationGql;
@@ -7139,6 +7216,9 @@ let ApolloAngularSDK = class ApolloAngularSDK {
     assignToJob(variables, options) {
         return this.assignToJobGql.mutate(variables, options);
     }
+    unAssignToJob(variables, options) {
+        return this.unAssignToJobGql.mutate(variables, options);
+    }
     logout(variables, options) {
         return this.logoutGql.mutate(variables, options);
     }
@@ -7165,6 +7245,18 @@ let ApolloAngularSDK = class ApolloAngularSDK {
     }
     jobWatch(variables, options) {
         return this.jobGql.watch(variables, options);
+    }
+    jobAssigner(variables, options) {
+        return this.jobAssignerGql.fetch(variables, options);
+    }
+    jobAssignerWatch(variables, options) {
+        return this.jobAssignerGql.watch(variables, options);
+    }
+    jobStaffs(variables, options) {
+        return this.jobStaffsGql.fetch(variables, options);
+    }
+    jobStaffsWatch(variables, options) {
+        return this.jobStaffsGql.watch(variables, options);
     }
     clockOffs(variables, options) {
         return this.clockOffsGql.fetch(variables, options);
@@ -7284,12 +7376,15 @@ ApolloAngularSDK = tslib_1.__decorate([
         UpdateJobDateGQL,
         CancelJobGQL,
         AssignToJobGQL,
+        UnAssignToJobGQL,
         LogoutGQL,
         UpdateUserGQL,
         DeleteUserGQL,
         HasClockedIntoJobGQL,
         MeGQL,
         JobGQL,
+        JobAssignerGQL,
+        JobStaffsGQL,
         ClockOffsGQL,
         ClockInsGQL,
         JobLocationGQL,
@@ -7321,7 +7416,7 @@ exports.ApolloAngularSDK = ApolloAngularSDK;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\FreeLancer\MEAN\Russel\Init\dfobobcat\apps\dfobobcat-api\src\main.ts */"./apps/dfobobcat-api/src/main.ts");
+module.exports = __webpack_require__(/*! E:\FreeLancer\MEAN\Russell\dfobobcat\apps\dfobobcat-api\src\main.ts */"./apps/dfobobcat-api/src/main.ts");
 
 
 /***/ }),

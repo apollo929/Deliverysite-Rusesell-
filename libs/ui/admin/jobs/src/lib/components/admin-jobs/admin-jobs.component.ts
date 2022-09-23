@@ -17,7 +17,7 @@ import {
   Subject,
   merge,
 } from 'rxjs';
-import { ModalController } from '@ionic/angular';
+import { ActionSheetController, ModalController } from '@ionic/angular';
 import { tap, concatMap, take, last } from 'rxjs/operators';
 import { CreateJobsDialogComponent } from '../../dialog/create-jobs-dialog/create-jobs-dialog.component';
 import { SearchService } from '@dfobobcat/ui/shared/service';
@@ -77,6 +77,7 @@ export class AdminJobsComponent {
     public modalController: ModalController,
     private cdRef: ChangeDetectorRef,
     private usersGQL: UsersGQL,
+    private actionSheetController: ActionSheetController,
   ) {
     this.weekNames = [
       'Monday',
@@ -108,9 +109,12 @@ export class AdminJobsComponent {
   calendarQueryType: string = 'month';
   lastCalendarRangeType = this.calendarQueryType;
   calendarResponse: any = [];
+  calendarResponseToShow: any = [];
   monthReponse: any = [];
   weekResponse: any = [];
+  weekResponseToShow: any = [];
   dayResponse: any = [];
+  dayResponseToShow: any = [];
   week: any[] = [];
   day: any[] = [];
   weekNames: string[] = [];
@@ -125,6 +129,27 @@ export class AdminJobsComponent {
       this.updateMonth();
     }
   }
+
+  searchForItem(search: any) {
+    if (this.calendarQueryType === 'month') {
+      this.calendarResponseToShow = this.searchItem(search.detail.value, this.calendarResponse);
+      this.createArray(false);
+    } else if (this.calendarQueryType === 'week') {
+      this.weekResponseToShow = this.searchItem(search.detail.value, this.weekResponse);
+      this.createWeekArray(false);
+    } else if (this.calendarQueryType === 'day') {
+      this.dayResponseToShow = this.searchItem(search.detail.value, this.dayResponse);
+      this.sortDayByPriority();
+    }
+  }
+
+  searchItem(searchValue: string, response: any) {
+    const response2 = Object.assign(response);
+    return response2.filter((job: any) => {
+      return job.address.toLowerCase().includes(searchValue);
+    })
+  }
+
   calendarJobs(type?: string) {
     if (type) {
       this.lastCalendarRangeType = type;
@@ -133,7 +158,6 @@ export class AdminJobsComponent {
       type = this.lastCalendarRangeType;
     }
     this.calendarQueryType = type;
-    this.selectedDate = this.today;
     if (type === 'week') {
       this.updateWeek();
     }
@@ -147,27 +171,33 @@ export class AdminJobsComponent {
     this.calendarType.next(type);
   }
 
-  presentModal() {
-    this.showModal().subscribe();
+  async presentModal(): Promise<any> {
+    this.showModal().subscribe(data => {
+    });
+    setTimeout(async () => {
+      await this.modal.onDidDismiss().then(() => {
+        this.calendarJobs(this.calendarQueryType);
+      })
+    }, 2000);
   }
 
   staffFilterApplied(staffId: any) {
     if (!staffId?.length || staffId === '-1') {
       this.staffFilter$.next(undefined);
-      this.calendarJobs();
+      this.calendarJobs(this.calendarQueryType);
 
       return;
     }
 
     this.staffFilter$.next([+staffId]);
-    this.calendarJobs();
+    this.calendarJobs(this.calendarQueryType);
   }
 
   private showModal(): Observable<void> {
     return from(
       this.modalController.create({
         component: CreateJobsDialogComponent,
-        cssClass: 'bc-modal',
+        cssClass: 'auto-height',
       }),
     ).pipe(
       takeUntil(this.destroy$),
@@ -227,8 +257,7 @@ export class AdminJobsComponent {
     this.calendar[weekDex].push(data);
   }
 
-  createArray() {
-    this.calendarResponse = [];
+  createArray(getJobs: boolean) {
     this.calendar = [];
     var day: Date = new Date(this.firstDayOfCalendar());
     const lastDay = this.lastDayOfCalendar();
@@ -243,7 +272,13 @@ export class AdminJobsComponent {
       }
       weekDex = weekDex + 1;
     }
-    this.getJobs(this.firstDayOfCalendar(), this.lastDayOfMonth(), 'month');
+    if (getJobs) {
+      this.getJobs(this.firstDayOfCalendar(), this.lastDayOfMonth(), 'month');
+    } else {
+      setTimeout(() => {
+        this.createMonthElements();
+      }, 500);
+    }
   }
 
   nextMonth() {
@@ -269,7 +304,14 @@ export class AdminJobsComponent {
     this.updateMonth();
   }
 
-  getJobs(startDate: Date, endDate?: Date, cType?: string) {
+  getJobs(startDate: Date, endDate: Date, cType: string) {
+
+    endDate = new Date(
+      endDate.getFullYear(),
+      endDate.getMonth(),
+      endDate.getDate(),
+      23, 59, 59, 59
+    )
     console.log('cType========', cType);
     console.log('startDate========', startDate);
     console.log('endDate========', endDate);
@@ -280,6 +322,8 @@ export class AdminJobsComponent {
       this.calendarQueryType = 'week';
     } else {
       this.calendarQueryType = 'day';
+      startDate.setDate(startDate.getDate() + 1);
+      endDate.setDate(startDate.getDate());
     }
 
     this.jobsGQL
@@ -313,15 +357,28 @@ export class AdminJobsComponent {
             .format('MMM D, dddd');
           return elem;
         });
+        console.log(response);
         if (cType === 'month') {
           this.calendarResponse = response;
-          this.createMonthElements();
+          this.calendarResponseToShow = response;
+          this.calendarQueryType = cType;
+          setTimeout(() => {
+            this.createMonthElements();
+          }, 500);
         } else if (cType === 'week') {
           this.weekResponse = response;
-          this.createWeekElements();
+          this.weekResponseToShow = this.weekResponse;
+          this.calendarQueryType = cType;
+          setTimeout(() => {
+            this.createWeekElements();
+          }, 500);
         } else {
           this.dayResponse = response;
-          this.sortDayByPriority();
+          this.dayResponseToShow = response;
+          this.calendarQueryType = cType;
+          setTimeout(() => {
+            this.sortDayByPriority();
+          }, 5000);
         }
         this.cdRef.detectChanges();
       });
@@ -353,25 +410,25 @@ export class AdminJobsComponent {
   }
 
   sortDayByPriority() {
-    for (var i = 0; i < this.dayResponse.length; i++) {
-      if (this.dayResponse[i].priority != '') {
-        this.dayResponse = this.array_move(
-          this.dayResponse,
+    for (var i = 0; i < this.dayResponseToShow.length; i++) {
+      if (this.dayResponseToShow[i].priority != '') {
+        this.dayResponseToShow = this.array_move(
+          this.dayResponseToShow,
           i,
-          Number(this.dayResponse[i].priority),
+          Number(this.dayResponseToShow[i].priority),
         );
       }
     }
   }
 
   async reorderItems(event: any) {
-    this.dayResponse = this.array_move(
-      this.dayResponse,
+    this.dayResponseToShow = this.array_move(
+      this.dayResponseToShow,
       event.detail.from,
       event.detail.to,
     );
-    for (var i = 0; i < this.dayResponse.length; i++) {
-      const job = this.dayResponse[i];
+    for (var i = 0; i < this.dayResponseToShow.length; i++) {
+      const job = this.dayResponseToShow[i];
       const priority = i.toString();
       this.jobId = job.id;
       const input: CreateJobInput = {
@@ -394,7 +451,7 @@ export class AdminJobsComponent {
             },
           },
         )
-        .subscribe((data) => {});
+        .subscribe((data) => { });
     }
     event.detail.complete();
   }
@@ -408,7 +465,7 @@ export class AdminJobsComponent {
   }
 
   createMonthElements() {
-    for (let job of this.calendarResponse) {
+    for (let job of this.calendarResponseToShow) {
       const tempElement = document.createElement('jobID' + job.id.toString());
       if (job.status == 'pending' || job.status == 'unAssigned') {
         tempElement.innerHTML = `<div style = "font-size:14px;margin:5px;width:100%;text-align:center;border-radius:4px;background:yellow;padding:5px;cursor:pointer;">
@@ -438,40 +495,36 @@ export class AdminJobsComponent {
   }
 
   createWeekElements() {
-    for (let job of this.weekResponse) {
+    for (let job of this.weekResponseToShow) {
       const tempElement = document.createElement('jobID' + job.id.toString());
       if (job.status == 'pending' || job.status == 'unAssigned') {
         tempElement.innerHTML = `<div style = "font-size:10px;margin:5px;text-align:center;border-radius:4px;background:yellow;padding:5px;cursor:pointer;">
-        <span style = 'font-weight:bolder;text-decoration: underline;'>${
-          job.builder.name
-        }</span><br>
+        <span style = 'font-weight:bolder;text-decoration: underline;'>${job.builder.name
+          }</span><br>
         <span style = 'font-style: italic;'>${job.address}</span><br>
         ${this.returnAllEquipment(job.equipment)}
     </div>`;
         tempElement.onclick = () => this.showAssignedModal(job);
       } else if (job.status == 'assigned') {
         tempElement.innerHTML = `<div style = "font-size:10px;margin:5px;text-align:center;border-radius:4px;background:blue;color:white;padding:5px;cursor:pointer;">
-        <span style = 'font-weight:bolder;text-decoration: underline;'>${
-          job.builder.name
-        }</span><br>
+        <span style = 'font-weight:bolder;text-decoration: underline;'>${job.builder.name
+          }</span><br>
         <span style = 'font-style: italic;'>${job.address}</span><br>
         ${this.returnAllEquipment(job.equipment)}
     </div>`;
         tempElement.onclick = () => this.showClockOffModal(job);
       } else if (job.status == 'cancelled') {
         tempElement.innerHTML = `<div style = "font-size:10px;margin:5px;text-align:center;border-radius:4px;background:red;color:white;padding:5px;cursor:pointer;">
-        <span style = 'font-weight:bolder;text-decoration: underline;'>${
-          job.builder.name
-        }</span><br>
+        <span style = 'font-weight:bolder;text-decoration: underline;'>${job.builder.name
+          }</span><br>
         <span style = 'font-style: italic;'>${job.address}</span><br>
         ${this.returnAllEquipment(job.equipment)}
     </div>`;
         tempElement.onclick = () => this.showClockOffModal(job);
       } else if (job.status == 'completed') {
         tempElement.innerHTML = `<div style = "font-size:10px;margin:5px;text-align:center;border-radius:4px;background:green;color:white;padding:5px;cursor:pointer;">
-        <span style = 'font-weight:bolder;text-decoration: underline;'>${
-          job.builder.name
-        }</span><br>
+        <span style = 'font-weight:bolder;text-decoration: underline;'>${job.builder.name
+          }</span><br>
         <span style = 'font-style: italic;'>${job.address}</span><br>
         ${this.returnAllEquipment(job.equipment)}
     </div>`;
@@ -483,9 +536,13 @@ export class AdminJobsComponent {
 
   updateMonth() {
     this.selectedDate = new Date(
-      this.selectedDate.setMonth(this.selectedMonth),
+      this.selectedDate.getFullYear(),
+      this.selectedMonth,
+      this.selectedDate.getDate(),
+      // this.selectedDate.setMonth(this.selectedMonth),
     );
-    this.createArray();
+    this.calendarResponse = [];
+    this.createArray(true);
   }
 
   async pushInWeekArray(day: number, month: number) {
@@ -504,7 +561,7 @@ export class AdminJobsComponent {
     this.day.push(data);
   }
 
-  createWeekArray() {
+  createWeekArray(getjobs: boolean) {
     this.week = [];
     const firstDay = this.firstDayOfWeek(this.selectedDate);
     const lastDay = this.lastDayOfWeek(firstDay);
@@ -514,20 +571,32 @@ export class AdminJobsComponent {
       this.pushInWeekArray(day.getDate(), day.getMonth());
       day.setDate(day.getDate() + 1);
     }
-    this.getJobs(this.selectedDate, lastDay, 'week');
+    if (getjobs) {
+      this.getJobs(this.selectedDate, lastDay, 'week');
+    } else {
+      setTimeout(() => {
+        this.createWeekElements();
+      }, 500);
+    }
   }
   createDayArray() {
     this.day = [];
     var day = this.selectedDate;
+    day = new Date(
+      this.selectedDate.getFullYear(),
+      this.selectedDate.getMonth(),
+      this.selectedDate.getDate(),
+      0, 0, 0, 0
+    )
     var weekDex = 0;
     for (var i = 0; i < 1; i++) {
       this.pushInWeekDay(day.getDate(), day.getMonth());
     }
-    this.getJobs(this.selectedDate);
+    this.getJobs(day, day, 'day');
   }
 
   updateWeek() {
-    this.createWeekArray();
+    this.createWeekArray(true);
   }
 
   updateDay() {
@@ -546,6 +615,15 @@ export class AdminJobsComponent {
       this.selectedDate.getTime() - 7 * 24 * 60 * 60 * 1000,
     );
     this.updateWeek();
+  }
+
+  hopToDay(date: number, month: number) {
+    this.selectedDate = new Date(
+      this.selectedDate.getFullYear(),
+      month,
+      date,
+    );
+    this.calendarJobs('day');
   }
 
   nextDay() {
@@ -595,20 +673,19 @@ export class AdminJobsComponent {
         switch (this.calendarQueryType) {
           case 'month':
             this.updateMonth();
-            this.updateMonth();
             break;
           case 'day':
             this.updateDay();
-            this.updateDay();
             break;
           case 'week':
-            this.updateWeek();
             this.updateWeek();
             break;
         }
       }
     });
     componentRef.instance.close.pipe(take(1)).subscribe(() => {
+
+      this.calendarJobs(this.calendarQueryType);
       this.dialogRef.dispose();
     });
   }
@@ -618,59 +695,83 @@ export class AdminJobsComponent {
     return new PortalInjector(this.injector, weakMap);
   }
 
-  showAssignedModal(job: any) {
-    const positionStrategy = this.overlay
-      .position()
-      .flexibleConnectedTo(this.cardContentRef)
-      .withPositions([
-        new ConnectionPositionPair(
-          { originX: 'center', originY: 'top' },
-          { overlayX: 'center', overlayY: 'top' },
-        ),
-      ]);
-    const scrollStrategy = this.overlay.scrollStrategies.close();
+  async showAssignedModal(job: any) {
+    const actionSheet = await this.actionSheetController.create({
+      header: job.address,
+      subHeader: job.builder.name,
+      cssClass: 'blueText',
+      mode: 'ios',
+      buttons: [{
+        text: 'Assign',
+        cssClass: 'blueText',
+        handler: () => {
 
-    this.dialogRef = this.overlay.create(
-      new OverlayConfig({
-        disposeOnNavigation: true,
-        scrollStrategy,
-        positionStrategy,
-        hasBackdrop: false,
-        panelClass: 'bc-dialog',
-        backdropClass: 'bc-dialog-backdrop',
-        height: 327,
-      }),
-    );
-    const portal = new ComponentPortal(
-      AssignJobDialogComponent,
-      null,
-      this.createInjectorAssign({
-        jobId: job.id,
-      }),
-    );
-    const componentRef = this.dialogRef.attach(portal);
-    merge(this.destroy$, componentRef.instance.close.pipe(take(1))).subscribe(
-      (hasAssigned) => {
-        this.dialogRef.dispose();
-        if (hasAssigned) {
-          // this.update.next();
-          switch (this.calendarQueryType) {
-            case 'month':
-              this.updateMonth();
-              this.updateMonth();
-              break;
-            case 'day':
-              this.updateDay();
-              this.updateDay();
-              break;
-            case 'week':
-              this.updateWeek();
-              this.updateWeek();
-              break;
-          }
+          const positionStrategy = this.overlay
+            .position()
+            .flexibleConnectedTo(this.cardContentRef)
+            .withPositions([
+              new ConnectionPositionPair(
+                { originX: 'center', originY: 'top' },
+                { overlayX: 'center', overlayY: 'top' },
+              ),
+            ]);
+          const scrollStrategy = this.overlay.scrollStrategies.close();
+
+          this.dialogRef = this.overlay.create(
+            new OverlayConfig({
+              disposeOnNavigation: true,
+              scrollStrategy,
+              positionStrategy,
+              hasBackdrop: false,
+              panelClass: 'bc-dialog',
+              backdropClass: 'bc-dialog-backdrop',
+              height: 327,
+            }),
+          );
+          const portal = new ComponentPortal(
+            AssignJobDialogComponent,
+            null,
+            this.createInjectorAssign({
+              jobId: job.id,
+            }),
+          );
+          const componentRef = this.dialogRef.attach(portal);
+          merge(this.destroy$, componentRef.instance.close.pipe(take(1))).subscribe(
+            (hasAssigned) => {
+              this.dialogRef.dispose();
+              if (hasAssigned) {
+                // this.update.next();
+                switch (this.calendarQueryType) {
+                  case 'month':
+                    this.updateMonth();
+                    break;
+                  case 'day':
+                    this.updateDay();
+                    break;
+                  case 'week':
+                    this.updateWeek();
+                    break;
+                }
+              }
+            },
+          );
         }
-      },
-    );
+      }, {
+        text: 'Edit',
+        cssClass: 'blueText',
+        handler: () => {
+          this.showClockOffModal(job);
+        }
+      }, {
+        text: 'Cancel',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
   }
   private createInjectorAssign(
     options: AssignStaffDialogConifg,

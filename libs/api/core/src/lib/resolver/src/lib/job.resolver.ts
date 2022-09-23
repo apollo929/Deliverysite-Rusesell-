@@ -21,7 +21,7 @@ import { JobService } from '@dfobobcat/api/feature/job';
 import { Job } from '@dfobobcat/api/entity';
 @Resolver('Job')
 export class JobResolver {
-  constructor(private jobService: JobService) {}
+  constructor(private jobService: JobService) { }
 
   @ResolveField()
   @RequireClaim(Claim.GetAllClockOffs)

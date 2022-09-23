@@ -293,7 +293,7 @@ export class CreateJobsDialogComponent implements ViewWillEnter, ViewWillLeave {
           },
         )
         .subscribe(() => {
-          window.location.reload()
+          // window.location.reload()
           this.finish.next(true)
           this.close();
         });
@@ -311,7 +311,7 @@ export class CreateJobsDialogComponent implements ViewWillEnter, ViewWillLeave {
         )
         .subscribe(() => {
           this.finish.next(true)
-          window.location.reload()
+          // window.location.reload()
           this.close();
         });
     }

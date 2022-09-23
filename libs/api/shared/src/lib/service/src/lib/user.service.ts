@@ -28,7 +28,7 @@ export class UserService {
     private configService: ConfigService,
     private emailService: EmailService,
     private companyService: CompanyService,
-  ) {}
+  ) { }
   async getByEmail(email: string) {
     const user = await this.usersRepository.findOne({ email });
     if (user) {
@@ -147,7 +147,7 @@ export class UserService {
 
   async createBuilder(ctx: GqlContext, userData: RegisterBuilderInput) {
     const { company: companyName, ...userFromData } = userData;
-    let company = null;
+    let company: any = null;
     if (companyName) {
       company = await this.companyRepository.findOne({ name: companyName });
       if (!company) {
@@ -165,9 +165,10 @@ export class UserService {
     const foundRole = await this.roleRepository.findOneOrFail({
       name: RoleType.Builder,
     });
+
     const newUser = await this.usersRepository.create({
       ...userFromData,
-      company,
+      company: company as Company,
     });
     newUser.role = foundRole;
     await this.usersRepository.save(newUser);

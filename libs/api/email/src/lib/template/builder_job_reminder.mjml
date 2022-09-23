@@ -18,6 +18,13 @@
           <p>Job {{jobInfo}} scheduled to start on {{requestDate}} and someone will be attending the site. </p>
           <p>You can view details of the job <a href="{{loginEditJobLink}}">here</a>.</p>
         </mj-text>
+        
+         <mj-button href="https://app.dfobobcatandcartage.com" font-family="Helvetica" background-color="black" color="white" padding-top="50px" inner-padding="20px" width="500px">
+          GO TO MY DASHBOARD
+        </mj-button>
+        <mj-text font-size="16px" line-height="22px">
+          <p>Thanks for your business.</p>
+        </mj-text>
       </mj-column>
     </mj-section>
     <mj-include path="libs/api/email/src/lib/template/footer.injectable.mjml" />

@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import * as moment from 'moment';
 import { JobsQuery } from '@dfobobcat/graphql-types';
+import { ClockoffDialogComponent } from '../../dialog/clockoff-dialog/clockoff-dialog.component';
 import {
   Overlay,
   OverlayConfig,
@@ -23,6 +24,8 @@ import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import {
   AssignStaffDialogConifg,
   ASSIGN_STAFF_DIALOG_CONFIG,
+  ClockOffDialogConfig,
+  CLOCKOFF_DIALOG_CONFIG,
 } from '@dfobobcat/ui/feature/admin/shared/model';
 import { merge, Subject } from 'rxjs';
 @Component({
@@ -32,7 +35,7 @@ import { merge, Subject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class JobUnassignedComponent implements OnDestroy {
-  constructor(private overlay: Overlay, private injector: Injector) {}
+  constructor(private overlay: Overlay, private injector: Injector) { }
 
   @ViewChild('jobCard', { read: ElementRef }) cardContentRef!: ElementRef;
 
@@ -96,10 +99,63 @@ export class JobUnassignedComponent implements OnDestroy {
     );
   }
 
+  showClockOffModal() {
+    const positionStrategy = this.overlay
+      .position()
+      .global()
+      .centerHorizontally()
+      .centerVertically();
+    const scrollStrategy = this.overlay.scrollStrategies.close();
+
+    this.dialogRef = this.overlay.create(
+      new OverlayConfig({
+        disposeOnNavigation: true,
+        scrollStrategy,
+        positionStrategy,
+        hasBackdrop: false,
+        panelClass: 'bc-dialog',
+        backdropClass: 'bc-dialog-backdrop',
+      }),
+    );
+    const portal = new ComponentPortal(
+      ClockoffDialogComponent,
+      null,
+      this.createInjector1({ job: this.job }),
+    );
+    const componentRef = this.dialogRef.attach(portal);
+    merge(
+      this.destroy$,
+      componentRef.instance.unassigned.pipe(take(1)),
+    ).subscribe((hasUnAssigned: boolean | undefined) => {
+      this.dialogRef.dispose();
+      if (hasUnAssigned) {
+        this.update.next();
+      }
+    });
+
+    merge(this.destroy$,
+      componentRef.instance.updateRequestDate.pipe(take(1)),
+    ).subscribe((hasUpdated: boolean | undefined) => {
+      this.dialogRef.dispose();
+      if (hasUpdated) {
+        this.update.next();
+      }
+    });
+    componentRef.instance.close.pipe(take(1))
+      .subscribe(() => {
+        this.dialogRef.dispose();
+      });
+  }
+
   private createInjector(options: AssignStaffDialogConifg): PortalInjector {
     const weakMap = new WeakMap<any, any>([
       [ASSIGN_STAFF_DIALOG_CONFIG, options],
     ]);
+    return new PortalInjector(this.injector, weakMap);
+  }
+
+  private createInjector1(options: ClockOffDialogConfig): PortalInjector {
+    const weakMap = new WeakMap<any, any>([[CLOCKOFF_DIALOG_CONFIG, options]]);
     return new PortalInjector(this.injector, weakMap);
   }
 

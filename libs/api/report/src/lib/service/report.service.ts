@@ -20,7 +20,7 @@ export class ReportService {
     private clockOffRepository: Repository<ClockOff>,
     @InjectRepository(RoleEntity)
     private roleRepository: Repository<RoleEntity>,
-  ) {}
+  ) { }
 
   async getTotalWorkedHours(args: TotalWorkedHoursQueryVariables) {
     const offset = args.pagination?.offset ? args.pagination.offset : 15;

@@ -96,3 +96,4 @@ sudo chmod 400 dfoprivkey.pem dfofullchain.pem
 - Then you should build the Backend part, run `npm run build:be:prod`
 - After migrations were generated for you, examine the contents of the migration to make sure they do exactly what you expect
 - Then, run `npm run migrate` to apply migrations to the database
+

@@ -16,6 +16,11 @@
         <mj-text font-size="16px" line-height="22px">
           Your job {{jobInfo}} has been rescheduled to {{newRequestDate}}.
           <p>You can view/update details of the job <a href="{{loginEditJobLink}}">here</a>. </p>
+        </mj-text>
+         <mj-button href="https://app.dfobobcatandcartage.com" font-family="Helvetica" background-color="black" color="white" padding-top="50px" inner-padding="20px" width="500px">
+          GO TO MY DASHBOARD
+        </mj-button>
+        <mj-text font-size="16px" line-height="22px">
           <p>Thanks for your business.</p>
         </mj-text>
       </mj-column>

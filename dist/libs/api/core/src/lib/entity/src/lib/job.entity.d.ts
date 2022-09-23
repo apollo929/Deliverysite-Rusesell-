@@ -31,6 +31,7 @@ export declare class Job {
     staff: User[];
     equipment: Equipment[];
     activity: Activity[];
+    assigner?: User;
     createdAt: Date;
     updatedAt: Date;
 }

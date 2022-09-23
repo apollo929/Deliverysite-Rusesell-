@@ -95,6 +95,14 @@ export class Job {
   @JoinTable({ name: 'job_activity' })
   activity: Activity[];
 
+
+  @ManyToOne(() => User, undefined, {
+    eager: true,
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  assigner?: User;
+
   @CreateDateColumn() createdAt: Date;
 
   @UpdateDateColumn() updatedAt: Date;

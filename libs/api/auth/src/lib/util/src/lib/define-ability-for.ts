@@ -70,6 +70,7 @@ const rolePermissions: Record<
     can(Claim.GetAllUsers);
     can(Claim.Authenticated);
     can(Claim.CancelAllJobs);
+    can(Claim.CancelOwnJob);
     can(Claim.UpdateOwnAccount);
     can(Claim.DeleteAllUsers);
     can(Claim.GetCompanies);

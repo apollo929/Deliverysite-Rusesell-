@@ -11,7 +11,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { AnimationController } from '@ionic/angular';
+import { AnimationController, IonSearchbar } from '@ionic/angular';
 @Component({
   selector: 'bc-select',
   templateUrl: './select.component.html',
@@ -19,6 +19,9 @@ import { AnimationController } from '@ionic/angular';
 })
 export class SelectComponent implements OnInit {
   @ViewChild('selectOptions') selectOptions!: ElementRef;
+
+  @ViewChild(IonSearchbar) searchBar!: IonSearchbar;
+
   @Input() label = '';
   @Input() placeholder = '';
   @Input() options!: Record<number, string>;
@@ -44,23 +47,32 @@ export class SelectComponent implements OnInit {
   triggerCD!: EventEmitter<void>;
 
   optionsControls: Array<[string, string, FormControl]> = [];
+  optionsToShow: Array<[string, string, FormControl]> = [];
 
   optionsActive = false;
   constructor(
     private animationCtrl: AnimationController,
     private renderer: Renderer2,
     private cdRef: ChangeDetectorRef,
-  ) {}
+  ) { }
 
   ngOnInit() {
     for (const [id, label] of Object.entries(this.options)) {
       this.optionsControls.push([id, label, new FormControl(false)]);
     }
+    this.optionsToShow = this.optionsControls;
     if (this.triggerCD) {
       this.triggerCD.subscribe(() => {
         this.cdRef.markForCheck();
       });
     }
+  }
+
+  searchForItem(search: any) {
+    console.log(this.optionsToShow);
+    this.optionsToShow = this.optionsControls.filter((option) => {
+      return option[1].toLowerCase().includes(search.detail.value);
+    });
   }
 
   get hasError(): boolean {
@@ -79,6 +91,7 @@ export class SelectComponent implements OnInit {
     }
     this.selected.emit(selected.map((item) => +item[0]));
     this.control.setValue(newValue);
+    this.toggleOptions();
   }
 
   singleSelect(id: number) {
@@ -101,6 +114,18 @@ export class SelectComponent implements OnInit {
         .duration(200)
         .fromTo('opacity', 0, 1)
         .play();
+
+
+      // Auto Focus bug fixing
+      // this.searchBar.setFocus();
+      // console.log("This is setfocus test!!!");
+
+
+      setTimeout(() => {
+        this.searchBar.setFocus();
+        console.log("this is setfocus!!!")
+      });
+
     } else {
       await this.animationCtrl
         .create()

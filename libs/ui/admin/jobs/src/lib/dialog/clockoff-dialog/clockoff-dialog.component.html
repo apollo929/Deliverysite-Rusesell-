@@ -1,70 +1,60 @@
-<ng-container
-    *ngIf="{
+<ng-container *ngIf="{
         clockOffs: $clockOffs | async,
         clockIns: $clockIns | async
-    } as viewData"
->
-    <ng-container *ngIf="viewData.clockIns && viewData.clockOffs">
-        <div class="dialog-container" id="printable">
-            <div class="dialog-header">
-                <span>Job history</span>
-                <div style="flex: 1 0 auto"></div>
-                <ion-button class="btn-unassign" (click)="unassign()"
-                    >Unassign</ion-button
-                >
-                <ion-button color="danger" (click)="openDatePicker()"
-                    >Edit Date</ion-button
-                >
-                <ion-button color="success" (click)="printReport()"
-                    >Print</ion-button
-                >
-
-                <ion-icon
-                    (click)="close.next()"
-                    src="/assets/icon/close.svg"
-                ></ion-icon>
-            </div>
-            <div class="dialog-body">
-                <div class="address">
-                    <div>{{ dialogData.job.address }}</div>
-                    <div *ngIf="notes !== ''" style="font-size: 14px">
-                        <span style="font-weight: 700">Notes: </span
-                        ><span style="font-weight: 300">{{ notes }}</span>
-                    </div>
-                </div>
-                <bc-clockoff-card
-                    *ngFor="let clockIn of viewData.clockIns"
-                    [clockOff]="clockIn"
-                    type="clockIn"
-                ></bc-clockoff-card>
-                <bc-clockoff-card
-                    *ngFor="let clockOff of viewData.clockOffs"
-                    [clockOff]="clockOff"
-                    type="clockOff"
-                ></bc-clockoff-card>
-
-                <ion-item
-                    lines="none"
-                    color="none"
-                    style="background: rgba(255, 255, 255, 0.212)"
-                    *ngFor="let activity of dialogData.job.activity"
-                >
-                    <ion-title slot="start" style="color: white">
-                        {{ activity.type.toUpperCase() }}
-                    </ion-title>
-                    <div slot="end" style="color: rgba(255, 255, 255, 0.712)">
-                        {{ activity.date | date: 'medium' }}
-                    </div>
-                </ion-item>
-                <bc-datepicker-button
-                    style="z-index: 25"
-                    *ngIf="minDate$ | async as minDate"
-                    [min]="minDate"
-                    [jobData]="jobData"
-                    (updated)="updateJobDate($event)"
-                    (canceled)="cancleUpdate()"
-                ></bc-datepicker-button>
-            </div>
+    } as viewData">
+  <ng-container *ngIf="viewData.clockIns && viewData.clockOffs">
+    <div class="dialog-container" id="printable">
+      <div class="dialog-header">
+        <span>Job history</span>
+        <div style="flex: 1 0 auto"></div>
+        <div *ngIf="showNote">
+          <ion-input placeholder="Enter note here" (ionChange)="saveNoteInput($event)"></ion-input>
         </div>
-    </ng-container>
+        <ion-button color="warning" *ngIf="!showNote" (click)="showNoteField()">Add note</ion-button>
+        <ion-button color="warning" *ngIf="showNote" (click)="addNote()">Save note</ion-button>
+
+        <ion-button color="danger" (click)="cancelJob()">Delete</ion-button>
+        <ion-button class="btn-unassign" (click)="unassign()">Unassign</ion-button>
+        <ion-button color="danger" (click)="openDatePicker()">Edit Date</ion-button>
+        <ion-button color="success" (click)="printReport()">Print</ion-button>
+
+        <ion-icon (click)="close.next()" src="/assets/icon/close.svg"></ion-icon>
+      </div>
+      <div class="dialog-body">
+        <div class="address">
+          <div>{{ dialogData.job.address }}</div>
+          <div *ngIf="notes !== ''" style="font-size: 14px">
+            <span style="font-weight: 700">Notes: </span><span style="font-weight: 300">{{ notes }}</span>
+          </div>
+
+          <!-- <div style="font-size: 14px">
+            <span style="font-weight: 700">Assigned by: </span><span style="font-weight: 300">{{
+              dialogData.job.assigner?.name }} </span>
+          </div> -->
+
+          <div *ngIf="assignedStaff.length> 0" style="font-size: 14px">
+            <span style="font-weight: 700">Assigned To: </span><span style="font-weight: 300"
+              *ngFor="let staff of assignedStaff">{{ staff }}, </span>
+          </div>
+        </div>
+        <bc-clockoff-card *ngFor="let clockIn of viewData.clockIns" [clockOff]="clockIn" type="clockIn">
+        </bc-clockoff-card>
+        <bc-clockoff-card *ngFor="let clockOff of viewData.clockOffs" [clockOff]="clockOff" type="clockOff">
+        </bc-clockoff-card>
+
+        <ion-item lines="none" color="none" style="background: rgba(255, 255, 255, 0.212)"
+          *ngFor="let activity of dialogData.job.activity">
+          <ion-title slot="start" style="color: white">
+            {{ activity.type.toUpperCase() }}
+          </ion-title>
+          <div slot="end" style="color: rgba(255, 255, 255, 0.712)">
+            {{ activity.date | date: 'medium' }}
+          </div>
+        </ion-item>
+        <bc-datepicker-button style="z-index: 25" *ngIf="minDate$ | async as minDate" [min]="minDate"
+          [jobData]="jobData" (updated)="updateJobDate($event)" (canceled)="cancleUpdate()">
+        </bc-datepicker-button>
+      </div>
+    </div>
+  </ng-container>
 </ng-container>

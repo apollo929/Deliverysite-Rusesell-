@@ -22,7 +22,7 @@ export class StaffJobService {
     private clockOffRepository: Repository<ClockOff>,
     private config: ConfigService,
     private clockingCommonService: ClockingCommonService,
-  ) {}
+  ) { }
 
   async getStaffJobs(userId: number, args: StaffAssignedJobsArgs) {
     let jobs: Job[] = [];
@@ -44,7 +44,7 @@ export class StaffJobService {
         break;
       }
     }
-
+    // console.log(jobs);
     return jobs;
   }
   private async getUpcomingJobs(
@@ -55,6 +55,7 @@ export class StaffJobService {
     const query = this.jobsRepository
       .createQueryBuilder('job')
       .leftJoinAndSelect('job.equipment', 'equipment')
+      .leftJoinAndSelect('job.builder', 'builder')  //Bug fixing : Add builder Name
       .innerJoin('job.staff', 'staff', 'staff.id = :staffId', { staffId })
       .where('DATE(job.requestDate) >= DATE(:now)', {
         now,
@@ -88,13 +89,16 @@ export class StaffJobService {
         'job.lat',
         'job.lng',
         'job.status',
+        'job.notes',
         'job.priority',
         'job.requestDate',
+        'builder',
         'equipment.name',
         'equipment.id',
       ])
-      .orderBy('job.requestDate', 'DESC');
+      .orderBy('job.requestDate', 'DESC');   //Bug fixing : Add builder Name
 
+    // console.log('==============================');
     return query.getMany();
   }
   private async getPastJobs(
@@ -116,6 +120,7 @@ export class StaffJobService {
     const query = this.jobsRepository
       .createQueryBuilder('job')
       .leftJoinAndSelect('job.equipment', 'equipment')
+      .leftJoinAndSelect('job.builder', 'builder')
       .innerJoin('job.staff', 'staff', 'staff.id = :staffId', { staffId });
 
     if (jobIdsWithClockOffs.length) {
@@ -150,9 +155,11 @@ export class StaffJobService {
         'job.address',
         'job.lat',
         'job.lng',
+        'job.notes',
         'job.priority',
         'job.status',
         'job.requestDate',
+        'builder',
         'equipment.name',
         'equipment.id',
       ])
@@ -167,6 +174,7 @@ export class StaffJobService {
     const query = this.jobsRepository
       .createQueryBuilder('job')
       .leftJoinAndSelect('job.equipment', 'equipment')
+      .leftJoinAndSelect('job.builder', 'builder')
       .innerJoin('job.staff', 'staff', 'staff.id = :staffId', { staffId })
       .where('job.status = :status', { status: JobStatus.Cancelled });
     if (
@@ -184,9 +192,11 @@ export class StaffJobService {
         'job.address',
         'job.lat',
         'job.lng',
+        'job.notes',
         'job.priority',
         'job.status',
         'job.requestDate',
+        'builder',
         'equipment.name',
         'equipment.id',
       ])

@@ -1,26 +1,26 @@
 {
-    "exportall.config.folderListener": [
-        "/libs/api/shared/src/lib/service"
-    ],
-    "[typescript]": {
-      "editor.formatOnSave": true,
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "[html]": {
-      "editor.formatOnSave": true,
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "[scss]": {
-      "editor.formatOnSave": true,
-    },
-    "exportall.config.relExclusion": [
-        "/libs/ui/shared/src/lib/components",
-        "/libs/ui/builder/src/lib/pages/single-job",
-        "/libs/ui/builder/src/lib/components/job-card-builder",
-        "/libs/ui/admin/jobs/src/lib/components",
-        "/libs/ui/shared/src/lib/service/src/service-old",
-        "/libs/ui/admin/users/src/lib/dialog/add-staff-dialog",
-        ""
-    ],
-    "typescript.tsdk": "node_modules\\typescript\\lib",
+  "exportall.config.folderListener": [
+    "/libs/api/shared/src/lib/service"
+  ],
+  "[typescript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[html]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[scss]": {
+    "editor.formatOnSave": true,
+  },
+  "exportall.config.relExclusion": [
+    "/libs/ui/shared/src/lib/components",
+    "/libs/ui/builder/src/lib/pages/single-job",
+    "/libs/ui/builder/src/lib/components/job-card-builder",
+    "/libs/ui/admin/jobs/src/lib/components",
+    "/libs/ui/shared/src/lib/service/src/service-old",
+    "/libs/ui/admin/users/src/lib/dialog/add-staff-dialog",
+    ""
+  ],
+  "typescript.tsdk": "node_modules\\typescript\\lib",
 }

@@ -6,6 +6,10 @@
             <span *ngIf="job.status === jobStatus.Cancelled">Job is cancelled</span>
             <span *ngIf="job.status === jobStatus.Assigned">Job is assigned</span>
         </div>
+        
+        <div class="job-card-line" *ngIf="job?.builder?.name ">
+            <div  style = "font-weight: bold;text-align:center">{{ job.builder.name }}</div>
+        </div>
         <div *ngIf="equipment" class="job-card-line">
             <ion-icon [src]="'/assets/icon/truck-disabled.svg'"></ion-icon>
             <div class="job-card-desc">{{ equipment }}</div>

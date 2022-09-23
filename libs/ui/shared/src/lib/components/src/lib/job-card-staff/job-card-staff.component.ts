@@ -25,10 +25,11 @@ export class JobCardStaffComponent {
   @Output()
   clockIn = new EventEmitter();
 
+
   @Input()
   mode: 'builder' | 'staff' = 'builder';
 
-  constructor(private cancelJobGQL: CancelJobGQL, private router: Router) {}
+  constructor(private cancelJobGQL: CancelJobGQL, private router: Router) { }
 
   @Input()
   @HostBinding('class')

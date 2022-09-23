@@ -49,7 +49,6 @@ export class GraphqlService implements GqlOptionsFactory {
               HttpStatus.INTERNAL_SERVER_ERROR,
           };
         }
-
         return {
           message: error.message,
           code: error.extensions?.code || 'SERVER_ERROR',

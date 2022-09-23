@@ -1,8 +1,6 @@
 const path = require('path');
 const faker = require('faker');
-require('dotenv').config({
-  path: '../../.env',
-});
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 const { Client } = require('pg');
 const bcrypt = require('bcrypt');
 const rl = require('readline');
@@ -81,7 +79,7 @@ const createJobs = async (count = 20) => {
     const clockOffTime = new Date(clockInTime).addHours(getRandomInt(1, 5));
     const totalTimeWorked = Math.trunc(
       (new Date(clockOffTime).getTime() - new Date(clockInTime).getTime()) /
-        60000,
+      60000,
     );
     /* const builderId = (
       await conn.query(

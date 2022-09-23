@@ -1,56 +1,40 @@
-<bc-admin-header (searchText)="search$.next($event)"
-    ><span>Dashboard</span>
+<bc-admin-header (searchText)="search$.next($event)"><span>Dashboard</span>
 </bc-admin-header>
 <div class="component-wrapper">
     <ion-item>
         <ion-button (click)="toggleJobs('past')" color="secondary" slot="start">
             <ion-icon name="reorder-four"></ion-icon>
         </ion-button>
-        <ion-button
-            (click)="toggleJobs('calendar')"
-            color="secondary"
-            slot="start"
-        >
+        <ion-button (click)="toggleJobs('calendar')" color="secondary" slot="start">
             <ion-icon name="calendar"></ion-icon>
         </ion-button>
-        <ion-select
-            #selectInput
-            value="-1"
-            okText="Filter"
-            (ionChange)="staffFilterApplied(selectInput.value)"
-            cancelText="Close"
-        >
-            <ion-select-option value="-1" color="secondary"
-                >All</ion-select-option
-            >
-            <ion-select-option
-                value="{{ user.id }}"
-                *ngFor="let user of staff"
-                >{{ user.name }}</ion-select-option
-            >
+        <ion-select slot="start" #selectInput value="-1" okText="Filter"
+            (ionChange)="staffFilterApplied(selectInput.value)" cancelText="Close">
+            <ion-select-option value="-1" color="secondary">All</ion-select-option>
+            <ion-select-option value="{{ user.id }}" *ngFor="let user of staff">{{ user.name }}</ion-select-option>
         </ion-select>
+
     </ion-item>
     <div *ngIf="eventType === 'calendar'">
-        <ion-segment value="Month" color="secondary">
-            <ion-segment-button value="Day" (click)="calendarJobs('day')">
+        <ion-segment [value]="calendarQueryType" color="secondary">
+            <ion-segment-button value="day" (click)="calendarJobs('day')">
                 <ion-label>Day</ion-label>
             </ion-segment-button>
-            <ion-segment-button value="Week" (click)="calendarJobs('week')">
+            <ion-segment-button value="week" (click)="calendarJobs('week')">
                 <ion-label>Week</ion-label>
             </ion-segment-button>
 
-            <ion-segment-button value="Month" (click)="calendarJobs('month')">
+            <ion-segment-button value="month" (click)="calendarJobs('month')">
                 <ion-label>Month</ion-label>
             </ion-segment-button>
         </ion-segment>
-
         <ion-card *ngIf="calendarQueryType === 'day'">
             <ion-item>
+                <ion-searchbar mode="ios" animated slot="end" (ionChange)="searchForItem($event)"></ion-searchbar>
+            </ion-item>
+            <ion-item>
                 <ion-button color="none" (click)="prevDay()">
-                    <ion-icon
-                        name="chevron-back-outline"
-                        slot="start"
-                    ></ion-icon>
+                    <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
                 </ion-button>
                 <ion-title style="text-align: center">
                     <div style="font-weight: bolder; font-size: 24px">
@@ -58,18 +42,12 @@
                     </div>
                 </ion-title>
                 <ion-button color="none" (click)="nextDay()">
-                    <ion-icon
-                        name="chevron-forward-outline"
-                        slot="end"
-                    ></ion-icon>
+                    <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
                 </ion-button>
             </ion-item>
             <ion-grid *ngIf="day">
-                <ion-reorder-group
-                    disabled="false"
-                    (ionItemReorder)="reorderItems($event)"
-                >
-                    <div *ngFor="let job of dayResponse">
+                <ion-reorder-group disabled="false" (ionItemReorder)="reorderItems($event)">
+                    <div *ngFor="let job of dayResponseToShow">
                         <ion-row *ngFor="let d of day; let i = index">
                             <ion-col size="3">
                                 <ion-title>
@@ -79,165 +57,116 @@
                                 </ion-title>
                             </ion-col>
                             <ion-col>
-                                <ion-item
-                                    *ngIf="
+                                <ion-item *ngIf="
                                         job.status === 'pending' ||
                                         job.status == 'unAssigned'
-                                    "
-                                    (click)="showAssignedModal(job)"
-                                    color="warning"
-                                    button
-                                >
+                                    " (click)="showAssignedModal(job)" color="warning" button>
                                     <ion-reorder slot="start">
-                                        <ion-icon
-                                            name="business-outline"
-                                        ></ion-icon>
+                                        <ion-icon name="business-outline"></ion-icon>
                                     </ion-reorder>
                                     <ion-title>
-                                        <div
-                                            style="
+                                        <div style="
                                                 font-weight: bolder;
                                                 text-decoration: underline;
-                                            "
-                                        >
+                                            ">
                                             {{ job.builder.name }}
                                         </div>
                                         <div style="font-style: italic">
                                             {{ job.address }}
                                         </div>
                                         <div>
-                                            <span
-                                                *ngFor="
+                                            <span *ngFor="
                                                     let equip of job.equipment
-                                                "
-                                                >{{ equip.name }},
+                                                ">{{ equip.name }},
                                             </span>
                                         </div>
                                     </ion-title>
                                     <div class="job-assign" #jobCard>
                                         <div class="assign-icon">
-                                            <ion-icon
-                                                [src]="
+                                            <ion-icon [src]="
                                                     '/assets/icon/assign.svg'
-                                                "
-                                            ></ion-icon>
+                                                "></ion-icon>
                                         </div>
                                     </div>
                                 </ion-item>
 
-                                <ion-item
-                                    *ngIf="job.status === 'assigned'"
-                                    (click)="showClockOffModal(job)"
-                                    color="tertiary"
-                                    button
-                                >
+                                <ion-item *ngIf="job.status === 'assigned'" (click)="showClockOffModal(job)"
+                                    color="tertiary" button>
                                     <ion-reorder slot="start">
-                                        <ion-icon
-                                            name="business-outline"
-                                        ></ion-icon>
+                                        <ion-icon name="business-outline"></ion-icon>
                                     </ion-reorder>
                                     <ion-title>
-                                        <div
-                                            style="
+                                        <div style="
                                                 font-weight: bolder;
                                                 text-decoration: underline;
-                                            "
-                                        >
+                                            ">
                                             {{ job.builder.name }}
                                         </div>
                                         <div style="font-style: italic">
                                             {{ job.address }}
                                         </div>
                                         <div>
-                                            <span
-                                                *ngFor="
+                                            <span *ngFor="
                                                     let equip of job.equipment
-                                                "
-                                                >{{ equip.name }},
+                                                ">{{ equip.name }},
                                             </span>
                                         </div>
                                     </ion-title>
                                     <div class="bottom-row">
-                                        <ion-icon
-                                            src="/assets/icon/goto.svg"
-                                        ></ion-icon>
+                                        <ion-icon src="/assets/icon/goto.svg"></ion-icon>
                                     </div>
                                 </ion-item>
 
-                                <ion-item
-                                    *ngIf="job.status === 'cancelled'"
-                                    (click)="showClockOffModal(job)"
-                                    color="danger"
-                                    button
-                                >
+                                <ion-item *ngIf="job.status === 'cancelled'" (click)="showClockOffModal(job)"
+                                    color="danger" button>
                                     <ion-reorder slot="start">
-                                        <ion-icon
-                                            name="business-outline"
-                                        ></ion-icon>
+                                        <ion-icon name="business-outline"></ion-icon>
                                     </ion-reorder>
                                     <ion-title>
-                                        <div
-                                            style="
+                                        <div style="
                                                 font-weight: bolder;
                                                 text-decoration: underline;
-                                            "
-                                        >
+                                            ">
                                             {{ job.builder.name }}
                                         </div>
                                         <div style="font-style: italic">
                                             {{ job.address }}
                                         </div>
                                         <div>
-                                            <span
-                                                *ngFor="
+                                            <span *ngFor="
                                                     let equip of job.equipment
-                                                "
-                                                >{{ equip.name }},
+                                                ">{{ equip.name }},
                                             </span>
                                         </div>
                                     </ion-title>
                                     <div class="bottom-row">
-                                        <ion-icon
-                                            src="/assets/icon/goto.svg"
-                                        ></ion-icon>
+                                        <ion-icon src="/assets/icon/goto.svg"></ion-icon>
                                     </div>
                                 </ion-item>
-                                <ion-item
-                                    *ngIf="job.status === 'completed'"
-                                    (click)="showClockOffModal(job)"
-                                    color="success"
-                                    button
-                                >
+                                <ion-item *ngIf="job.status === 'completed'" (click)="showClockOffModal(job)"
+                                    color="success" button>
                                     <ion-reorder slot="start">
-                                        <ion-icon
-                                            name="business-outline"
-                                        ></ion-icon>
+                                        <ion-icon name="business-outline"></ion-icon>
                                     </ion-reorder>
                                     <ion-title>
-                                        <div
-                                            style="
+                                        <div style="
                                                 font-weight: bolder;
                                                 text-decoration: underline;
-                                            "
-                                        >
+                                            ">
                                             {{ job.builder.name }}
                                         </div>
                                         <div style="font-style: italic">
                                             {{ job.address }}
                                         </div>
                                         <div>
-                                            <span
-                                                *ngFor="
+                                            <span *ngFor="
                                                     let equip of job.equipment
-                                                "
-                                                >{{ equip.name }},
+                                                ">{{ equip.name }},
                                             </span>
                                         </div>
                                     </ion-title>
                                     <div class="bottom-row">
-                                        <ion-icon
-                                            src="/assets/icon/goto.svg"
-                                        ></ion-icon>
+                                        <ion-icon src="/assets/icon/goto.svg"></ion-icon>
                                     </div>
                                 </ion-item>
                             </ion-col>
@@ -249,39 +178,32 @@
 
         <ion-card *ngIf="calendarQueryType === 'week'">
             <ion-item>
+                <ion-searchbar mode="ios" animated slot="end" (ionChange)="searchForItem($event)"></ion-searchbar>
+            </ion-item>
+            <ion-item>
                 <ion-button color="none" (click)="prevWeek()">
-                    <ion-icon
-                        name="chevron-back-outline"
-                        slot="start"
-                    ></ion-icon>
+                    <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
                 </ion-button>
                 <ion-title style="text-align: center">
                     <div style="font-weight: bolder; font-size: 24px">
                         {{ firstDayOfWeek(selectedDate) | date: 'd MMM' }} -
                         {{
-                            lastDayOfWeek(firstDayOfWeek(selectedDate))
-                                | date: 'd MMM'
+                        lastDayOfWeek(firstDayOfWeek(selectedDate))
+                        | date: 'd MMM'
                         }}
                     </div>
                 </ion-title>
                 <ion-button color="none" (click)="nextWeek()">
-                    <ion-icon
-                        name="chevron-forward-outline"
-                        slot="end"
-                    ></ion-icon>
+                    <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
                 </ion-button>
             </ion-item>
             <ion-grid *ngIf="week">
                 <div>
                     <ion-row>
-                        <ion-col
-                            size="1.7"
-                            *ngFor="let day of week; let i = index"
-                            style="border-left: 1px solid rgb(161, 161, 161)"
-                        >
-                            <ion-title
-                                style="border: 1px solid rgb(161, 161, 161)"
-                            >
+                        <ion-col size="1.7" *ngFor="let day of week; let i = index"
+                            style="border-left: 1px solid rgb(161, 161, 161)">
+                            <ion-title style="border: 1px solid rgb(161, 161, 161)"
+                                (click)="hopToDay(day.date, day.month)" class="clickableWeek">
                                 <div style="text-align: center">
                                     {{ day.date }}<sup>th</sup>
                                 </div>
@@ -299,11 +221,11 @@
 
         <ion-card *ngIf="calendarQueryType === 'month'">
             <ion-item>
+                <ion-searchbar mode="ios" animated slot="end" (ionChange)="searchForItem($event)"></ion-searchbar>
+            </ion-item>
+            <ion-item>
                 <ion-button color="none" (click)="prevMonth()">
-                    <ion-icon
-                        name="chevron-back-outline"
-                        slot="start"
-                    ></ion-icon>
+                    <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
                 </ion-button>
                 <ion-title style="text-align: center">
                     <div style="font-weight: bolder; font-size: 24px">
@@ -314,84 +236,59 @@
                     </div>
                 </ion-title>
                 <ion-button color="none" (click)="nextMonth()">
-                    <ion-icon
-                        name="chevron-forward-outline"
-                        slot="end"
-                    ></ion-icon>
+                    <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
                 </ion-button>
             </ion-item>
-            <ion-grid
-                style="width: 100%"
-                *ngIf="calendar && calendar.length > 0"
-            >
+            <ion-grid style="width: 100%" *ngIf="calendar && calendar.length > 0">
                 <ion-row *ngFor="let week of calendar">
-                    <ion-col
-                        size="1.7"
-                        *ngFor="let day of week"
-                        style="
+                    <ion-col size="1.7" *ngFor="let day of week" style="
                             text-align: center;
                             border: 1px solid rgba(131, 131, 131, 0.596);
                             min-height: 100px;
                             display: flex;
-                        "
-                    >
-                        <div
-                            *ngIf="
+                        ">
+                        <div (click)="hopToDay(day.date, day.month)" class="clickableDay" *ngIf="
                                 today.getMonth() == day.month &&
                                 today.getDay() != day.date &&
                                 selectedDate.getMonth() == day.month
-                            "
-                        >
+                            ">
                             {{ day.date }}
                         </div>
-                        <div
-                            *ngIf="
+                        <div (click)="hopToDay(day.date, day.month)" class="clickableDay" *ngIf="
                                 today.getMonth() != day.month &&
                                 today.getDay() == day.date &&
                                 selectedDate.getMonth() == day.month
-                            "
-                        >
+                            ">
                             {{ day.date }}
                         </div>
-                        <div
-                            *ngIf="
+                        <div (click)="hopToDay(day.date, day.month)" class="clickableDay" *ngIf="
                                 today.getMonth() != day.month &&
                                 today.getDay() != day.date &&
                                 selectedDate.getMonth() == day.month
-                            "
-                        >
+                            ">
                             {{ day.date }}
                         </div>
-                        <div
-                            *ngIf="
+                        <div (click)="hopToDay(day.date, day.month)" class="clickableDay" *ngIf="
                                 selectedDate.getMonth() != day.month &&
                                 today.getDay() != day.date
-                            "
-                            style="opacity: 0.4"
-                        >
+                            " style="opacity: 0.4">
                             {{ day.date }}
                         </div>
-                        <div
-                            *ngIf="
+                        <div (click)="hopToDay(day.date, day.month)" class="clickableDay" *ngIf="
                                 selectedDate.getMonth() != day.month &&
                                 today.getDay() == day.date
-                            "
-                            style="opacity: 0.4"
-                        >
+                            " style="opacity: 0.4">
                             {{ day.date }}
                         </div>
-                        <div
-                            *ngIf="
+                        <div (click)="hopToDay(day.date, day.month)" class="clickableDay" *ngIf="
                                 today.getMonth() == day.month &&
                                 today.getDay() == day.date &&
                                 selectedDate.getMonth() == day.month
-                            "
-                            style="
+                            " style="
                                 border-bottom-right-radius: 5px;
                                 padding: 2px;
                                 color: white;
-                            "
-                        >
+                            ">
                             {{ day.date }}
                         </div>
                         <div id="{{ day.date }}-{{ day.month }}"></div>
@@ -407,12 +304,8 @@
                 <div style="flex: 1 0 auto"></div>
             </div>
             <div class="section-body">
-                <bc-job-unassigned-list
-                    [search$]="search$"
-                    [staffFilter$]="staffFilter$"
-                    [update]="updateJobs$"
-                    [calendarType]="calendarType"
-                ></bc-job-unassigned-list>
+                <bc-job-unassigned-list [search$]="search$" [staffFilter$]="staffFilter$" [update]="updateJobs$"
+                    [calendarType]="calendarType"></bc-job-unassigned-list>
             </div>
         </section>
         <section class="assigned">
@@ -421,23 +314,14 @@
                 <div style="flex: 1 0 auto"></div>
             </div>
             <div class="section-body">
-                <bc-job-assigned-list
-                    [staffFilter$]="staffFilter$"
-                    [search$]="search$"
-                    [update]="updateJobs$"
-                    [calendarType]="calendarType"
-                >
+                <bc-job-assigned-list [staffFilter$]="staffFilter$" [search$]="search$" [update]="updateJobs$"
+                    [calendarType]="calendarType">
                 </bc-job-assigned-list>
             </div>
         </section>
     </div>
 
-    <ion-fab
-        style="position: fixed; bottom: 15px; right: 15px"
-        vertical="bottom"
-        horizontal="end"
-        slot="fixed"
-    >
+    <ion-fab style="position: fixed; bottom: 15px; right: 15px" vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button (click)="presentModal()">
             <ion-icon name="add"></ion-icon>
         </ion-fab-button>

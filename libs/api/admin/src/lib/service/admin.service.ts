@@ -41,13 +41,18 @@ export class AdminService {
     const user = await findIdOrThrow<User>(this.usersRepository, userId);
 
     let company = await this.companyRepository.findOne({ name: companyName });
-    if (!company) {
+
+    //fixing the bug
+    if (!company && companyName) {
       company = await this.companyService.addCompany({
         name: companyName as string,
       });
     }
 
-    (updateData as any).company = company;
+    if(company)
+    {
+      (updateData as any).company = company;
+    }
 
     let role: RoleType;
     if (roleId) {

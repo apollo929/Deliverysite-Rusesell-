@@ -1,43 +1,29 @@
 <bc-header></bc-header>
-<ion-content
-    [scrollY]="true"
-    *ngIf="{'selectedStatus': statusChanges$ | async, todayJob: todaysJob$ | async} as viewData"
->
-    <div class="page-wrapper">
-        <h1>Jobs</h1>
-        <ng-container *ngIf="viewData.todayJob">
-            <bc-today-job
-                [job]="viewData.todayJob"
-                (clockOff)="clockOff($event)"
-            ></bc-today-job>
-        </ng-container>
-        <div>
-            <bc-status-switcher-staff
-                [initial]="JobFilter.Upcoming"
-                (selected)="statusChanges$.next($event)"
-            ></bc-status-switcher-staff>
-        </div>
-        <form [formGroup]="searchForm" (submit)="searchSubmit$.next()">
-            <bc-input
-                [control]="searchCtrl"
-                type="search"
-                inputmode="search"
-                placeholder="What are you looking for?.."
-                label="Search"
-                theme="dark"
-                (keyup.enter)="searchSubmit$.next()"
-            >
-                <ion-icon src="/assets/icon/search.svg"></ion-icon>
-            </bc-input>
-        </form>
+<ion-content [scrollY]="true"
+  *ngIf="{'selectedStatus': statusChanges$ | async, todayJob: todaysJob$ | async} as viewData">
+  <div class="page-wrapper">
+    <h1>Jobs</h1>
+    <ng-container *ngIf="viewData.todayJob">
+      <bc-today-job [job]="viewData.todayJob" (clockOff)="clockOff($event)"></bc-today-job>
+    </ng-container>
+    <div>
+      <bc-status-switcher-staff [initial]="JobFilter.Upcoming" (selected)="statusChanges$.next($event)">
+      </bc-status-switcher-staff>
+    </div>
+    <form [formGroup]="searchForm" (submit)="searchSubmit$.next()">
+      <bc-input [control]="searchCtrl" type="search" inputmode="search" placeholder="What are you looking for?.."
+        label="Search" theme="dark" (keyup.enter)="searchSubmit$.next()">
+        <ion-icon src="/assets/icon/search.svg"></ion-icon>
+      </bc-input>
+    </form>
 
-        <ng-container [ngSwitch]="viewData.selectedStatus">
-            <h2 *ngSwitchCase="JobFilter.Upcoming">Upcoming Requests</h2>
-            <h2 *ngSwitchCase="JobFilter.Past">Past Requests</h2>
-            <h2 *ngSwitchCase="JobFilter.Cancelled">Cancelled Requests</h2>
-        </ng-container>
-        <ng-container *ngIf="{'items': jobs$ | async} as jobs">
-            <!-- <div class="job-scroll">
+    <ng-container [ngSwitch]="viewData.selectedStatus">
+      <h2 *ngSwitchCase="JobFilter.Upcoming">Upcoming Requests</h2>
+      <h2 *ngSwitchCase="JobFilter.Past">Past Requests</h2>
+      <h2 *ngSwitchCase="JobFilter.Cancelled">Cancelled Requests</h2>
+    </ng-container>
+    <ng-container *ngIf="{'items': jobs$ | async} as jobs">
+      <!-- <div class="job-scroll">
               <div
                   class="no-items-found"
                   *ngIf="!jobs.items || !jobs.items.length"
@@ -55,22 +41,13 @@
                   </div>
               </ion-virtual-scroll>
           </div> -->
-            <div
-                class="no-items-found"
-                *ngIf="!jobs.items || !jobs.items.length"
-            >
-                We didn't find any jobs.
-            </div>
-            <div class="job-scroll" *ngIf="jobs.items && jobs.items.length">
-                <bc-job-card-staff
-                    (cancelled)="jobCancelled($event)"
-                    *ngFor="let job of jobs.items; let idx = index"
-                    [index]="idx"
-                    [status]="selectedStatus"
-                    [job]="job"
-                    (clockIn)="clockIn(job.id)"
-                ></bc-job-card-staff>
-            </div>
-        </ng-container>
-    </div>
+      <div class="no-items-found" *ngIf="!jobs.items || !jobs.items.length">
+        We didn't find any jobs.
+      </div>
+      <div class="job-scroll" *ngIf="jobs.items && jobs.items.length">
+        <bc-job-card-staff (cancelled)="jobCancelled($event)" *ngFor="let job of jobs.items; let idx = index"
+          [index]="idx" [status]="selectedStatus" [job]="job" (clockIn)="clockIn(job.id)"></bc-job-card-staff>
+      </div>
+    </ng-container>
+  </div>
 </ion-content>

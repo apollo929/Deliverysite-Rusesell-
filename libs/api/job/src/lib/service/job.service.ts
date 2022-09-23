@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Brackets, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import {
   AssignToJobInput,
   CreateJobInput,
@@ -24,7 +24,7 @@ import { join } from 'path';
 import { createWriteStream, existsSync, mkdirSync, unlink } from 'fs';
 import { BuilderJobService } from './builder-job.service';
 
-import { getTodayStart } from '@dfobobcat/api/shared/tool';
+import { } from '@dfobobcat/api/shared/tool';
 
 import { UserError } from '@dfobobcat/api/shared/exception';
 import {
@@ -65,13 +65,15 @@ export class JobService {
     private builderUtilService: BuilderUtilService,
     private emailService: EmailService,
     private tzService: TimeZoneService,
-  ) {}
+  ) { }
 
   async getJob(jobId: number) {
     const result = await this.jobsRepository
       .createQueryBuilder('job')
       .leftJoinAndSelect('job.equipment', 'equipment')
       .leftJoinAndSelect('job.builder', 'builder')
+      .leftJoinAndSelect('job.assigner', 'assigner')
+      .leftJoinAndSelect('job.staff', 'staff')
       .where('job.id = :jobId', { jobId })
       .orderBy()
       .getOneOrFail();
@@ -137,6 +139,7 @@ export class JobService {
       .setParameters(queryIds.getParameters())
       .leftJoinAndSelect('job.equipment', 'equipment')
       .leftJoinAndSelect('job.builder', 'builder')
+      .leftJoinAndSelect('job.assigner', 'assigner')
       .leftJoinAndSelect('job.activity', 'activity');
 
     const totalClone = query.clone();
@@ -162,7 +165,6 @@ export class JobService {
         .skip(skip)
         .getMany();
     }
-
     return {
       items: jobs,
       pageInfo: {
@@ -223,9 +225,8 @@ export class JobService {
     const jobInfo = `${this.tzService.convertToTZ(
       new Date(job.requestDate),
     )} - ${job.address}`;
-    const loginEditJobLink = `${this.config.get('LOGIN_EDIT_JOB_LINK')}${
-      job.id
-    }?login_token=${builder.token.builderLoginToken}`;
+    const loginEditJobLink = `${this.config.get('LOGIN_EDIT_JOB_LINK')}${job.id
+      }?login_token=${builder.token.builderLoginToken}`;
     //send to builder
     this.emailService.sendEmail<EmailType.BUILDER_JOB_CREATED>(
       job.builder.email,
@@ -286,7 +287,7 @@ export class JobService {
   }
 
   async updateJob(ctx: any, args: UpdateJobInput): Promise<boolean> {
-    const { address, lat, lng, id, priority } = args;
+    const { address, lat, lng, id, notes, priority } = args;
     const requestDate = new Date(args.requestDate);
 
     let isReschedule = false;
@@ -384,6 +385,7 @@ export class JobService {
       staff: isReschedule ? [] : job.staff,
       status: isReschedule ? JobStatus.Pending : job.status,
       activity: updatedActivity,
+      notes,
       priority,
     };
     await this.jobsRepository.save(job);
@@ -409,9 +411,8 @@ export class JobService {
         );
       }
       // Send To builder
-      const loginEditJobLink = `${this.config.get('LOGIN_EDIT_JOB_LINK')}${
-        job.id
-      }?login_token=${builder.token.builderLoginToken}`;
+      const loginEditJobLink = `${this.config.get('LOGIN_EDIT_JOB_LINK')}${job.id
+        }?login_token=${builder.token.builderLoginToken}`;
       this.emailService.sendEmail<EmailType.BUILDER_JOB_RESCHEDULED>(
         job.builder.email,
         EmailType.BUILDER_JOB_RESCHEDULED,
@@ -487,9 +488,8 @@ export class JobService {
     await this.jobsRepository.save(job);
     const oldRequestDate = this.tzService.convertToTZ(oldJobData.requestDate);
     const newRequestDate = this.tzService.convertToTZ(job.requestDate);
-    const jobInfo = `${this.tzService.convertToTZ(oldJobData.requestDate)} - ${
-      oldJobData.address
-    }`;
+    const jobInfo = `${this.tzService.convertToTZ(oldJobData.requestDate)} - ${oldJobData.address
+      }`;
     // Send to staff
     for (const staff of oldJobData.staff) {
       this.emailService.sendEmail<EmailType.STAFF_JOB_RESCHEDULED>(
@@ -506,9 +506,8 @@ export class JobService {
     }
     // Send To builder
     if (builder.token?.builderLoginToken) {
-      const loginEditJobLink = `${this.config.get('LOGIN_EDIT_JOB_LINK')}${
-        job.id
-      }?login_token=${builder.token.builderLoginToken}`;
+      const loginEditJobLink = `${this.config.get('LOGIN_EDIT_JOB_LINK')}${job.id
+        }?login_token=${builder.token.builderLoginToken}`;
       this.emailService.sendEmail<EmailType.BUILDER_JOB_RESCHEDULED>(
         job.builder.email,
         EmailType.BUILDER_JOB_RESCHEDULED,
@@ -524,6 +523,8 @@ export class JobService {
     }
     return true;
   }
+
+
 
   async assignToJob(ctx: any, args: AssignToJobInput): Promise<boolean> {
     if (args.staffIds && args.staffIds.length > 3) {
@@ -544,9 +545,9 @@ export class JobService {
     const staffUsers =
       action === 'assign'
         ? await this.builderUtilService.findByIdsOrThrow(
-            this.usersRepository,
-            args.staffIds,
-          )
+          this.usersRepository,
+          args.staffIds,
+        )
         : job.staff;
 
     const builder = await this.usersRepository.findOne(
@@ -566,11 +567,12 @@ export class JobService {
       action === 'assign' ? JobStatus.Assigned : JobStatus.UnAssigned;
     job.staff = action === 'assign' ? staffUsers : [];
 
+    job.assigner = ctx.getUser();
+
     if (action === 'assign')
       job.activity.push({ type: JobStatus.Assigned, date: new Date() });
     else job.activity.push({ type: JobStatus.UnAssigned, date: new Date() });
 
-    console.log('job job==========', job);
 
     await this.jobsRepository.save(job);
     const requestDate = this.tzService.convertToTZ(job.requestDate);
@@ -600,9 +602,8 @@ export class JobService {
       );
     }
     if (builder.token?.builderLoginToken) {
-      const loginEditJobLink = `${this.config.get('LOGIN_EDIT_JOB_LINK')}${
-        job.id
-      }?login_token=${builder.token.builderLoginToken}`;
+      const loginEditJobLink = `${this.config.get('LOGIN_EDIT_JOB_LINK')}${job.id
+        }?login_token=${builder.token.builderLoginToken}`;
       this.emailService.sendEmail<EmailType.BUILDER_JOB_ASSIGNED>(
         job.builder.email,
         EmailType.BUILDER_JOB_ASSIGNED,
