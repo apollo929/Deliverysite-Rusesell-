@@ -1,0 +1,427 @@
+type Success {
+  success: Boolean!
+}
+directive @constraint(
+  # String constraints
+  minLength: Int
+  maxLength: Int
+  startsWith: String
+  endsWith: String
+  notContains: String
+  pattern: String
+  format: String
+
+  # Number constraints
+  min: Int
+  max: Int
+  exclusiveMin: Int
+  exclusiveMax: Int
+  multipleOf: Int
+) on INPUT_FIELD_DEFINITION
+scalar Upload
+scalar Date
+
+directive @constraint(
+  # String constraints
+  minLength: Int
+  maxLength: Int
+  startsWith: String
+  endsWith: String
+  notContains: String
+  pattern: String
+  format: String
+
+  # Number constraints
+  min: Int
+  max: Int
+  exclusiveMin: Int
+  exclusiveMax: Int
+  multipleOf: Int
+) on INPUT_FIELD_DEFINITION
+scalar Upload
+scalar Date
+
+enum RoleType {
+  builder
+  laborer
+  operator
+  admin
+}
+enum JobFilter {
+  upcoming
+  past
+  cancelled
+}
+
+enum JobStatus {
+  pending
+  assigned
+  cancelled
+  inProgress
+  completed
+  unAssigned
+}
+
+type Role {
+  id: Float!
+  name: RoleType!
+}
+
+input PaginationArgs {
+  page: Int
+  offset: Int
+}
+
+input filteredDateArgs {
+  startDate: Date
+  endDate: Date
+  calendarType: String
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  nextPage: Int
+  previousPage: Int
+}
+
+interface Node {
+  id: Float!
+}
+
+interface User {
+  id: Float!
+  name: String!
+  email: String!
+  role: Role!
+  company: Company
+}
+
+type Report {
+  totalWorkedHours(
+    startDate: String
+    endDate: String
+    search: String
+    pagination: PaginationArgs
+    orderBy: String
+  ): TotalWorkedHoursReportPaginated!
+
+  jobsForDate(
+    date: String!
+    search: String
+    pagination: PaginationArgs
+    orderBy: String
+    fullListg: Boolean
+  ): JobsForDateReportPaginated!
+
+  jobsForDateFullList(
+    date: String!
+    search: String
+    orderBy: String
+  ): [JobsForDateReportTableItem]!
+}
+
+type JobsForDateReportPaginated {
+  items: [JobsForDateReportItem!]!
+  pageInfo: PageInfo!
+}
+
+type JobsForDateReportTableItem {
+  id: Float!
+  staff: String!
+  builder: String!
+  address: String!
+  equipment: String!
+}
+
+type JobsForDateReportItem {
+  id: Float!
+  staff: [Staff!]!
+  builder: Builder!
+  address: String!
+  equipment: [Equipment!]!
+}
+
+type TotalWorkedHoursReportPaginated {
+  items: [TotalWorkedHoursReportItem!]!
+  pageInfo: PageInfo!
+}
+
+type TotalWorkedHoursReportItem {
+  name: String!
+  email: String!
+  totalWorkedHours: Float
+}
+
+type UserConnection {
+  edges: [UserEdge]
+  pageInfo: PageInfo!
+}
+type UserEdge {
+  node: User
+  cursor: String!
+}
+
+type Equipment implements Node {
+  name: String!
+  id: Float!
+}
+
+type Activity {
+  type: String!
+  date: Date!
+}
+
+type Builder implements User & Node {
+  id: Float!
+  name: String!
+  email: String!
+  role: Role!
+  company: Company
+  jobRequests(status: JobStatus, search: String): [Job!]!
+}
+
+type ClockIn implements Node {
+  id: Float!
+  job: Job!
+  clockInTime: String!
+  images: [String]
+  staff: Staff!
+}
+
+type AddClockInRS {
+  id: Float!
+  equipment: [Equipment!]!
+  address: String!
+}
+
+type ClockOff implements Node {
+  id: Float!
+  clockOffTime: String!
+  notes: String!
+  images: [String]
+  staff: Staff!
+}
+
+type ClockOffEdge {
+  node: ClockOff
+  cursor: String!
+}
+
+type ClockOffConnection {
+  edges: [ClockOffEdge]
+  pageInfo: PageInfo!
+}
+
+type Admin implements User & Node {
+  id: Float!
+  name: String!
+  email: String!
+  role: Role!
+  company: Company
+}
+
+type Staff implements User & Node {
+  id: Float!
+  name: String!
+  email: String!
+  role: Role!
+  company: Company
+  assignedJobs(filter: JobFilter, search: String): [Job!]!
+  hasClockedIntoJob(id: Float!): Boolean!
+  todaysAssignedJob: Job
+}
+
+type Job implements Node {
+  id: Float!
+  builder: Builder!
+  address: String!
+  lat: Float
+  lng: Float
+  status: JobStatus!
+  requestDate: Date!
+  equipment: [Equipment!]!
+  poFile: String
+  clockOffs: [ClockOff!]!
+  clockIns: [ClockIn!]!
+  notes: String
+  priority: String
+  stage: String
+  type: String
+  time: String
+  created: String
+  activity: [Activity!]!
+  adminSelectedBuilder: Float
+}
+
+type JobEdge {
+  node: Job!
+  cursor: String!
+}
+
+type JobConnection {
+  edges: [JobEdge!]!
+  pageInfo: PageInfo!
+}
+
+type JobPaginated {
+  items: [Job!]!
+  pageInfo: PageInfo!
+}
+
+type UserPaginated {
+  items: [User!]!
+  pageInfo: PageInfo!
+}
+
+input CreateJobInput {
+  address: String!
+  lat: Float
+  lng: Float
+  requestDate: Date!
+  equipment: [Float!]!
+  poFile: Upload
+  notes: String
+  priority: String
+  stage: String
+  type: String
+  time: String
+  created: String
+  adminSelectedBuilder: Float
+}
+input UpdateJobInput {
+  id: Float!
+  address: String!
+  lat: Float
+  lng: Float
+  requestDate: Date!
+  equipment: [Float!]!
+  poFile: Upload
+  notes: String
+  priority: String
+  stage: String
+  type: String
+  time: String
+  created: String
+  adminSelectedBuilder: Float
+}
+input UpdateJobDateInput {
+  id: Float!
+  requestDate: Date!
+  updateField: String!
+}
+input AddClockInInput {
+  jobId: Float!
+  lat: Float!
+  lng: Float!
+  files: [Upload!]!
+}
+
+input AddClockOffInput {
+  jobId: Float!
+  notes: String!
+  files: [Upload]
+}
+input RegisterBuilderInput {
+  name: String!
+  email: String! @constraint(format: "email")
+  password: String! @constraint(minLength: 8)
+  company: String
+}
+input RegisterUserInput {
+  name: String!
+  email: String! @constraint(format: "email")
+  password: String! @constraint(minLength: 8)
+  roleId: Float!
+  company: String
+}
+input UpdateUserInput {
+  userId: Float!
+  name: String!
+  email: String!
+  roleId: Float
+  company: String
+}
+input LoginInput {
+  email: String! @constraint(format: "email")
+  password: String!
+}
+
+input AssignToJobInput {
+  staffIds: [Float!]!
+  jobId: Float!
+}
+input UnAssignToJobInput {
+  jobId: Float!
+}
+type LoginRS {
+  name: String!
+  role: Role!
+  email: String!
+}
+type Settings {
+  minJobRequestDate: Date!
+}
+
+type Company {
+  id: Float!
+  name: String!
+}
+
+input AddCompanyInput {
+  name: String!
+}
+
+type Query {
+  me: User!
+  job(id: Float!): Job!
+  user(id: Float!): User!
+  jobs(
+    status: [JobStatus]
+    search: String
+    filteredDate: filteredDateArgs
+    pagination: PaginationArgs
+    orderBy: String
+    staff: [Int!]
+  ): JobPaginated!
+  companies: [Company!]
+  users(
+    role: String
+    search: String
+    paginate: Boolean
+    pagination: PaginationArgs
+    orderBy: String
+  ): UserPaginated!
+  staffRoles: [Role!]!
+  equipment: [Equipment!]!
+  report: Report!
+  settings: Settings!
+}
+
+type Mutation {
+  register(input: RegisterUserInput!): Success!
+  registerBuilder(input: RegisterBuilderInput!): Success!
+  login(input: LoginInput!): LoginRS!
+  tokenLogin(token: String!): LoginRS!
+  logout: Success
+  forgotPassword(email: String!): Success!
+  restorePassword(newPassword: String!, token: String!): Success!
+  verifyEmail(token: String!): Success!
+
+  createJob(input: CreateJobInput!): Success!
+  updateJob(input: UpdateJobInput!): Success!
+  updateJobDate(input: UpdateJobDateInput!): Success!
+
+  cancelJob(jobId: Float!): Success!
+  assignToJob(input: AssignToJobInput!): Success!
+  unAssignToJob(input: UnAssignToJobInput!): Success!
+
+  addClockIn(input: AddClockInInput!): AddClockInRS!
+  addClockOff(input: AddClockOffInput!): Success!
+  addCompany(input: AddCompanyInput!): Company!
+
+  updateUser(input: UpdateUserInput!): Success!
+  deleteUser(userId: Float!): Success!
+
+  updateMyAccount(name: String!, email: String!, password: String): User!
+}

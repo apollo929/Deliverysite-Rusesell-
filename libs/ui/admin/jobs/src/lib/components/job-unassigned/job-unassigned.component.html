@@ -1,0 +1,24 @@
+<div class="job-card-wrapper">
+    <div class="job-card">
+        <div class="job-card-line">
+            <ion-icon [src]="'/assets/icon/truck-disabled.svg'"></ion-icon>
+            <div class="job-card-desc">{{ equipment }}</div>
+        </div>
+        <div class="job-card-line">
+            <ion-icon [src]="'/assets/icon/location-disabled.svg'"></ion-icon>
+            <div class="job-card-desc">{{ job.address }}</div>
+        </div>
+        <div class="job-card-line">
+            <ion-icon [src]="'/assets/icon/calendar-disabled.svg'"></ion-icon>
+            <div class="job-card-desc">{{ date }}</div>
+        </div>
+        <div class="job-card-line" *ngIf="job.notes">
+            <div class="job-card-desc">{{ job.notes }}</div>
+        </div>
+    </div>
+    <div class="job-assign" #jobCard (click)="showModal()">
+        <div class="assign-icon">
+            <ion-icon [src]="'/assets/icon/assign.svg'"></ion-icon>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+.dialog-container {
+  display: block;
+  min-height: 150px;
+  width: 327px;
+  background-color: #004853;
+  color: white;
+  padding: 16px;
+  position: relative;
+  border-radius: 0 0 8px 8px;
+}
+
+.dialog-body {
+  ul {
+    padding: 0;
+    list-style-type: none;
+    overflow: auto;
+    max-height: 230px;
+  }
+  ul > li {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-bottom: 24px;
+    align-items: center;
+    & > * {
+      flex: 1 1 auto;
+    }
+  }
+}
+.dialog-header {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  span {
+    color: #78909c;
+  }
+  border-bottom: 1px solid #78909c;
+  padding-bottom: 15px;
+}
+.dialog-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+.assign {
+  width: 13em;
+  height: 2em;
+  font-size: 11px;
+  text-transform: uppercase;
+  --color: #004853;
+  --border-width: 0;
+  --background: #e8f54a;
+  --background-activated: #cfd8dc;
+  --background-focused: #cfd8dc;
+}
+bc-checkbox {
+  width: 192px;
+}

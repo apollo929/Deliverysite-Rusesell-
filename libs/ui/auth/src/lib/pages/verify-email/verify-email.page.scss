@@ -1,0 +1,41 @@
+:host {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+form {
+  min-height: 100%;
+  display: flex;
+  padding: 16px 0 39px 0;
+  flex-direction: column;
+  bc-input:not(:last-of-type) {
+    margin-bottom: 35px;
+    display: block;
+  }
+}
+h1 {
+  margin-bottom: 27px;
+}
+
+ion-button {
+  span {
+    line-height: 28px;
+  }
+}
+ion-button[type='submit'] {
+  font-weight: 500;
+  ion-icon {
+    margin-bottom: -5px;
+  }
+}
+.main-action-btn {
+  margin-top: 48px;
+}
+div.message {
+  font-size: 18px;
+  text-align: center;
+  line-height: 22px;
+  overflow-wrap: break-word;
+}

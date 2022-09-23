@@ -1,0 +1,34 @@
+<div class="job-card-wrapper">
+    <div class="job-card">
+        <div class="job-card-line">
+            <ion-icon src="/assets/icon/truck.svg"></ion-icon>
+            <div class="job-card-desc">{{ equipment }}</div>
+        </div>
+        <div class="job-card-line job-address-line" (click)="goToDirection()">
+            <ion-icon [src]="'/assets/icon/location.svg'"></ion-icon>
+            <div class="job-card-desc">{{ job.address }}</div>
+            <ion-icon
+                [routerLink]="['/builder', 'single-job', job.id]"
+                *ngIf="status !== jobStatus.Cancelled"
+                class="icon-edit"
+                src="/assets/icon/goto.svg"
+            ></ion-icon>
+        </div>
+        <div class="job-card-line">
+            <ion-icon src="/assets/icon/calendar.svg"></ion-icon>
+            <div class="job-card-desc">{{ date }}</div>
+        </div>
+        <div
+            class="job-card-line"
+            (click)="clockIn.emit()"
+            *ngIf="
+                job.status === jobStatus.InProgress ||
+                job.status === jobStatus.Assigned
+            "
+        >
+            <ion-icon [src]="'/assets/icon/builder.svg'"></ion-icon>
+            <div class="job-card-desc">Clock In</div>
+            <ion-icon class="icon-edit" src="/assets/icon/goto.svg"></ion-icon>
+        </div>
+    </div>
+</div>

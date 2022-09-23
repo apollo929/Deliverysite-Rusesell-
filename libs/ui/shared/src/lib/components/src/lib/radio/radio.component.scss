@@ -1,0 +1,40 @@
+:host {
+  color: black;
+}
+span {
+  font-size: 13px;
+  display: inline-block;
+  margin-right: 7px;
+}
+label {
+  user-select: none;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+input {
+  position: absolute;
+  left: -9999px;
+}
+.checkbox-img {
+  ion-icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+input + .checkbox-img {
+  .unchecked {
+    display: block;
+  }
+  .checked {
+    display: none;
+  }
+}
+input:checked + .checkbox-img {
+  .unchecked {
+    display: none;
+  }
+  .checked {
+    display: block;
+  }
+}

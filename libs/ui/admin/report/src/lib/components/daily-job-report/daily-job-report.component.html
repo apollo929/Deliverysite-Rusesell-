@@ -1,0 +1,147 @@
+<ng-container *ngIf="{
+        reportItems: (dataSource$ | async) || [],
+        hasItems: (dataSource$ | async)?.length || 0,
+        hasPreviousPage: (hasPreviousPage$ | async),
+        hasNextPage: (hasNextPage$ | async)
+    } as viewData">
+    <div class="component-wrapper" #componentWrapper>
+        <div class="desktop-table-wrapper">
+            <div class="pagination-controls actions">
+                <ul class="sorting">
+                    <li [class.active]="(orderBy$ | async) === order.key" *ngFor="let order of orderKeys | keyvalue"
+                        (click)="changeSorting(order.key)">
+                        <span>{{ order.value }}</span>
+                        <svg *ngIf="
+                                (orderDirection$ | async) ===
+                                ORDER_DIRECTION.ASC
+                            " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0V0z" fill="none" />
+                            <path d="m4 12 1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z" />
+                        </svg>
+                        <svg *ngIf="
+                                (orderDirection$ | async) ===
+                                ORDER_DIRECTION.DESC
+                            " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0V0z" fill="none" />
+                            <path d="m20 12-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z" />
+                        </svg>
+                    </li>
+                </ul>
+                <div class="pagination">
+                    <svg [class.disabled]="!viewData.hasPreviousPage" (click)="
+                            viewData.hasPreviousPage
+                                ? paginate$.next(previousPage)
+                                : null
+                        " class="prev" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+                    </svg>
+                    <svg [class.disabled]="!viewData.hasNextPage" (click)="
+                            viewData.hasNextPage
+                                ? paginate$.next(nextPage)
+                                : null
+                        " class="next" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                    </svg>
+                </div>
+            </div>
+            <div class="controls">
+                <bc-datepicker-dropdown [control]="selectedDayCtrl" [label]="'Select day'"
+                    (selected)="selectedDay$.next($event)"></bc-datepicker-dropdown>
+                <ion-button type="button" (click)="generateSpreadSheet()" expand="block" size="medium" shape="round">
+                    <span>Download</span>
+                </ion-button>
+                <ion-button type="button" (click)="printReport()" expand="block" size="medium" shape="round">
+                    <span>Print</span>
+                </ion-button>
+            </div>
+            <table *ngIf="viewData.hasItems; else noItemsTemplate" cdk-table [dataSource]="dataSource$" fixedLayout
+                class="report-job-for-day-desktop" id="printable">
+                <ng-container cdkColumnDef="id">
+                    <th cdk-header-cell *cdkHeaderCellDef>ID</th>
+                    <td cdk-cell *cdkCellDef="let element">
+                        
+                        <ion-icon name="copy-outline" color = "danger" (click) = "duplicateRow(element.id)"></ion-icon>
+                        {{ element.id }}
+                    </td>
+                </ng-container>
+                <ng-container cdkColumnDef="staff">
+                    <th cdk-header-cell *cdkHeaderCellDef>Trade Name</th>
+                    <td cdk-cell *cdkCellDef="let element">
+                        {{ getStaff(element.staff) }}
+                    </td>
+                </ng-container>
+                <ng-container cdkColumnDef="builder">
+                    <th cdk-header-cell *cdkHeaderCellDef>Builder Name</th>
+                    <td cdk-cell *cdkCellDef="let element">
+                        {{ element?.builder?.name }}
+                    </td>
+                </ng-container>
+                <ng-container cdkColumnDef="address">
+                    <th cdk-header-cell *cdkHeaderCellDef>Site Address</th>
+                    <td cdk-cell *cdkCellDef="let element">
+                        {{ element.address }}
+                    </td>
+                </ng-container>
+                <ng-container cdkColumnDef="equipment">
+                    <th cdk-header-cell *cdkHeaderCellDef>Stage</th>
+                    <td cdk-cell *cdkCellDef="let element">
+                        {{ getEquipment(element.equipment) }}
+                    </td>
+                </ng-container>
+                <ng-container cdkColumnDef="notes">
+                    <th cdk-header-cell *cdkHeaderCellDef>Notes</th>
+                    <td cdk-cell *cdkCellDef="let element">
+                        <ion-textarea (ionInput)="updateNotes($event,'jobs',element.id)"></ion-textarea>
+                    </td>
+                </ng-container>
+                <ng-container cdkColumnDef="cost">
+                    <th cdk-header-cell *cdkHeaderCellDef>Cost</th>
+                    <td cdk-cell *cdkCellDef="let element">
+                        <ion-input (ionInput)="updateCost($event,'jobs',element.id)"></ion-input>
+                    </td>
+                </ng-container>
+                <ng-container cdkColumnDef="inv">
+                    <th cdk-header-cell *cdkHeaderCellDef>Inv No#</th>
+                    <td cdk-cell *cdkCellDef="let element">
+                        <ion-input (ionInput)="updateInovice($event,'jobs',element.id)"></ion-input>
+                    </td>
+                </ng-container>
+                <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
+                <tr cdk-row *cdkRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+            <div *ngIf = "extraData && extraData.length > 0" style = "border: 1px solid rgb(151, 151, 151);border-radius: 10px;">
+                <table style = "width:100%;">
+                    <tr *ngFor = "let element of extraData; let i = index">
+                            <td class = "centerData" style = "width:70px;">
+                                {{element.id}}
+                            </td>
+                            <td style = "width: 70px;padding-left:30px;">
+                                <span *ngFor = "let staff of element.staff">
+                                    {{ staff.name }},</span>
+                            </td>
+                            <td style = "width: 70px;padding-left:45px;">
+                                {{element.builder.name}}
+                            </td>
+                            <td style = "width:180px;padding-left:70px;">{{element.address}}
+                            </td>
+                            <td style = "width:110px; padding-left:35px;">
+                                <ion-textarea value = "{{element.stages}}" (ionInput)="updateStages($event,'extra',i.toString())"></ion-textarea>
+                            </td>
+                            <td style = "padding-left:35px;">
+                                <ion-textarea value = "{{element.notes}}" (ionInput)="updateNotes($event,'extra',i.toString())"></ion-textarea>
+                            </td>
+                            <td style = "padding-left:30px;">
+                                <ion-input value = "{{element.cost}}" (ionInput)="updateCost($event,'extra',i.toString())"></ion-input>
+                            </td>
+                            <td style = "padding-left:30px;">
+                                <ion-input value = "{{element.inovice}}" (ionInput)="updateInovice($event,'extra',i.toString())"></ion-input>
+                            </td>
+                    </tr>
+                    </table>
+            </div>
+        </div>
+    </div>
+</ng-container>
+<ng-template #noItemsTemplate>There are no jobs for selected date.</ng-template>

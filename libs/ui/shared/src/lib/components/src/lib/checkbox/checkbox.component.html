@@ -1,0 +1,22 @@
+<label [style.padding]="padding" (click)="setValue($event)">
+    <input [checked]="controlValue" type="checkbox" />
+    <div class="checkbox-img">
+        <ion-icon
+            class="checked"
+            [src]="
+                theme == 'dark'
+                    ? '/assets/icon/checked.svg'
+                    : '/assets/icon/checked-light.svg'
+            "
+        ></ion-icon>
+        <ion-icon
+            class="unchecked"
+            [src]="
+                theme == 'dark'
+                    ? '/assets/icon/unchecked.svg'
+                    : '/assets/icon/unchecked-light.svg'
+            "
+        ></ion-icon>
+    </div>
+    <span class="label-text">{{ label }}</span>
+</label>

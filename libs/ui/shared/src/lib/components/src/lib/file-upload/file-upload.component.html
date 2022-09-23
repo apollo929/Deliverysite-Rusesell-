@@ -1,0 +1,16 @@
+
+<div (dragover)="onDragOver($event)" (drop)="onDropSuccess($event)">
+<label>
+    <ion-icon src="/assets/icon/attachment.svg"></ion-icon
+    ><span>Attach a PO (optional)</span>
+    <input
+        type="file"
+        id="upload"
+        #fileUploadEl
+        (change)="onUpload($event)"
+        [formControl]="fileControl"
+    />
+</label>
+  </div>
+<div *ngIf="error" class="error-output">{{ errorMessage }}</div>
+<div *ngIf="fileName" class="filename-output">Uploaded: {{ fileName }}</div>

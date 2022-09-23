@@ -1,0 +1,44 @@
+:host(.dark) {
+  color: black;
+}
+:host(.light) {
+  color: #fff;
+}
+label {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+input {
+  position: absolute;
+  left: -9999px;
+}
+.checkbox-img {
+  ion-icon {
+    width: 24px;
+    height: 24px;
+  }
+  margin-right: 11px;
+}
+input + .checkbox-img {
+  .unchecked {
+    display: block;
+  }
+  .checked {
+    display: none;
+  }
+}
+input:checked + .checkbox-img {
+  & + span {
+    font-weight: bold;
+  }
+  .unchecked {
+    display: none;
+  }
+  .checked {
+    display: block;
+  }
+}
+.label-text {
+  overflow-wrap: break-word;
+}

@@ -1,0 +1,18 @@
+<bc-admin-header>Reports</bc-admin-header>
+<nav>
+    <ul>
+        <li
+            routerLinkActive="router-link-active"
+            [routerLink]="['/admin', 'reports', 'worked-hours']"
+        >
+            <a>Worked Hours</a>
+        </li>
+        <li
+            routerLinkActive="router-link-active"
+            [routerLink]="['/admin', 'reports', 'daily-jobs']"
+        >
+            <a>Jobs For a Day</a>
+        </li>
+    </ul>
+</nav>
+<router-outlet></router-outlet>

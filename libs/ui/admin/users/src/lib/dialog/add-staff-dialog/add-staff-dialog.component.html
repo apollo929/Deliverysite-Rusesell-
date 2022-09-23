@@ -1,0 +1,124 @@
+<div class="dialog-container">
+    <div class="dialog-header">
+        <span
+            >{{ dialogData?.staffId ? 'Edit user' : 'Add a new staff' }}
+        </span>
+        <div style="flex: 1 0 auto"></div>
+        <ion-icon
+            (click)="close.next(false)"
+            src="/assets/icon/close.svg"
+        ></ion-icon>
+    </div>
+    <div class="dialog-body">
+        <bc-input
+            placeholder="Staff name"
+            label="Full name"
+            [control]="form.controls['name']"
+        ></bc-input>
+
+        <bc-input
+            placeholder="Staff email"
+            label="E-mail"
+            [control]="form.controls['email']"
+        ></bc-input>
+
+        <bc-input
+            *ngIf="!dialogData || !dialogData.staffId"
+            theme="light"
+            [type]="passwordType"
+            placeholder="Write your password"
+            [control]="form.controls.password"
+            [label]="'Password'"
+        >
+            <ion-icon
+                *ngIf="showPassword"
+                class="eye-icon"
+                (click)="switchPasswordVisible()"
+                src="/assets/icon/eye-opened.svg"
+            ></ion-icon>
+            <ion-icon
+                *ngIf="!showPassword"
+                class="eye-icon"
+                (click)="switchPasswordVisible()"
+                src="/assets/icon/eye-closed.svg"
+            ></ion-icon>
+        </bc-input>
+        <bc-input
+            *ngIf="!dialogData || !dialogData.staffId"
+            theme="light"
+            [type]="passwordType"
+            placeholder="Repeat your password"
+            [control]="form.controls.repeatPassword"
+            [label]="'Repeat Password'"
+            enterkeyhint="send"
+        >
+            <ion-icon
+                *ngIf="showPassword"
+                class="eye-icon"
+                (click)="switchPasswordVisible()"
+                src="/assets/icon/eye-opened.svg"
+            ></ion-icon>
+            <ion-icon
+                *ngIf="!showPassword"
+                class="eye-icon"
+                (click)="switchPasswordVisible()"
+                src="/assets/icon/eye-closed.svg"
+            ></ion-icon>
+        </bc-input>
+
+        <bc-select
+            *ngIf="roles$ | async as availableRoles"
+            [options]="availableRoles"
+            [control]="role"
+            placeholder="Select staff role"
+            label="Staff role"
+            theme="light"
+            (selected)="roleSelected($event)"
+        ></bc-select>
+    </div>
+    <div
+        class="form-error"
+        *ngIf="!this.dialogData.staffId && this.form.hasError('repeatPassword')"
+    >
+        Passwords do not match!
+    </div>
+    <div style="flex: 1 0 auto"></div>
+    <div class="dialog-buttons">
+        <ion-button
+            *ngIf="showCopyPassword$ | async"
+            (click)="copyPassword()"
+            class="main-action-btn"
+            type="button"
+            expand="block"
+            size="large"
+            shape="round"
+        >
+            <span>{{ copyPasswordText$ | async }}</span>
+        </ion-button>
+        <ion-button
+            (click)="submit()"
+            class="main-action-btn"
+            type="button"
+            expand="block"
+            size="large"
+            shape="round"
+        >
+            <ion-icon
+                class="dark"
+                slot="start"
+                src="/assets/icon/users.svg"
+            ></ion-icon>
+            <span>{{ dialogData?.staffId ? 'edit' : 'add new' }} staff</span>
+        </ion-button>
+        <ion-button
+            (click)="close.next(false)"
+            class="main-action-btn cancel-btn"
+            type="button"
+            expand="block"
+            size="large"
+            shape="round"
+        >
+            <span>cancel</span>
+        </ion-button>
+    </div>
+</div>

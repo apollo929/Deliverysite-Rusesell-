@@ -1,0 +1,52 @@
+.datepicker-wrapper {
+  display: none;
+  padding-top: 10px;
+  background-color: #185963;
+  border-radius: 8px 8px 0 0;
+  padding-left: 10px;
+  padding-right: 10px;
+  position: absolute;
+  height: 360px;
+  width: 40%;
+  z-index: 1;
+  top: 0;
+  left: 30%;
+  .back {
+    cursor: pointer;
+    width: 24px;
+    position: absolute;
+    height: 24px;
+    top: 15px;
+  }
+  .datepicker-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .next,
+    .prev {
+      margin-bottom: -5px;
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+    .month {
+      font-size: 20px;
+      line-height: 24px;
+      color: #ffffff;
+    }
+  }
+  .button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    bottom: 5px;
+    padding-right: 10px;
+  }
+}
+
+.icon-calendar {
+  position: absolute;
+  right: 8px;
+  top: 14px;
+}

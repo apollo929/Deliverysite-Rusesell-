@@ -1,0 +1,69 @@
+.dialog-container {
+  min-height: 723px;
+  width: 425px;
+  background-color: #004853;
+  color: white;
+  padding: 40px 28px 40px 48px;
+  position: relative;
+  border-radius: 8px;
+  display: flex;
+  flex-flow: column nowrap;
+}
+.dialog-header {
+  margin-bottom: 35px;
+}
+bc-input,
+bc-select {
+  display: block;
+  margin-bottom: 22px;
+}
+.dialog-body {
+}
+.dialog-header {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  span {
+    color: #78909c;
+  }
+  border-bottom: 1px solid #78909c;
+  padding-bottom: 15px;
+}
+.dialog-buttons {
+  display: flex;
+  flex-flow: column nowrap;
+  &:ion-button:first-of-type() {
+    margin-bottom: 16px;
+  }
+}
+
+.main-action-btn {
+  --padding-start: 75px;
+  --padding-end: 75px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  ion-icon {
+    svg {
+      fill: black;
+    }
+  }
+  &:native {
+    ion-icon {
+      display: inline-block;
+      margin-right: 8px;
+      svg {
+        fill: black;
+      }
+    }
+    span {
+      letter-spacing: 0.5px;
+    }
+  }
+}
+.cancel-btn {
+  --background: transparent;
+  --border-color: var(--ion-color-primary);
+  --border-width: 1px;
+  --border-style: solid;
+  --color: var(--ion-color-primary);
+}

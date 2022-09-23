@@ -1,0 +1,23 @@
+.header-wrapper {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  ion-title {
+    font-size: 16px;
+    line-height: 22px;
+  }
+}
+.logo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1px;
+  ion-icon {
+    width: 48px;
+    height: 48px;
+  }
+}
+.greeting {
+  font-weight: bold;
+}

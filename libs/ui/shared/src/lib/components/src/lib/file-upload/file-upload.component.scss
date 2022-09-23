@@ -1,0 +1,28 @@
+input {
+  display: none;
+}
+label {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+ion-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+span {
+  font-size: 16px;
+  line-height: 22px;
+  text-transform: uppercase;
+}
+.error-output {
+  color: red;
+  font-size: 14px;
+  padding-top: 4px;
+}
+.filename-output {
+  margin-top: 6px;
+  font-style: italic;
+}

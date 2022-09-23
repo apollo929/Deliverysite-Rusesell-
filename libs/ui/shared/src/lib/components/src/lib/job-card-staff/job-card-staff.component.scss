@@ -1,0 +1,70 @@
+@mixin job-card-builder($border-color, $background-color) {
+  .job-card {
+    position: relative;
+    background-color: $background-color;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+
+    ion-icon,
+    img {
+      width: 24px;
+      height: 24px;
+    }
+    .job-card-line {
+      padding: 16px;
+      display: flex;
+      flex-flow: row nowrap;
+      border-bottom: 1px solid $border-color;
+    }
+
+    .job-card-line:last-of-type {
+      border-bottom-width: 0;
+    }
+    .job-card-line ion-icon:first-of-type,
+    .job-card-line img:first-of-type {
+      margin-right: 13px;
+    }
+    .job-card-line ion-icon,
+    .job-card-line img {
+      flex: 0 0 24px;
+    }
+    .job-card-line.job-address-line {
+      background-color: #e8f54a;
+      cursor: pointer;
+    }
+    .job-card-line .job-card-desc {
+      text-overflow: ellipsis;
+      font-size: 16px;
+      line-height: 22px;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 16rem;
+      padding-right: 8px;
+    }
+  }
+}
+.cancel-job {
+  margin-top: -6px;
+  cursor: pointer;
+  color: #e53935;
+  border-radius: 0 0 8px 8px;
+  background-color: #f6f8fa;
+  display: flex;
+  align-items: center;
+  padding: 12px 10px;
+  text-transform: uppercase;
+  width: 13.25rem;
+  ion-icon,
+  img {
+    margin-right: 8px;
+  }
+}
+
+:host(.past),
+:host(.upcoming) {
+  @include job-card-builder(#004853, #fff);
+}
+
+:host(.cancelled) {
+  @include job-card-builder(#e53935, #ffffff);
+}

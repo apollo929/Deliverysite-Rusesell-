@@ -1,0 +1,26 @@
+bc-input,
+bc-select,
+bc-address-input {
+  margin-bottom: 36px;
+  display: block;
+}
+
+bc-file-upload {
+  display: block;
+  margin-top: 24px;
+}
+
+form {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+.page-wrapper {
+  height: 100%;
+}
+ion-item {
+  --inner-padding-end: 40px;
+}
+.notes{
+  margin-top: 34px;
+}

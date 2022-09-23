@@ -1,0 +1,3 @@
+@dfobobcat/api/entity
+
+@dfobobcat/graphql-types

@@ -1,0 +1,79 @@
+<bc-header></bc-header>
+<ion-content [scrollY]="true">
+    <div class="page-wrapper">
+        <h1>Job requests</h1>
+
+        <form [formGroup]="searchForm" (submit)="searchSubmit$.next()">
+            <bc-input
+                [control]="searchCtrl"
+                type="search"
+                inputmode="search"
+                placeholder="What are you looking for?.."
+                label="Search"
+                theme="dark"
+                (keyup.enter)="searchSubmit$.next()"
+            >
+                <ion-icon src="/assets/icon/search.svg"></ion-icon>
+            </bc-input>
+        </form>
+        <div>
+            <bc-status-selector
+                [initial]="selectedStatus"
+                (selected)="statusChanges$.next($event)"
+            ></bc-status-selector>
+        </div>
+        <ng-container [ngSwitch]="selectedStatus">
+            <h2 *ngSwitchCase="jobStatus.Assigned">Assigned Requests</h2>
+            <h2 *ngSwitchCase="jobStatus.Pending">Unassigned Requests</h2>
+            <h2 *ngSwitchCase="jobStatus.Cancelled">Cancelled Requests</h2>
+        </ng-container>
+        <ng-container *ngIf="{'items': jobs$ | async} as jobs">
+            <!-- <div class="job-scroll">
+                <div
+                    class="no-items-found"
+                    *ngIf="!jobs.items || !jobs.items.length"
+                >
+                    We didn't find any jobs.
+                </div>
+                <ion-virtual-scroll
+                    class="jobs-wrapper"
+                    [items]="jobs$ | async"
+                    [`]
+                    approxItemHeight="327px"
+                >
+                    <div *virtualItem="let item">
+                        <bc-job-card-builder [job]="item"></bc-job-card-builder>
+                    </div>
+                </ion-virtual-scroll>
+            </div> -->
+            <div
+                class="no-items-found"
+                *ngIf="!jobs.items || !jobs.items.length"
+            >
+                We didn't find any jobs.
+            </div>
+            <div class="job-scroll" *ngIf="jobs.items && jobs.items.length">
+                <bc-job-card-builder
+                    (cancelled)="jobCancelled($event)"
+                    (updateJob)="updateJobs()"
+                    *ngFor="let job of jobs.items; let idx = index"
+                    [index]="idx"
+                    [status]="job.status"
+                    [job]="job"
+                ></bc-job-card-builder>
+            </div>
+        </ng-container>
+        <!-- <div class="filler"></div> -->
+        <ion-button
+            class="main-action-btn"
+            type="button"
+            expand="block"
+            size="large"
+            shape="round"
+            [routerLink]="['/builder','single-job']"
+        >
+            <ion-icon slot="start" src="/assets/icon/document.svg"></ion-icon>
+            <span>new request</span>
+        </ion-button>
+    </div>
+</ion-content>

@@ -1,0 +1,45 @@
+<bc-header></bc-header>
+<ion-content [scrollY]="true">
+    <div class="page-wrapper">
+        <h1>Clock In</h1>
+        <div class="note">NOTE: images are required.</div>
+
+        <div class="images-wrap" #imageList>
+            <div class="add-photo" (click)="fileInput.click()">
+                <ion-icon
+                    class="add-photo-icon"
+                    src="/assets/icon/add.svg"
+                ></ion-icon>
+                <span>Add photo</span>
+                <input
+                    multiple="true"
+                    accept="image/jpeg,image/png"
+                    (change)="onUpload($event)"
+                    type="file"
+                    #fileInput
+                />
+            </div>
+        </div>
+        <ion-button
+            [routerLink]="['/staff', 'jobs']"
+            type="button"
+            class="back-btn"
+            shape="round"
+        >
+            <ion-icon slot="start" src="/assets/icon/back-sm.svg"></ion-icon>
+            <span>back to jobs</span>
+        </ion-button>
+        <div style="flex: 1 0 auto"></div>
+        <ion-button
+            [disabled]="images.length === 0"
+            type="button"
+            (click)="submit()"
+            expand="block"
+            size="large"
+            shape="round"
+        >
+            <ion-icon slot="start" src="/assets/icon/submit.svg"></ion-icon>
+            <span>submit</span>
+        </ion-button>
+    </div>
+</ion-content>

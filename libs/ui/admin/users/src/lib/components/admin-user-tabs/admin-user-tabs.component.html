@@ -1,0 +1,18 @@
+<bc-admin-header>Users</bc-admin-header>
+<nav>
+    <ul>
+        <li
+            routerLinkActive="router-link-active"
+            [routerLink]="['/admin', 'users', 'staff']"
+        >
+            <a>Staff</a>
+        </li>
+        <li
+            [routerLink]="['/admin', 'users', 'builder']"
+            routerLinkActive="router-link-active"
+        >
+            <a>Builders</a>
+        </li>
+    </ul>
+</nav>
+<router-outlet></router-outlet>

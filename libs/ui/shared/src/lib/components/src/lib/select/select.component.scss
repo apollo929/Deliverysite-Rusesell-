@@ -1,0 +1,122 @@
+@import 'mixins';
+ion-item::part(native) {
+  padding: 0;
+}
+.select-wrapper {
+  position: relative;
+}
+.options-wrapper {
+  display: none;
+}
+ul {
+  display: flex;
+  overflow-y: auto;
+  max-height: 180px;
+  position: absolute;
+  z-index: 2;
+  background-color: transparent;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  top: 62px;
+  left: 0;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 8px;
+  li {
+    user-select: none;
+    cursor: pointer;
+    .bc-checkbox label {
+      padding: 15px 15px;
+    }
+
+    &:last-of-type {
+      border-bottom: 0;
+    }
+    .checkbox-img {
+      margin-right: 11px;
+    }
+  }
+}
+:host {
+  position: relative;
+  z-index: 10;
+}
+:host(.dark) {
+  $border-color: #8c97a0;
+  $label-color: #78909c;
+  $text-color: #193044;
+  $label-background: #fff;
+  $input-background: var(--input-background);
+
+  background-color: $input-background;
+
+  li {
+    border-bottom: 1px solid #78909c;
+  }
+  ul {
+    background-color: $input-background;
+
+    border: 1px solid #78909c;
+  }
+  @include form-control-config($border-color, $label-color, $text-color, $label-background);
+  .options-active-icon {
+    cursor: pointer;
+    position: absolute;
+    top: 12px;
+    right: 9px;
+    width: 22px;
+    height: 22px;
+    z-index: 10;
+    ion-icon {
+      height: 10px;
+      width: 20px;
+    }
+  }
+}
+
+:host(.light) {
+  $border-color: #fff;
+  $label-color: #fff;
+  $text-color: #fff;
+  $label-background: #004853;
+  $input-background: var(--input-background);
+
+  background-color: $input-background;
+
+  @include form-control-config($border-color, $label-color, $text-color, $label-background);
+  .options-active-icon {
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 9px;
+    width: 22px;
+    height: 22px;
+    z-index: 10;
+    ion-icon {
+      height: 10px;
+      width: 20px;
+    }
+  }
+  ul {
+    background-color: $input-background;
+
+    border: 1px solid #fff;
+  }
+  ul li {
+    padding: 12px;
+    background-color: transparent;
+    color: white;
+    border-bottom: 1px solid white;
+  }
+}
+ion-input {
+  font-size: 16px;
+}
+
+ion-item {
+  --inner-padding-start: 16px;
+  --inner-padding-end: 40px;
+  --padding-start: 0;
+  --padding-end: 0;
+}

@@ -1,0 +1,46 @@
+version: '3.5'
+
+services:
+  dfobobcat_db:
+    container_name: dfobobcat_db
+    image: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: dfobobcat
+      PGDATA: /data/postgres-dfobobcat
+    volumes:
+      - postgres_dfobobcat:/data/postgres-dfobobcat
+    ports:
+      - '6432:5432'
+    networks:
+      - postgres_dfobobcat_network
+    restart: unless-stopped
+
+  dfobobcat_pgadmin:
+    container_name: dfobobcat_pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: example@example.com
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin_dfobobcat:/root/.pgadmin
+    ports:
+      - '6431:80'
+    networks:
+      - postgres_dfobobcat_network
+    restart: unless-stopped
+
+  dfobobcat_redis:
+    image: 'redis:alpine'
+    ports:
+      - '6379:6379'
+
+networks:
+  postgres_dfobobcat_network:
+    driver: bridge
+
+volumes:
+  postgres_dfobobcat:
+  pgadmin_dfobobcat:

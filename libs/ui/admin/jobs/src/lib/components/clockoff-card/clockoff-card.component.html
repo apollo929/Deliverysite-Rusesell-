@@ -1,0 +1,57 @@
+<div class="clockoff-card">
+    <div class="staff-info">
+        <div class="staff-icon">
+            <ion-icon src="/assets/icon/staff.svg"></ion-icon>
+        </div>
+        <span class="name"
+            >{{ clockOff.staff.name }}
+            {{ type === 'clockIn' ? ' clocked in' : 'clocked off' }}</span
+        >
+        <div style="flex: 1 0 auto"></div>
+        <ion-icon
+            (click)="hidden = true"
+            *ngIf="!hidden"
+            name="caret-down-outline"
+        ></ion-icon>
+        <ion-icon
+            (click)="hidden = false"
+            *ngIf="hidden"
+            name="caret-up-outline"
+        ></ion-icon>
+    </div>
+    <div class="clock-off-info" *ngIf="!hidden">
+        <div class="time-col">
+            <ion-icon src="/assets/icon/calendar-light.svg"></ion-icon>
+            <div class="line"></div>
+        </div>
+        <div class="content-col">
+            <div class="date">
+                {{
+                    clockOff.clockOffTime || clockOff.clockInTime
+                        | bcDate: 'MMMM d, EEEE'
+                }}
+            </div>
+            <div class="time">
+                {{
+                    clockOff.clockOffTime || clockOff.clockInTime
+                        | bcDate: 'hh:mm a'
+                }}
+            </div>
+            <div class="time" *ngIf="clockOff?.notes && clockOff.notes != ''">
+                {{ clockOff.notes }}
+            </div>
+            <div class="images">
+                <ng-container *ngIf="clockOff.images && clockOff.images.length">
+                    <img
+                        (click)="openImage($event)"
+                        *ngFor="let image of clockOff.images"
+                        [src]="clockOffImageBase + '/' + image"
+                        width="176"
+                        height="176"
+                        alt=""
+                    />
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

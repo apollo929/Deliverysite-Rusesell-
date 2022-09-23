@@ -1,0 +1,34 @@
+<div class="dialog-container">
+    <div class="dialog-header">
+        <span>Assign Work</span>
+        <div style="flex: 1 0 auto"></div>
+        <ion-icon
+            (click)="close.next(false)"
+            src="/assets/icon/close.svg"
+        ></ion-icon>
+    </div>
+    <div class="dialog-body">
+        <ul *ngIf="staff$ | async as staff">
+            <li *ngFor="let user of staff">
+                <bc-checkbox
+                    padding="0"
+                    [label]="user.name"
+                    theme="light"
+                    ngDefaultControl
+                    [formControl]="assignTo[user.id]"
+                ></bc-checkbox>
+                <span class="role">{{ user.role.name }}</span>
+            </li>
+        </ul>
+    </div>
+    <div class="dialog-buttons">
+        <ion-button
+            (click)="assignStaff()"
+            type="button"
+            class="assign"
+            shape="round"
+        >
+            <span>assign</span>
+        </ion-button>
+    </div>
+</div>

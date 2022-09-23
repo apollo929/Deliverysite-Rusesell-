@@ -1,0 +1,6 @@
+<ion-app
+    [class.admin-app]="isAdmin$ | async"
+    [class.loading-state]="isLoading$ | async"
+>
+    <ion-router-outlet></ion-router-outlet>
+</ion-app>

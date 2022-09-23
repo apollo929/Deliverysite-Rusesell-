@@ -1,0 +1,99 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": "./",
+    "types": ["googlemaps", "node"],
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom", "esnext.asynciterable"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@dfobobcat/api/auth": ["libs/api/auth/src/index.ts"],
+      "@dfobobcat/api/auth/util": ["libs/api/auth/src/lib/util/src/index.ts"],
+      "@dfobobcat/api/core": ["libs/api/core/src/index.ts"],
+      "@dfobobcat/api/cron": ["libs/api/cron/src/index.ts"],
+      "@dfobobcat/api/email": ["libs/api/email/src/index.ts"],
+      "@dfobobcat/api/entity": ["libs/api/core/src/lib/entity/src/index.ts"],
+      "@dfobobcat/api/feature/admin": ["libs/api/admin/src/index.ts"],
+      "@dfobobcat/api/feature/clocking": ["libs/api/clocking/src/index.ts"],
+      "@dfobobcat/api/feature/company": ["libs/api/company/src/index.ts"],
+      "@dfobobcat/api/feature/equipment": ["libs/api/equipment/src/index.ts"],
+      "@dfobobcat/api/feature/job": ["libs/api/job/src/index.ts"],
+      "@dfobobcat/api/feature/report": ["libs/api/report/src/index.ts"],
+      "@dfobobcat/api/feature/settings": ["libs/api/settings/src/index.ts"],
+      "@dfobobcat/api/queue": ["libs/api/queue/src/index.ts"],
+      "@dfobobcat/api/resolver": [
+        "libs/api/core/src/lib/resolver/src/index.ts"
+      ],
+      "@dfobobcat/api/shared/const": [
+        "libs/api/shared/src/lib/const/src/index.ts"
+      ],
+      "@dfobobcat/api/shared/exception": [
+        "libs/api/shared/src/lib/exception/src/index.ts"
+      ],
+      "@dfobobcat/api/shared/model": [
+        "libs/api/shared/src/lib/model/src/index.ts"
+      ],
+      "@dfobobcat/api/shared/module": ["libs/api/shared/src/index.ts"],
+      "@dfobobcat/api/shared/service": [
+        "libs/api/shared/src/lib/service/src/index.ts"
+      ],
+      "@dfobobcat/api/shared/tool": [
+        "libs/api/shared/src/lib/tool/src/index.ts"
+      ],
+      "@dfobobcat/api/shared/validators": [
+        "libs/api/shared/src/lib/validators/src/index.ts"
+      ],
+      "@dfobobcat/api/testinglib": ["libs/api/testing/src/index.ts"],
+      "@dfobobcat/graphql-types": ["libs/graphql/src/index.ts"],
+      "@dfobobcat/shared": ["libs/shared/src/index.ts"],
+      "@dfobobcat/ui/admin/shared/components": [
+        "libs/ui/admin/shared/src/lib/components/src/index.ts"
+      ],
+      "@dfobobcat/ui/admin/shared/service": [
+        "libs/ui/admin/shared/src/lib/service/src/index.ts"
+      ],
+      "@dfobobcat/ui/core": ["libs/ui/core/src/index.ts"],
+      "@dfobobcat/ui/feature/admin/jobs": ["libs/ui/admin/jobs/src/index.ts"],
+      "@dfobobcat/ui/feature/admin/shared/model": [
+        "libs/ui/admin/shared/src/lib/model/src/index.ts"
+      ],
+      "@dfobobcat/ui/feature/admin/shared/module": [
+        "libs/ui/admin/shared/src/index.ts"
+      ],
+      "@dfobobcat/ui/feature/admin/shell": ["libs/ui/admin/shell/src/index.ts"],
+      "@dfobobcat/ui/feature/admin/users": ["libs/ui/admin/users/src/index.ts"],
+      "@dfobobcat/ui/feature/auth": ["libs/ui/auth/src/index.ts"],
+      "@dfobobcat/ui/feature/builder": ["libs/ui/builder/src/index.ts"],
+      "@dfobobcat/ui/feature/report": ["libs/ui/admin/report/src/index.ts"],
+      "@dfobobcat/ui/feature/staff": ["libs/ui/staff/src/index.ts"],
+      "@dfobobcat/ui/shared/component": [
+        "libs/ui/shared/src/lib/components/src/index.ts"
+      ],
+      "@dfobobcat/ui/shared/dialog": [
+        "libs/ui/shared/src/lib/dialog/src/index.ts"
+      ],
+      "@dfobobcat/ui/shared/model": [
+        "libs/ui/shared/src/lib/model/src/index.ts"
+      ],
+      "@dfobobcat/ui/shared/module": ["libs/ui/shared/src/index.ts"],
+      "@dfobobcat/ui/shared/pipe": ["libs/ui/shared/src/lib/pipe/src/index.ts"],
+      "@dfobobcat/ui/shared/service": [
+        "libs/ui/shared/src/lib/service/src/index.ts"
+      ],
+      "@dfobobcat/ui/shared/tool": ["libs/ui/shared/src/lib/tool/src/index.ts"],
+      "@dfobocat/api/next-test": ["libs/api/next-test/src/index.ts"],
+      "@dfobocat/api/test-lib": ["libs/api/build-test/src/index.ts"],
+      "@ui/environment": ["apps/dfobobcat-ui/src/environments/environment"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

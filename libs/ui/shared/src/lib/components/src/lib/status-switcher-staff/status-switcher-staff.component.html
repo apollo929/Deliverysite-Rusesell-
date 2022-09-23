@@ -1,0 +1,23 @@
+<ul class="status-selector">
+    <li>
+        <bc-radio
+            label="Upcoming"
+            [value]="JobFilter.Upcoming"
+            [control]="selectedStatus"
+        ></bc-radio>
+    </li>
+    <li>
+        <bc-radio
+            label="Past"
+            [value]="JobFilter.Past"
+            [control]="selectedStatus"
+        ></bc-radio>
+    </li>
+    <li>
+        <bc-radio
+            label="Cancelled"
+            [value]="JobFilter.Cancelled"
+            [control]="selectedStatus"
+        ></bc-radio>
+    </li>
+</ul>

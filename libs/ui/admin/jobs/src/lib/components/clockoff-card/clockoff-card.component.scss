@@ -1,0 +1,97 @@
+.staff-info {
+  background-color: #185963;
+  padding: 8px 48px;
+
+  margin-bottom: 4px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  margin-bottom: 4px;
+
+  .staff-icon {
+    margin-right: 8px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #cfd8dc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    ion-icon {
+      color: #cfd8dc;
+    }
+  }
+}
+.clock-off-info {
+  display: grid;
+  grid-template-columns: 24px auto;
+  row-gap: 0;
+  column-gap: 0;
+  align-items: stretch;
+  padding: 12px 48px;
+  background-color: #185963;
+
+  .images img {
+    width: 178px;
+    height: 178px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 8px;
+  }
+
+  .time-col {
+    width: 24px;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: stretch;
+    height: 100%;
+  }
+  .time-col .line {
+    width: 1px;
+    background-color: white;
+    height: 100%;
+  }
+  .time-col::after {
+    display: block;
+    content: ' ';
+    width: 5px;
+    height: 5px;
+    background-color: white;
+  }
+
+  .content-col {
+    .date {
+      font-weight: bold;
+      padding-left: 10px;
+    }
+    .date,
+    .time {
+      margin-bottom: 8px;
+    }
+    .time {
+      margin-left: -12px;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: flex-start;
+      align-items: center;
+      &::before {
+        width: 20px;
+        height: 1px;
+        background-color: white;
+        content: ' ';
+      }
+    }
+    .images {
+      padding-left: 10px;
+      display: flex;
+      flex-flow: row wrap;
+      img {
+        margin-right: 16px;
+      }
+      img:last-of-type {
+        margin-right: 0;
+      }
+    }
+  }
+}

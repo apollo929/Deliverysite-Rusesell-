@@ -1,0 +1,76 @@
+<bc-input
+    #dateInput
+    [control]="control"
+    [readonly]="true"
+    theme="dark"
+    [label]="label"
+    [inputBackground]="'#ffffff'"
+    [placeholder]="placeholder"
+    [cursorPointer]="true"
+    (click)="openDatepicker()"
+>
+    <ion-icon class="input-icon" src="/assets/icon/calendar.svg"></ion-icon>
+</bc-input>
+<div class="datepicker-wrapper" #datepickerWrapper>
+    <div class="datepicker-header">
+        <div class="prev" (click)="moveDatePickerToPrev()">
+            <svg
+                width="24"
+                height="24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    d="M13.363 17a.996.996 0 01-.72-.305l-3.862-4a1 1 0 01.013-1.402l4-4a.999.999 0 111.413 1.414l-3.305 3.305 3.18 3.293a1 1 0 01-.72 1.695z"
+                    fill="#CFD8DC"
+                />
+                <mask
+                    id="a"
+                    maskUnits="userSpaceOnUse"
+                    x="8"
+                    y="7"
+                    width="7"
+                    height="11"
+                >
+                    <path
+                        d="M13.363 17a.996.996 0 01-.72-.305l-3.862-4a1 1 0 01.013-1.402l4-4a.999.999 0 111.413 1.414l-3.305 3.305 3.18 3.293a1 1 0 01-.72 1.695z"
+                        fill="#fff"
+                    />
+                </mask>
+            </svg>
+        </div>
+        <div class="month">{{ currentMonthTitle }}</div>
+        <div class="next" (click)="moveDatePickerToNext()">
+            <svg
+                width="24"
+                height="24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    d="M10.637 17a.996.996 0 00.72-.305l3.863-4a1 1 0 00-.014-1.402l-4-4a.999.999 0 10-1.414 1.414l3.306 3.305-3.18 3.293a1 1 0 00.72 1.695z"
+                    fill="#CFD8DC"
+                />
+                <mask
+                    id="a"
+                    maskUnits="userSpaceOnUse"
+                    x="9"
+                    y="7"
+                    width="7"
+                    height="11"
+                >
+                    <path
+                        d="M10.637 17a.996.996 0 00.72-.305l3.863-4a1 1 0 00-.014-1.402l-4-4a.999.999 0 10-1.414 1.414l3.306 3.305-3.18 3.293a1 1 0 00.72 1.695z"
+                        fill="#fff"
+                    />
+                </mask>
+            </svg>
+        </div>
+    </div>
+    <dp-date-picker
+        [formControl]="control"
+        [config]="datePickerConfig"
+        theme="bc-datepicker"
+        (onSelect)="dateSelected($event)"
+    ></dp-date-picker>
+</div>

@@ -1,0 +1,25 @@
+<div class="dashboard-header">
+    <div class="header-wrapper">
+        <div class="section-title"><ng-content></ng-content></div>
+        <div style="flex: 1 0 auto"></div>
+        <form [formGroup]="searchForm" (submit)="search()">
+            <bc-input
+                [control]="searchCtrl"
+                type="search"
+                inputmode="search"
+                placeholder="What are you looking for?.."
+                label="Search"
+                theme="dark"
+                (keyup.enter)="searchSubmit$.next(searchCtrl.value)"
+            >
+                <ion-icon src="/assets/icon/search.svg"></ion-icon>
+            </bc-input>
+        </form>
+        <div class="user-icon" (click)="presentModal()">
+            <ion-icon src="/assets/icon/builder.svg"></ion-icon>
+        </div>
+    </div>
+    <div class="header-actions">
+        <ng-content select=".actions"></ng-content>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+@import 'mixins';
+
+:host(.dark) {
+  $border-color: #8c97a0;
+  $label-color: #78909c;
+  $text-color: #193044;
+  $label-background: var(--label-background);
+  $input-background: var(--input-background);
+
+  @include form-control-config($border-color, $label-color, $text-color, $label-background, $input-background);
+  .eye-icon {
+    position: absolute;
+    right: 0;
+    top: 15px;
+  }
+}
+
+:host(.light) {
+  $border-color: #fff;
+  $label-color: #fff;
+  $text-color: #fff;
+  $label-background: var(--label-background);
+  $input-background: var(--input-background);
+
+  @include form-control-config($border-color, $label-color, $text-color, $label-background, $input-background);
+  .eye-icon {
+    position: absolute;
+    right: 0;
+    top: 15px;
+  }
+}
+
+:host(.with-icon) {
+  div.form-control {
+    ion-item {
+      --inner-padding-end: 36px;
+    }
+    ion-item::part(native) {
+      input {
+        cursor: pointer;
+      }
+    }
+  }
+}

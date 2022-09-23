@@ -1,0 +1,34 @@
+<bc-header></bc-header>
+<ion-content [scrollY]="false">
+    <perfect-scrollbar style="max-height: 880px" [config]="perfectScrollbarConfig">
+        <div class="page-wrapper">
+            <h1 *ngIf="!jobId">Submit request</h1>
+            <h1 *ngIf="jobId">Edit request</h1>
+
+            <form [formGroup]="form" (submit)="submit()">
+                <bc-address-input (selected)="addressSelected($event)" ngDefaultControl [formControl]="address">
+                </bc-address-input>
+                <bc-select style="z-index: 15;" [control]="selectedEquipmentInput" [multiple]="true"
+                    [inputBackground]="'#fff'" placeholder="Select equipment" *ngIf="equipment$ | async as equipment"
+                    [options]="equipment ? equipment : {}" (selected)="equpmentSelected($event)" theme="dark"
+                    label="Type of building equipment" [triggerCD]="triggerCDChildren"></bc-select>
+                <bc-datepicker style="z-index: 10;" *ngIf="minDate$ | async as minDate" [min]="minDate"
+                    [control]="datetime" placeholder="Select a date" (selected)="dateSelected($event)"></bc-datepicker>
+                <div class="attach-po-input">
+                    <bc-file-upload [fileName]="(uploadedPO$ | async) ?? ''" (upload)="poUpload($event)">
+                    </bc-file-upload>
+                </div>
+                <div class="notes" style="z-index: 1;">
+                    <bc-input placeholder="Write a note" theme="dark" label="Notes" [control]="form.controls['notes']">
+                    </bc-input>
+                </div>
+
+                <div style="flex: 1 0 auto"></div>
+                <ion-button type="submit" expand="block" size="large" shape="round">
+                    <ion-icon slot="start" src="/assets/icon/truck.svg"></ion-icon>
+                    <span>{{jobId ? 'edit' : 'submit'}}</span>
+                </ion-button>
+            </form>
+        </div>
+    </perfect-scrollbar>
+</ion-content>

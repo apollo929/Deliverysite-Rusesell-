@@ -1,0 +1,46 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+        <div slot="start">
+            <ion-icon (click)="close()" src="/assets/icon/back-round.svg"></ion-icon>
+        </div>
+        <div slot="end" class="profile-title"><span>Create Job</span></div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="page-wrapper">
+        <h1>Submit request</h1>
+
+        <form [formGroup]="form" (submit)="submit()">
+            <bc-select style="z-index: 35;" [control]="selectedBuilderInput" [multiple]="false"
+                [inputBackground]="'#fff'" placeholder="Select builder" *ngIf="builder$ | async as builder"
+                [options]="builder ? builder : {}" (selected)="builderSelected($event)" theme="dark"
+                label="Select Builder" [triggerCD]="triggerCDChildren"></bc-select>
+            <bc-select style="z-index: 30;" [control]="selectedEquipmentInput" [multiple]="true"
+                [inputBackground]="'#fff'" placeholder="Select stage" *ngIf="equipment$ | async as equipment"
+                [options]="equipment ? equipment : {}" (selected)="equpmentSelected($event)" theme="dark"
+                label="Type of building equipment" [triggerCD]="triggerCDChildren"></bc-select>
+            <bc-address-input (selected)="addressSelected($event)" ngDefaultControl [formControl]="address">
+            </bc-address-input>
+            <!-- <bc-input placeholder="Stage" theme="dark" label="Stage" [control]="stage">
+            </bc-input> -->
+
+
+            <bc-datepicker style="z-index:25;" *ngIf="minDate$ | async as minDate" [min]="minDate" [control]="datetime"
+                placeholder="Select a date" (selected)="dateSelected($event)"></bc-datepicker>
+            <div class="attach-po-input">
+                <bc-file-upload [fileName]="(uploadedPO$ | async) ?? ''" (upload)="poUpload($event)"></bc-file-upload>
+            </div>
+            <div class="notes" style="z-index:20;">
+                <bc-input placeholder="Write a note" theme="dark" label="Notes" [control]="form.controls['notes']">
+                </bc-input>
+            </div>
+
+            <div style="flex: 1 0 auto"></div>
+            <ion-button type="submit" expand="block" size="large" shape="round">
+                <ion-icon slot="start" src="/assets/icon/truck.svg"></ion-icon>
+                <span>{{jobId ? 'edit' : 'submit'}}</span>
+            </ion-button>
+        </form>
+    </div>
+</ion-content>

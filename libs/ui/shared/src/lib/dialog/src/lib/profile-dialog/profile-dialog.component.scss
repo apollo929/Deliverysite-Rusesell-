@@ -1,0 +1,38 @@
+ul {
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  flex-flow: column nowrap;
+  li {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    ion-icon {
+      margin-right: 5px;
+    }
+    span {
+    }
+  }
+}
+.profile-title {
+  font-family: Lato;
+  font-size: 24px;
+  line-height: 29px;
+}
+ion-toolbar,
+ion-content {
+  --background: #f6f8fa;
+}
+bc-input {
+  display: block;
+  margin-bottom: 22px;
+}
+ion-button.main-action-btn[type='submit'] {
+  display: block;
+  margin-top: 40px;
+}
+.dialog-content {
+  display: flex;
+  flex-flow: column;
+  flex: 1 0 auto;
+}

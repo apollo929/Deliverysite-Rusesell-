@@ -1,0 +1,15 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+        <div class="header-wrapper">
+            <div class="logo">
+                <ion-icon src="/assets/icon/logo.svg"></ion-icon>
+            </div>
+            <div class="ion-text-center greeting">
+                Hello, {{ userName$ | async }}!
+            </div>
+            <div class="user-icon" (click)="presentModal()">
+                <ion-icon src="/assets/icon/builder.svg"></ion-icon>
+            </div>
+        </div>
+    </ion-toolbar>
+</ion-header>

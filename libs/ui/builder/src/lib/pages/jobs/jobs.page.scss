@@ -1,0 +1,39 @@
+:host {
+  height: 100%;
+}
+
+.page-wrapper {
+  height: auto;
+  min-height: 100%;
+}
+bc-job-card-builder {
+  display: block;
+  margin-bottom: 24px;
+}
+
+.job-scroll {
+  margin-bottom: 18px;
+  min-height: 25.75rem;
+  height: 25.75rem;
+  overflow: auto;
+}
+ion-button {
+  min-height: 46px;
+}
+.job-scroll {
+  position: relative;
+}
+.job-scroll::-webkit-scrollbar {
+  width: 12px;
+  display: none;
+}
+
+.job-scroll::-webkit-scrollbar-track {
+  // background: orange;
+}
+
+.job-scroll::-webkit-scrollbar-thumb {
+  // background-color: blue;
+  border-radius: 20px;
+  // border: 3px solid orange;
+}

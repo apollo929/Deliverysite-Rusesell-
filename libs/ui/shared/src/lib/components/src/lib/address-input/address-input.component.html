@@ -1,0 +1,18 @@
+<bc-input
+    #addressInput
+    [control]="ngControl.control"
+    theme="dark"
+    label="Building address"
+    placeholder="Enter building address"
+    [inputPaddingEnd]="0"
+    [inputPaddingStart]="0"
+>
+    <ion-icon
+        (click)="clearAddress()"
+        class="input-icon"
+        src="/assets/icon/cancel.svg"
+    ></ion-icon>
+</bc-input>
+<ul class="options" #selectOptions>
+    <li *ngFor="let item of suggestions$ | async">item.address</li>
+</ul>

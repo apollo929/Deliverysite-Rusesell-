@@ -1,0 +1,47 @@
+<h1>Login</h1>
+<form (submit)="onSubmit()" action="" [formGroup]="form">
+    <bc-input
+        theme="light"
+        [control]="form.controls.email"
+        [label]="'Email'"
+        placeholder="Your email"
+    ></bc-input>
+    <bc-input
+        (keyup.enter)="onSubmit()"
+        enterkeyhint="send"
+        theme="light"
+        [type]="passwordType"
+        placeholder="Your password"
+        [control]="form.controls.password"
+        [label]="'Password'"
+    >
+        <ion-icon
+            *ngIf="showPassword"
+            class="eye-icon"
+            (click)="switchPasswordVisible()"
+            src="/assets/icon/eye-opened.svg"
+        ></ion-icon>
+        <ion-icon
+            *ngIf="!showPassword"
+            class="eye-icon"
+            (click)="switchPasswordVisible()"
+            src="/assets/icon/eye-closed.svg"
+        ></ion-icon>
+    </bc-input>
+
+    <ion-text class="forgot-password"
+        >Please <a [routerLink]="['/auth', 'forgot-password']">CLICK HERE</a> if
+        you’ve forgot a password.</ion-text
+    >
+    <div style="flex: 1 0 auto"></div>
+    <ion-button
+        type="submit"
+        expand="block"
+        class="main-action-btn"
+        size="large"
+        shape="round"
+    >
+        <ion-icon slot="start" src="/assets/icon/send.svg"></ion-icon>
+        <span>send</span>
+    </ion-button>
+</form>

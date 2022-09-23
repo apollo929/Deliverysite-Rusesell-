@@ -1,0 +1,69 @@
+@mixin form-control-config(
+  $border-color,
+  $label-color,
+  $text-color,
+  $label-background,
+  $input-background: transparent
+) {
+  .form-control.input-error ion-item {
+    border-color: red;
+  }
+
+  div.form-control {
+    user-select: none;
+
+    ion-item {
+      position: relative;
+      border: 1px solid $border-color;
+      border-radius: 8px;
+      --border-width: 0; // remove original border
+      overflow: visible;
+      background-color: $input-background;
+      --background: $input-background;
+      --color: $text-color;
+      --padding-start: 0;
+      --padding-end: 0;
+
+      &::part(native) {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: visible;
+      }
+      ion-label {
+        font-size: 12px !important;
+        position: absolute;
+        left: 16px;
+        top: -9px;
+        margin: 0;
+        color: $label-color;
+        background-color: $label-background;
+        padding: 0 2px;
+      }
+      ion-input {
+        user-select: none;
+
+        --padding-start: 0;
+        --padding-end: 0;
+        font-size: 16px;
+      }
+      .error-icon {
+        position: absolute;
+        right: 0;
+        top: 15px;
+        display: none;
+      }
+    }
+    &.input-error {
+      ion-item {
+        // --inner-padding-end: 28px;
+        .error-icon {
+          position: absolute;
+          right: 6px;
+          top: 15px;
+          display: block;
+        }
+      }
+    }
+  }
+}

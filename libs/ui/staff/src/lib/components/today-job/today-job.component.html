@@ -1,0 +1,26 @@
+<div class="title">Current job</div>
+<bc-input
+    theme="light"
+    [readonly]="true"
+    label="Type of building equipment"
+    [control]="form.controls.equipment"
+    labelBackground="#78909c"
+></bc-input>
+<bc-input
+    theme="light"
+    [readonly]="true"
+    label="Building Address"
+    [control]="form.controls.address"
+    labelBackground="#78909c"
+></bc-input>
+<ion-button
+    class="main-action-btn"
+    type="button"
+    expand="block"
+    size="large"
+    shape="round"
+    (click)="clockOff.emit(job.id)"
+>
+    <ion-icon slot="start" src="/assets/icon/check.svg"></ion-icon>
+    <span>clock off</span>
+</ion-button>

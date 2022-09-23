@@ -1,0 +1,18 @@
+overwrite: true
+schema: libs/api/core/src/lib/schema/root.graphql
+documents: libs/api/core/src/lib/graphql/query/documents.graphql
+generates:
+
+  ./libs/graphql/src/lib/graphql.ts:
+    plugins:
+    - typescript
+    - typescript-operations
+    - typescript-apollo-angular:
+        serviceProvidedInRoot: true
+        sdkClass: true
+    config:
+      maybeValue: T | undefined
+      skipTypename: true
+
+
+

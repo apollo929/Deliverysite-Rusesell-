@@ -1,0 +1,64 @@
+<bc-header></bc-header>
+<ion-content
+    [scrollY]="true"
+    *ngIf="{imagesRequired: imagesRequired$|async} as viewData"
+>
+    <div class="page-wrapper">
+        <h1>Clock Off</h1>
+        <div
+            class="note"
+            *ngIf="viewData.imagesRequired && images.length === 0"
+        >
+            NOTE: images are required.
+        </div>
+        <div
+            class="note"
+            *ngIf="!viewData.imagesRequired && images.length === 0"
+        >
+            Images are not required, but it will be good if you add them.
+        </div>
+        <div class="images-wrap" #imageList>
+            <div class="add-photo" (click)="fileInput.click()">
+                <ion-icon
+                    class="add-photo-icon"
+                    src="/assets/icon/add.svg"
+                ></ion-icon>
+                <span>Add photo</span>
+                <input
+                    multiple="true"
+                    accept="image/jpeg,image/png"
+                    (change)="onUpload($event)"
+                    type="file"
+                    #fileInput
+                />
+            </div>
+        </div>
+        <bc-input
+            placeholder="Write a note"
+            [control]="noteControl"
+            theme="dark"
+            label="Notes"
+        ></bc-input>
+        <ion-button
+            [routerLink]="['/staff', 'jobs']"
+            type="button"
+            class="back-btn"
+            shape="round"
+        >
+            <ion-icon slot="start" src="/assets/icon/back-sm.svg"></ion-icon>
+            <span>back to jobs</span>
+        </ion-button>
+        <div style="flex: 1 0 auto"></div>
+        <ion-button
+            [disabled]="viewData.imagesRequired && images.length === 0"
+            type="button"
+            (click)="submit()"
+            expand="block"
+            size="large"
+            shape="round"
+        >
+            <ion-icon slot="start" src="/assets/icon/submit.svg"></ion-icon>
+            <span>submit</span>
+        </ion-button>
+    </div>
+</ion-content>

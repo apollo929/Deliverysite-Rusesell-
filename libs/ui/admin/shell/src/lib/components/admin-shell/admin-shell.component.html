@@ -1,0 +1,32 @@
+<ion-content>
+    <div class="dashboard-wrapper">
+        <div class="dashboard-nav">
+            <div class="logo">
+                <ion-icon src="/assets/icon/logo.svg"></ion-icon>
+            </div>
+            <ul>
+                <li
+                    [routerLink]="['/admin', 'jobs']"
+                    routerLinkActive="border-dark"
+                >
+                    <ion-icon src="/assets/icon/admin-dashboard.svg"></ion-icon>
+                </li>
+                <li
+                    [routerLink]="['/admin', 'reports']"
+                    routerLinkActive="border-dark"
+                >
+                    <ion-icon src="/assets/icon/reports.svg"></ion-icon>
+                </li>
+                <li
+                    [routerLink]="['/admin', 'users']"
+                    routerLinkActive="border-dark"
+                >
+                    <ion-icon src="/assets/icon/users.svg"></ion-icon>
+                </li>
+            </ul>
+        </div>
+        <div class="dashboard-content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</ion-content>

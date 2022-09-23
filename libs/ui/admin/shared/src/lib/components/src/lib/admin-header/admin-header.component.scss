@@ -1,0 +1,32 @@
+.dashboard-header {
+  padding: 0 126px 0 48px;
+  padding: 20px 126px 20px 48px;
+  min-height: 108px;
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+
+  .header-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    form {
+      height: 50px;
+      width: 327px;
+      margin-right: 85px;
+    }
+    bc-input {
+      margin-right: 85px;
+    }
+
+    .section-title {
+      font-size: 30px;
+      line-height: 36px;
+    }
+  }
+  .header-actions {
+    margin-top: 10px;
+  }
+}

@@ -1,0 +1,16 @@
+<div class="form-control" [class.input-error]="hasError">
+    <ion-item lines="none" [style.--inner-padding-start]="inputPaddingStart + 'px'"
+        [style.--inner-padding-end]="inputPaddingEnd + 'px'" class="form-input">
+        <ion-label>{{ label }}</ion-label>
+        <ion-textarea [enterkeyhint]="enterkeyhint" [readonly]="readonly" [inputmode]="inputmode"
+            [formControl]="control" [placeholder]="placeholder"></ion-textarea>
+        <ion-icon class="error-icon" src="/assets/icon/alert.svg"></ion-icon>
+        <ng-container *ngIf="isPasswordInput && !hasError"> </ng-container>
+        <div class="input-icon-wrapper" #contentWrapper>
+            <ng-container *ngIf="!hasError">
+                <ng-content></ng-content>
+            </ng-container>
+        </div>
+    </ion-item>
+    <bc-form-error *ngIf="showErrors" [name]="label" [control]="control"></bc-form-error>
+</div>

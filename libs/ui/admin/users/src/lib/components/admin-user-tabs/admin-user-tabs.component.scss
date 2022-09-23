@@ -1,0 +1,51 @@
+.dashboard-header {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 86px 0 48px;
+  height: 108px;
+  form {
+    height: 50px;
+    width: 327px;
+    margin-right: 85px;
+  }
+  bc-input {
+    margin-right: 85px;
+  }
+
+  .section-title {
+    font-size: 30px;
+    line-height: 36px;
+  }
+}
+
+nav {
+  border-bottom: 1px solid #cfd8dc;
+  ul {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    list-style-type: none;
+    padding-left: 72px;
+    margin: 0;
+    li {
+      margin-right: 62px;
+      cursor: pointer;
+    }
+  }
+  li > a {
+    font-size: 20px;
+    line-height: 24px;
+    padding-bottom: 10px;
+    color: #78909c;
+    text-decoration: none;
+    display: block;
+    min-width: 136px;
+  }
+  li.router-link-active > a {
+    border-bottom: 2px solid #004853;
+    color: #193044;
+  }
+}

@@ -1,0 +1,448 @@
+mutation RegisterBuilder($input: RegisterBuilderInput!) {
+  registerBuilder(input: $input) {
+    success
+  }
+}
+mutation ForgotPassword($email: String!) {
+  forgotPassword(email: $email) {
+    success
+  }
+}
+mutation Register($input: RegisterUserInput!) {
+  register(input: $input) {
+    success
+  }
+}
+mutation RestorePassword($newPassword: String!, $token: String!) {
+  restorePassword(newPassword: $newPassword, token: $token) {
+    success
+  }
+}
+mutation Login($input: LoginInput!) {
+  login(input: $input) {
+    role {
+      name
+    }
+    email
+    name
+  }
+}
+mutation TokenLogin($token: String!) {
+  tokenLogin(token: $token) {
+    role {
+      name
+    }
+    email
+    name
+  }
+}
+mutation AddClockIn($input: AddClockInInput!) {
+  addClockIn(input: $input) {
+    id
+    equipment {
+      id
+      name
+    }
+    address
+  }
+}
+mutation AddClockOff($input: AddClockOffInput!) {
+  addClockOff(input: $input) {
+    success
+  }
+}
+mutation CreateJob($input: CreateJobInput!) {
+  createJob(input: $input) {
+    success
+  }
+}
+mutation UpdateJob($input: UpdateJobInput!) {
+  updateJob(input: $input) {
+    success
+  }
+}
+mutation UpdateJobDate($input: UpdateJobDateInput!) {
+  updateJobDate(input: $input) {
+    success
+  }
+}
+mutation CancelJob($input: Float!) {
+  cancelJob(jobId: $input) {
+    success
+  }
+}
+
+mutation AssignToJob($input: AssignToJobInput!) {
+  assignToJob(input: $input) {
+    success
+  }
+}
+mutation AssignToJob($input: UnAssignToJobInput!) {
+  unAssignToJob(input: $input) {
+    success
+  }
+}
+mutation Logout {
+  logout {
+    success
+  }
+}
+
+mutation UpdateUser($input: UpdateUserInput!) {
+  updateUser(input: $input) {
+    success
+  }
+}
+
+mutation DeleteUser($input: Float!) {
+  deleteUser(userId: $input) {
+    success
+  }
+}
+
+fragment JobFragment on Job {
+  id
+  address
+  lat
+  lng
+  status
+  requestDate
+  poFile
+  notes
+  priority
+  equipment {
+    id
+    name
+  }
+}
+
+query HasClockedIntoJob($id: Float!) {
+  me {
+    ... on Staff {
+      hasClockedIntoJob(id: $id)
+    }
+  }
+}
+
+query Me($status: JobStatus, $filter: JobFilter) {
+  me {
+    id
+
+    name
+    email
+    role {
+      name
+    }
+    ... on Builder {
+      jobRequests(status: $status) {
+        ...JobFragment
+      }
+    }
+    ... on Staff {
+      assignedJobs(filter: $filter) {
+        ...JobFragment
+      }
+    }
+  }
+}
+
+query Job($id: Float!) {
+  job(id: $id) {
+    ...JobFragment
+  }
+}
+
+query ClockOffs($id: Float!) {
+  job(id: $id) {
+    clockOffs {
+      id
+      clockOffTime
+      notes
+      staff {
+        name
+      }
+      images
+    }
+  }
+}
+query ClockIns($id: Float!) {
+  job(id: $id) {
+    clockIns {
+      id
+      clockInTime
+      staff {
+        name
+      }
+      images
+    }
+  }
+}
+
+query JobLocation($id: Float!) {
+  job(id: $id) {
+    address
+    lat
+    lng
+  }
+}
+
+query MyJobRequests($status: JobStatus, $search: String) {
+  me {
+    ... on Builder {
+      jobRequests(status: $status, search: $search) {
+        ...JobFragment
+      }
+    }
+  }
+}
+
+query MyAssignedJobs($filter: JobFilter, $search: String) {
+  me {
+    ... on Staff {
+      assignedJobs(filter: $filter, search: $search) {
+        id
+        address
+        lat
+        lng
+        status
+        requestDate
+        priority
+        equipment {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+query TodaysAssignedJob {
+  me {
+    ... on Staff {
+      todaysAssignedJob {
+        id
+        address
+        lat
+        lng
+        status
+        requestDate
+        priority
+        equipment {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+
+query Equipment {
+  equipment {
+    id
+    name
+  }
+}
+
+query Companies {
+  companies {
+    name
+    id
+  }
+}
+
+query Jobs(
+  $status: [JobStatus]
+  $search: String
+  $pagination: PaginationArgs
+  $staff: [Int!]
+  $filteredDate: filteredDateArgs
+  $orderBy: String
+) {
+  jobs(
+    status: $status
+    search: $search
+    pagination: $pagination
+    filteredDate: $filteredDate
+    staff: $staff
+    orderBy: $orderBy
+  ) {
+    pageInfo {
+      nextPage
+      previousPage
+      hasNextPage
+      hasPreviousPage
+    }
+    items {
+      id
+      address
+      lat
+      lng
+      status
+      requestDate
+      priority
+      notes
+      builder {
+        name
+      }
+      activity {
+        type
+        date
+      }
+      equipment {
+        id
+        name
+      }
+    }
+  }
+}
+
+query Users(
+  $role: String
+  $search: String
+  $paginate: Boolean
+  $pagination: PaginationArgs
+  $orderBy: String
+) {
+  users(
+    role: $role
+    search: $search
+    paginate: $paginate
+    pagination: $pagination
+    orderBy: $orderBy
+  ) {
+    items {
+      id
+      name
+      email
+      role {
+        id
+        name
+      }
+      company {
+        name
+      }
+    }
+    pageInfo {
+      nextPage
+      previousPage
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}
+query TotalWorkedHours(
+  $startDate: String
+  $endDate: String
+  $search: String
+  $pagination: PaginationArgs
+  $orderBy: String
+) {
+  report {
+    totalWorkedHours(
+      startDate: $startDate
+      endDate: $endDate
+      search: $search
+      pagination: $pagination
+      orderBy: $orderBy
+    ) {
+      pageInfo {
+        nextPage
+        previousPage
+        hasNextPage
+        hasPreviousPage
+      }
+      items {
+        name
+        email
+        totalWorkedHours
+      }
+    }
+  }
+}
+
+query JobsForDate(
+  $date: String!
+  $search: String
+  $pagination: PaginationArgs
+  $orderBy: String
+) {
+  report {
+    jobsForDate(
+      date: $date
+      search: $search
+      pagination: $pagination
+      orderBy: $orderBy
+    ) {
+      pageInfo {
+        nextPage
+        previousPage
+        hasNextPage
+        hasPreviousPage
+      }
+      items {
+        id
+        staff {
+          name
+        }
+        builder {
+          name
+        }
+        address
+        equipment {
+          name
+        }
+      }
+    }
+  }
+}
+
+query JobsForDateFullList($date: String!, $search: String, $orderBy: String) {
+  report {
+    jobsForDateFullList(date: $date, search: $search, orderBy: $orderBy) {
+      id
+      staff
+      builder
+      address
+      equipment
+    }
+  }
+}
+
+query StaffRoles {
+  staffRoles {
+    id
+    name
+  }
+}
+
+query User($id: Float!) {
+  user(id: $id) {
+    name
+    email
+    company {
+      name
+    }
+    role {
+      id
+      name
+    }
+  }
+}
+
+mutation VerifyEmail($token: String!) {
+  verifyEmail(token: $token) {
+    success
+  }
+}
+
+query Settings {
+  settings {
+    minJobRequestDate
+  }
+}
+
+mutation UpdateMyAccount($name: String!, $email: String!, $password: String) {
+  updateMyAccount(name: $name, email: $email, password: $password) {
+    name
+    email
+  }
+}

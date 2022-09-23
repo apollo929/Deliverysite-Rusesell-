@@ -1,0 +1,13 @@
+<mj-section padding="24px 48px 24px 48px" background-color="#F5F5F5">
+  <mj-group width="100%">
+    <mj-column padding="0px" vertical-align="middle">
+      <mj-image width="60px" src="https://prelive.dfobobcatandcartage.com/assets/icon/logo-email.png"></mj-image>
+
+    </mj-column>
+    <mj-column padding="0px" vertical-align="middle">
+      <mj-text align="right" padding="0px" align="center" font-size="20px">
+        DFO Scheduler
+      </mj-text>
+    </mj-column>
+  </mj-group>
+</mj-section>

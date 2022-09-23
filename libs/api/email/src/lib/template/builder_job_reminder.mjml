@@ -1,0 +1,25 @@
+<mjml>
+  <mj-head>
+  </mj-head>
+  <mj-body background-color="#fff">
+
+    <mj-include path="libs/api/email/src/lib/template/header.injectable.mjml" />
+
+    <mj-section>
+      <mj-column>
+        <mj-text font-size="20px">
+          {{topic}}
+        </mj-text>
+        <mj-text font-size="16px" line-height="22px">
+          Dear {{username}},
+        </mj-text>
+        <mj-text font-size="16px" line-height="22px">
+          This is a reminder that you have a job starting in 24 hours.
+          <p>Job {{jobInfo}} scheduled to start on {{requestDate}} and someone will be attending the site. </p>
+          <p>You can view details of the job <a href="{{loginEditJobLink}}">here</a>.</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-include path="libs/api/email/src/lib/template/footer.injectable.mjml" />
+  </mj-body>
+</mjml>

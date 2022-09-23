@@ -1,0 +1,79 @@
+<h1>Sign up</h1>
+<form action="" (submit)="onSubmit()">
+    <bc-input
+        theme="light"
+        placeholder="Write your full name"
+        [control]="form.controls.name"
+        [label]="'Name'"
+    ></bc-input>
+    <bc-input
+        theme="light"
+        placeholder="Write your e-mail"
+        [control]="form.controls.email"
+        [label]="'Email'"
+    ></bc-input>
+    <bc-select
+        *ngIf="companies$ | async as companies"
+        [options]="companies"
+        [control]="company"
+        [readonly]="false"
+        placeholder="Select company"
+        label="Builder company"
+        theme="light"
+        inputBackground="#004853"
+        (selected)="companySelected($event)"
+    ></bc-select>
+    <bc-input
+        theme="light"
+        [type]="passwordType"
+        placeholder="Write your password"
+        [control]="form.controls.password"
+        [label]="'Password'"
+    >
+        <ion-icon
+            *ngIf="showPassword"
+            class="eye-icon"
+            (click)="switchPasswordVisible()"
+            src="/assets/icon/eye-opened.svg"
+        ></ion-icon>
+        <ion-icon
+            *ngIf="!showPassword"
+            class="eye-icon"
+            (click)="switchPasswordVisible()"
+            src="/assets/icon/eye-closed.svg"
+        ></ion-icon>
+    </bc-input>
+    <bc-input
+        theme="light"
+        [type]="passwordType"
+        placeholder="Repeat your password"
+        [control]="form.controls.repeatPassword"
+        [label]="'Repeat Password'"
+        (keyup.enter)="onSubmit()"
+        enterkeyhint="send"
+    >
+        <ion-icon
+            *ngIf="showPassword"
+            class="eye-icon"
+            (click)="switchPasswordVisible()"
+            src="/assets/icon/eye-opened.svg"
+        ></ion-icon>
+        <ion-icon
+            *ngIf="!showPassword"
+            class="eye-icon"
+            (click)="switchPasswordVisible()"
+            src="/assets/icon/eye-closed.svg"
+        ></ion-icon>
+    </bc-input>
+    <div style="flex: 1 0 auto"></div>
+    <ion-button
+        class="main-action-btn"
+        type="submit"
+        expand="block"
+        size="large"
+        shape="round"
+    >
+        <ion-icon slot="start" src="/assets/icon/send.svg"></ion-icon>
+        <span>sign up</span>
+    </ion-button>
+</form>

@@ -1,0 +1,109 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+        <div slot="start">
+            <ion-icon
+                (click)="close()"
+                src="/assets/icon/back-round.svg"
+            ></ion-icon>
+        </div>
+        <div slot="end" class="profile-title"><span>My Profile</span></div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="page-wrapper">
+        <div class="dialog-content">
+            <div class="dialog-form">
+                <bc-input
+                    labelBackground="#f6f8fa"
+                    theme="dark"
+                    placeholder="Write your full name"
+                    [control]="form.controls.name"
+                    [label]="'Name'"
+                ></bc-input>
+                <bc-input
+                    labelBackground="#f6f8fa"
+                    theme="dark"
+                    placeholder="Write your e-mail"
+                    [control]="form.controls.email"
+                    [label]="'Email'"
+                ></bc-input>
+                <bc-input
+                    labelBackground="#f6f8fa"
+                    theme="dark"
+                    [type]="passwordType"
+                    placeholder="Write your password"
+                    [control]="form.controls.password"
+                    [label]="'Password'"
+                >
+                    <ion-icon
+                        *ngIf="showPassword"
+                        class="eye-icon"
+                        (click)="switchPasswordVisible()"
+                        src="/assets/icon/eye-opened.svg"
+                    ></ion-icon>
+                    <ion-icon
+                        *ngIf="!showPassword"
+                        class="eye-icon"
+                        (click)="switchPasswordVisible()"
+                        src="/assets/icon/eye-closed.svg"
+                    ></ion-icon>
+                </bc-input>
+                <bc-input
+                    labelBackground="#f6f8fa"
+                    theme="dark"
+                    [type]="passwordType"
+                    placeholder="Repeat your password"
+                    [control]="form.controls.repeatPassword"
+                    [label]="'Repeat Password'"
+                    (keyup.enter)="onSubmit()"
+                    enterkeyhint="send"
+                >
+                    <ion-icon
+                        *ngIf="showPassword"
+                        class="eye-icon"
+                        (click)="switchPasswordVisible()"
+                        src="/assets/icon/eye-opened.svg"
+                    ></ion-icon>
+                    <ion-icon
+                        *ngIf="!showPassword"
+                        class="eye-icon"
+                        (click)="switchPasswordVisible()"
+                        src="/assets/icon/eye-closed.svg"
+                    ></ion-icon>
+                </bc-input>
+                <ion-button
+                    class="main-action-btn"
+                    type="submit"
+                    expand="block"
+                    size="large"
+                    shape="round"
+                    (click)="onSubmit()"
+                >
+                    <ion-icon
+                        slot="start"
+                        src="/assets/icon/send.svg"
+                    ></ion-icon>
+                    <span>update</span>
+                </ion-button>
+            </div>
+            <div style="flex: 1 1 auto"></div>
+            <ul class="actions">
+                <li (click)="logout()">
+                    <ion-button
+                        (click)="logout()"
+                        type="button"
+                        class="back-btn"
+                        shape="round"
+                    >
+                        <ion-icon
+                            slot="start"
+                            src="/assets/icon/back-sm.svg"
+                        ></ion-icon>
+                        <span>logout</span>
+                    </ion-button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</ion-content>

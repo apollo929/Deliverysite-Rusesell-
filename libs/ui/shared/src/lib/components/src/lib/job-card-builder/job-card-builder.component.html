@@ -1,0 +1,81 @@
+<div class="job-card-wrapper">
+    <div class="job-card">
+        <div *ngIf="equipment" class="job-card-line">
+            <ion-icon
+                [src]="
+                    '/assets/icon/truck' +
+                    (status !== 'assigned' ? '-disabled' : '') +
+                    '.svg'
+                "
+            ></ion-icon>
+            <div class="job-card-desc">{{ equipment }}</div>
+            <!-- <ng-container *ngTemplateOutlet="editIcon"></ng-container> -->
+        </div>
+        <div class="job-card-line">
+            <ion-icon
+                [src]="
+                    '/assets/icon/location' +
+                    (status !== jobStatus.Assigned ? '-disabled' : '') +
+                    '.svg'
+                "
+            ></ion-icon>
+            <div class="job-card-desc">{{ job.address }}</div>
+            <!-- <ng-container *ngTemplateOutlet="editIcon"></ng-container> -->
+        </div>
+        <div class="job-card-line">
+            <ion-icon
+                [src]="
+                    '/assets/icon/calendar' +
+                    (status !== jobStatus.Assigned ? '-disabled' : '') +
+                    '.svg'
+                "
+            ></ion-icon>
+            <div class="job-card-desc">{{ date }}</div>
+            <!-- <ng-container *ngTemplateOutlet="editIcon"></ng-container> -->
+            <ion-icon
+                *ngIf="status !== jobStatus.Cancelled"
+                class="icon-edit"
+                src="/assets/icon/edit.svg"
+                (click)="presentModal()"
+            ></ion-icon>
+        </div>
+        <div *ngIf="job.notes" class="job-card-line">
+            <ion-icon
+                [src]="
+                    '/assets/icon/calendar' +
+                    (status !== jobStatus.Assigned ? '-disabled' : '') +
+                    '.svg'
+                "
+            ></ion-icon>
+            <div class="job-card-desc">{{ job.notes }}</div>
+            <!-- <ng-container *ngTemplateOutlet="editIcon"></ng-container> -->
+        </div>
+        <div #editdatepicker>
+            <bc-datepicker-button
+                style="z-index: 25"
+                *ngIf="minDate$ | async as minDate"
+                [min]="minDate"
+                (updated)="updateJobDate($event)"
+                (canceled)="cancleUpdate()"
+            ></bc-datepicker-button>
+        </div>
+    </div>
+    <div
+        class="cancel-job"
+        (click)="showConfirm()"
+        *ngIf="status !== jobStatus.Cancelled"
+    >
+        <ion-icon src="/assets/icon/trash.svg"></ion-icon>
+
+        <span>cancel request</span>
+    </div>
+</div>
+<!-- <ng-template #editIcon>
+    <ion-icon
+        [routerLink]="['/builder', 'single-job', job.id]"
+        *ngIf="status !== jobStatus.Cancelled"
+        class="icon-edit"
+        src="/assets/icon/edit.svg"
+        (click)="presentModal()"
+    ></ion-icon>
+</ng-template> -->

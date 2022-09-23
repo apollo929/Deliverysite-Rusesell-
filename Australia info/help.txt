@@ -1,0 +1,42 @@
+# Help
+
+Node version: 12.13.0
+- root.graphQl: write Query type in database
+  ex: type Builder implements User & Node {
+        id: Float!
+        name: String!
+        email: String!
+        role: Role!
+        company: Company
+        jobRequests(status: JobStatus, search: String): [Job!]!
+      }
+- documents.graphQl: write query statement to be used in database
+  ex: query MyAssignedJobs($filter: JobFilter, $search: String) {
+        me {
+          ... on Staff {
+            assignedJobs(filter: $filter, search: $search) {
+              id
+              address
+              lat
+              lng
+              status
+              requestDate
+              notes
+              priority
+              builder {
+                name
+              }
+              equipment {
+                id
+                name
+              }
+            }
+          }
+        }
+      }
+- main query: in nest.js
+  ex: @Query()
+      @RequireClaim(Claim.GetAllUsers)
+      async user(@Args('id') id: number) {
+        return this.userService.getById(id);
+      }

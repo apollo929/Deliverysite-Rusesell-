@@ -1,0 +1,79 @@
+.bottom-row {
+  border: 1px solid #004853;
+  border-top: 0;
+  padding: 0 15px;
+  height: 48px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  background-color: #e8f54a;
+  justify-content: flex-end;
+  border-radius: 0 0 8px 8px;
+  cursor: pointer;
+  span {
+    font-weight: bold;
+    letter-spacing: 0.40625px;
+    text-transform: uppercase;
+    margin-right: 14px;
+  }
+}
+.job-card {
+  position: relative;
+  background-color: #fff;
+  border-radius: 8px 8px 0 0;
+
+  ion-icon {
+    width: 24px;
+    height: 24px;
+  }
+  .job-card-line {
+    padding: 16px;
+    display: flex;
+    flex-flow: row nowrap;
+    border-left: 1px solid #004853;
+    border-right: 1px solid #004853;
+
+    border-bottom: 1px solid #004853;
+  }
+
+  .job-card-line:last-of-type {
+    border-bottom-width: 0;
+  }
+  .job-card-line ion-icon:first-of-type {
+    margin-right: 13px;
+  }
+  .job-card-desc {
+    flex: 0 1 auto;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    line-height: 22px;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 16rem;
+    padding-right: 8px;
+  }
+}
+:host {
+  width: 327px;
+}
+.status-header {
+  color: white;
+  font-size: 14px;
+  height: 24px;
+  width: 100%;
+  padding: 2px 12px;
+  border-radius: 8px 8px 0 0;
+
+  &.status-header--completed {
+    background-color: #43A047;
+  }
+  &.status-header--inProgress {
+    background-color: #1565C0;
+  }
+  &.status-header--cancelled {
+    background-color: red;
+  }
+  &.status-header--assigned {
+    background-color: orange;
+  }
+}

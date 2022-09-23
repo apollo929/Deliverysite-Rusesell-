@@ -1,0 +1,11 @@
+ul {
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 0;
+  justify-content: space-between;
+  list-style-type: none;
+  li {
+    display: flex;
+    flex: 1 0 auto;
+  }
+}

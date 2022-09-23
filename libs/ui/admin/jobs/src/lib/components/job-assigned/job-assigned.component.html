@@ -1,0 +1,29 @@
+<div class="job-card-wrapper">
+    <div class="job-card">
+        <div class="status-header status-header--{{ job.status }}">
+            <span *ngIf="job.status === jobStatus.Completed">Job is completed</span>
+            <span *ngIf="job.status === jobStatus.InProgress">Job is in progress</span>
+            <span *ngIf="job.status === jobStatus.Cancelled">Job is cancelled</span>
+            <span *ngIf="job.status === jobStatus.Assigned">Job is assigned</span>
+        </div>
+        <div *ngIf="equipment" class="job-card-line">
+            <ion-icon [src]="'/assets/icon/truck-disabled.svg'"></ion-icon>
+            <div class="job-card-desc">{{ equipment }}</div>
+        </div>
+        <div class="job-card-line">
+            <ion-icon [src]="'/assets/icon/location-disabled.svg'"></ion-icon>
+            <div class="job-card-desc">{{ job.address }}</div>
+        </div>
+        <div class="job-card-line">
+            <ion-icon [src]="'/assets/icon/calendar-disabled.svg'"></ion-icon>
+            <div class="job-card-desc">{{ date }}</div>
+        </div>
+        <div class="job-card-line" *ngIf="job.notes">
+            <div class="job-card-desc">{{ job.notes }}</div>
+        </div>
+    </div>
+    <div class="bottom-row" (click)="showClockOffModal()">
+        <span>Job history</span>
+        <ion-icon src="/assets/icon/goto.svg"></ion-icon>
+    </div>
+</div>

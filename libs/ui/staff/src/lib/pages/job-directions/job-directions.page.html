@@ -1,0 +1,28 @@
+<bc-header></bc-header>
+<ion-content>
+    <div class="page-wrapper">
+        <h1>Job direction</h1>
+        <bc-input
+            label="Address"
+            theme="dark"
+            [readonly]="true"
+            [control]="addressControl"
+        ></bc-input>
+        <a href = "https://maps.apple.com/maps?q={{address}}" target="_blank">
+        <ion-button>Open in maps</ion-button></a>
+        <bc-job-direction-map
+            *ngIf="coordinates$|async as coordinates"
+            [coordindates]="coordinates"
+        ></bc-job-direction-map>
+        <ion-button
+            [routerLink]="['/staff', 'jobs']"
+            type="button"
+            class="back-btn"
+            shape="round"
+        >
+            <ion-icon slot="start" src="/assets/icon/back-sm.svg"></ion-icon>
+            <span>back to jobs</span>
+        </ion-button>
+        <div style="flex: 1 0 auto"></div>
+    </div>
+</ion-content>

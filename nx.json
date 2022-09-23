@@ -1,0 +1,169 @@
+{
+  "npmScope": "dfobobcat",
+  "affected": {
+    "defaultBase": "master"
+  },
+  "implicitDependencies": {
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    ".eslintrc.json": "*"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
+    }
+  },
+  "projects": {
+    "api-admin": {
+      "tags": ["scope:api"]
+    },
+    "api-auth": {
+      "tags": ["scope:api"]
+    },
+    "api-auth-util": {
+      "tags": ["scope:api"]
+    },
+    "api-clocking": {
+      "tags": ["scope:api"]
+    },
+    "api-company": {
+      "tags": ["scope:api"]
+    },
+    "api-core": {
+      "tags": ["scope:api"]
+    },
+    "api-core-src-lib-entity": {
+      "tags": ["scope:api"]
+    },
+    "api-core-src-lib-resolver": {
+      "tags": ["scope:api"]
+    },
+    "api-cron": {
+      "tags": ["scope:api"]
+    },
+    "api-email": {
+      "tags": ["scope:api"]
+    },
+    "api-equipment": {
+      "tags": ["scope:api"]
+    },
+    "api-job": {
+      "tags": ["scope:api"]
+    },
+    "api-queue": {
+      "tags": ["scope:api"]
+    },
+    "api-report": {
+      "tags": ["scope:api"]
+    },
+    "api-settings": {
+      "tags": ["scope:api"]
+    },
+    "api-shared": {
+      "tags": ["scope:api"]
+    },
+    "api-shared-const": {
+      "tags": ["scope:api"]
+    },
+    "api-shared-service": {
+      "tags": ["scope:api"]
+    },
+    "api-shared-src-lib-exception": {
+      "tags": ["scope:api"]
+    },
+    "api-shared-src-lib-model": {
+      "tags": ["scope:api"]
+    },
+    "api-shared-src-lib-tool": {
+      "tags": ["scope:api"]
+    },
+    "api-shared-src-lib-validators": {
+      "tags": ["scope:api"]
+    },
+    "common": {
+      "tags": ["scope:common"]
+    },
+    "dfobobcat-api": {
+      "tags": ["scope:api"]
+    },
+    "dfobobcat-ui": {
+      "tags": ["scope:ui"]
+    },
+    "graphql": {
+      "tags": ["scope:ui", "scope:api"]
+    },
+    "shared": {
+      "tags": []
+    },
+    "ui-admin-jobs": {
+      "tags": ["scope:ui"]
+    },
+    "ui-admin-report": {
+      "tags": ["scope:ui"]
+    },
+    "ui-admin-shared": {
+      "tags": ["scope:ui"]
+    },
+    "ui-admin-shared-src-lib-components": {
+      "tags": ["scope:ui"]
+    },
+    "ui-admin-shared-src-lib-model": {
+      "tags": ["scope:ui"]
+    },
+    "ui-admin-shared-src-lib-service": {
+      "tags": ["scope:ui"]
+    },
+    "ui-admin-shell": {
+      "tags": ["scope:ui"]
+    },
+    "ui-admin-users": {
+      "tags": ["scope:ui"]
+    },
+    "ui-auth": {
+      "tags": ["scope:ui"]
+    },
+    "ui-builder": {
+      "tags": ["scope:ui"]
+    },
+    "ui-core": {
+      "tags": ["scope:ui"]
+    },
+    "ui-shared": {
+      "tags": ["scope:ui"]
+    },
+    "ui-shared-src-lib-components": {
+      "tags": ["scope:ui"]
+    },
+    "ui-shared-src-lib-dialog": {
+      "tags": ["scope:ui"]
+    },
+    "ui-shared-src-lib-model": {
+      "tags": ["scope:ui"]
+    },
+    "ui-shared-src-lib-pipe": {
+      "tags": ["scope:ui"]
+    },
+    "ui-shared-src-lib-service": {
+      "tags": ["scope:ui"]
+    },
+    "ui-shared-src-lib-tool": {
+      "tags": ["scope:ui"]
+    },
+    "ui-staff": {
+      "tags": ["scope:ui"]
+    }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
+  }
+}

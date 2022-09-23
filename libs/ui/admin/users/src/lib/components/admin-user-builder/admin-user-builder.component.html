@@ -1,0 +1,167 @@
+<div class="component-wrapper" #componentWrapper>
+    <ng-container
+        *ngIf="{
+            hasPreviousPage: (hasPreviousPage$ | async),
+            hasNextPage: (hasNextPage$ | async)
+        } as viewData"
+    >
+        <div class="pagination-controls actions">
+            <ul class="sorting">
+                <li
+                    [class.active]="(orderBy$ | async) === order.key"
+                    *ngFor="let order of orderKeys | keyvalue"
+                    (click)="changeSorting(order.key)"
+                >
+                    <span>{{ order.value }}</span>
+                    <svg
+                        *ngIf="
+                            (orderDirection$ | async) === ORDER_DIRECTION.ASC
+                        "
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                    >
+                        <path d="M0 0h24v24H0V0z" fill="none" />
+                        <path
+                            d="m4 12 1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"
+                        />
+                    </svg>
+                    <svg
+                        *ngIf="
+                            (orderDirection$ | async) === ORDER_DIRECTION.DESC
+                        "
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                    >
+                        <path d="M0 0h24v24H0V0z" fill="none" />
+                        <path
+                            d="m20 12-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                        />
+                    </svg>
+                </li>
+            </ul>
+            <div class="pagination">
+                <svg
+                    [class.disabled]="!viewData.hasPreviousPage"
+                    (click)="
+                        viewData.hasPreviousPage
+                            ? paginate$.next(previousPage)
+                            : null
+                    "
+                    class="prev"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                >
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+                </svg>
+                <svg
+                    [class.disabled]="!viewData.hasNextPage"
+                    (click)="
+                        viewData.hasNextPage ? paginate$.next(nextPage) : null
+                    "
+                    class="next"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                >
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                </svg>
+            </div>
+        </div>
+    </ng-container>
+    <div class="desktop-table-wrapper">
+        <table
+            cdk-table
+            [dataSource]="dataSource$"
+            fixedLayout
+            class="user-table-desktop builder-table"
+        >
+            <!-- Position Column -->
+            <ng-container cdkColumnDef="photo">
+                <th cdk-header-cell *cdkHeaderCellDef>Photo</th>
+                <td cdk-cell *cdkCellDef="let element">
+                    <div class="user-icon">
+                        <ion-icon
+                            src="/assets/icon/users.svg"
+                            alt=""
+                        ></ion-icon>
+                    </div>
+                </td>
+            </ng-container>
+            <!-- Name Column -->
+            <ng-container cdkColumnDef="name">
+                <th cdk-header-cell *cdkHeaderCellDef>Name</th>
+                <td cdk-cell *cdkCellDef="let element">
+                    {{ element.name }}
+                </td>
+            </ng-container>
+            <!-- Weight Column -->
+            <ng-container cdkColumnDef="email">
+                <th cdk-header-cell *cdkHeaderCellDef>E-Mail</th>
+                <td cdk-cell *cdkCellDef="let element">
+                    {{ element.email }}
+                </td>
+            </ng-container>
+            <ng-container cdkColumnDef="company">
+                <th cdk-header-cell *cdkHeaderCellDef>Company</th>
+                <td cdk-cell *cdkCellDef="let element">
+                    {{ element.company?.name }}
+                </td>
+            </ng-container>
+            <ng-container cdkColumnDef="phone">
+                <th cdk-header-cell *cdkHeaderCellDef>Phone</th>
+                <td cdk-cell *cdkCellDef="let element">61 2 1234 5678</td>
+            </ng-container>
+            <ng-container cdkColumnDef="edit">
+                <th cdk-header-cell *cdkHeaderCellDef></th>
+                <td cdk-cell *cdkCellDef="let element">
+                    <ion-button
+                        (click)="openEditStaffDialog(element.id)"
+                        type="button"
+                        class="action-btn"
+                        shape="round"
+                    >
+                        <ion-icon
+                            slot="start"
+                            src="/assets/icon/edit.svg"
+                        ></ion-icon>
+                        <span>edit</span>
+                    </ion-button>
+                </td>
+            </ng-container>
+            <ng-container cdkColumnDef="delete">
+                <th cdk-header-cell *cdkHeaderCellDef></th>
+                <td cdk-cell *cdkCellDef="let element; let i = index">
+                    <ion-button
+                        (click)="showDeleteAlert(element.id, element.name, i)"
+                        type="button"
+                        class="action-btn"
+                        shape="round"
+                    >
+                        <ion-icon
+                            slot="start"
+                            src="/assets/icon/trash.svg"
+                        ></ion-icon>
+                        <span>delete</span>
+                    </ion-button>
+                </td>
+            </ng-container>
+            <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
+            <tr cdk-row *cdkRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+    </div>
+    <div style="flex: 1 0 auto"></div>
+    <div class="add-new-user" slot="fixed">
+        <ion-button
+            class="main-action-btn"
+            type="button"
+            expand="block"
+            size="large"
+            shape="round"
+            (click)="openStaffDialog()"
+        >
+            <ion-icon slot="start" src="/assets/icon/users.svg"></ion-icon>
+            <span>add new builder</span>
+        </ion-button>
+    </div>
+</div>

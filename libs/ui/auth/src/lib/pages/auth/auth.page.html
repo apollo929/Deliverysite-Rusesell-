@@ -1,0 +1,48 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+        <div class="logo-wrapper">
+            <img
+                width="60"
+                height="60"
+                src="/assets/icon/logo.svg"
+                alt="logo"
+            />
+            <div class="text-logo">DFO Scheduler</div>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollY]="true" color="secondary">
+    <div class="auth-wrapper">
+        <ion-grid>
+            <ion-row
+                class="ion-justify-content-center"
+                style="flex-wrap: nowrap"
+            >
+                <ion-col
+                    style="justify-content: flex-end; display: flex"
+                    class="auth-nav"
+                >
+                    <ion-button
+                        [routerLink]="['/auth','login']"
+                        color="primary"
+                        fill="solid"
+                        size="small"
+                        shape="round"
+                        >login</ion-button
+                    >
+                    <ion-button
+                        [routerLink]="['/auth','signup']"
+                        color="primary"
+                        fill="outline"
+                        size="small"
+                        shape="round"
+                        >sign up</ion-button
+                    >
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <router-outlet></router-outlet>
+    </div>
+</ion-content>

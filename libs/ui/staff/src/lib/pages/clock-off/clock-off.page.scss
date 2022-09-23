@@ -1,0 +1,44 @@
+.images-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 10px;
+  margin-bottom: 35px;
+  .add-photo {
+    border: 1px dashed #004853;
+    border-radius: 8px;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    height: 98px;
+    width: 98px;
+    ion-icon {
+      width: 24px;
+      height: 24px;
+    }
+    input {
+      display: none;
+    }
+  }
+  img {
+    object-fit: cover;
+    object-position: center;
+    height: 98px;
+    width: 98px;
+    border-radius: 8px;
+  }
+}
+
+ion-button.back-btn {
+  margin-top: 56px;
+}
+:host .page-wrapper .add-photo ion-icon.add-photo-icon {
+  width: 34px;
+  height: 34px;
+}
+.note {
+  font-size: 16px;
+  line-height: 22px;
+  margin-bottom: 24px;
+  text-align: center;
+}

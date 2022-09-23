@@ -1,0 +1,69 @@
+.dashboard-wrapper {
+  min-height: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 96px 100%;
+  row-gap: 0;
+  column-gap: 0;
+  align-items: stretch;
+  justify-content: start;
+  padding-right: 36px;
+}
+.dashboard-nav {
+  background-color: #78909c;
+  .logo {
+    margin-top: 24px;
+    margin-bottom: 60px;
+    display: flex;
+    justify-content: center;
+    ion-icon {
+      width: 48px;
+      height: 48px;
+    }
+  }
+  ul {
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    align-items: center;
+    list-style-type: none;
+    padding: 0;
+  }
+  ul li {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid;
+    border-radius: 6px;
+    margin-bottom: 40px;
+    &.border-dark {
+      border-color: #004853;
+    }
+    border-color: #fff;
+  }
+  ul li ion-icon {
+    fill: #fff;
+  }
+}
+.dashboard-content {
+  background-color: #fff;
+  color: #193044;
+  flex: 1 0 auto;
+}
+:host {
+  overflow-y: auto;
+}
+ion-content {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
+ion-content::part(scroll) {
+  min-height: 100%;
+  padding: 0;
+}
